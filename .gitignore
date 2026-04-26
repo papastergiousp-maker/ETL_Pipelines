@@ -1,0 +1,22 @@
+# PDFs — large source files (107MB), keep locally
+greek-banking-analysis/data/raw/*.pdf
+
+# Power BI source (binary)
+*.pbix
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code local settings
+.claude/
+
+# Secrets
+.env
+*.env
