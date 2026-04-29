@@ -166,3 +166,62 @@ eurobank-financial-analysis/
 **NBG:** Official Annual Reports 2022–2024 — [investor-relations](https://www.nbg.gr/en/the-group/investor-relations)
 
 All figures in € million.
+
+---
+
+## Methodology
+
+### Data Extraction Pipeline
+
+| Step | Description | Tools |
+|:-----|:-------------|:------|
+| 1. **PDF Collection** | Downloaded official Annual Reports (2022-2024) for all 4 systemic banks from their investor relations portals | Manual download |
+| 2. **Table Extraction** | Identified and extracted financial tables from PDF reports using programmatic parsing | `pdfplumber` |
+| 3. **Data Cleaning** | Normalized column names, handled missing values, standardized units (€ millions) | `pandas` |
+| 4. **Data Validation** | Cross-checked totals and calculated ratios against published KPIs in reports | Python + manual verification |
+| 5. **Database Loading** | Loaded cleaned data into SQLite for efficient querying | `sqlite3` |
+| 6. **KPI Calculation** | Computed derived metrics (ROE, Cost-to-Income, NIM, YoY growth) using SQL | SQL + pandas |
+| 7. **Visualization** | Built interactive dashboard using Plotly + sql.js | Plotly, sql.js |
+
+### Data Quality Notes
+
+- **Source**: Official annual reports published by each bank
+- **Frequency**: Annual (calendar year)
+- **Currency**: Euros (€)
+- **Units**: Millions unless otherwise stated
+- **Coverage**: 4 Greek systemic banks × 3 years (2022-2024)
+- **Validation**: All calculated KPIs cross-checked against reported figures where available
+
+### Limitations
+
+1. **Annual only**: No quarterly data available in this version
+2. **Static data**: Requires manual refresh when new reports are published
+3. **Estimated ratios**: Some derived ratios (e.g., NIM) use simplified formulas based on available data
+4. **NPL data**: Non-performing loan ratios not included in current dataset (requires more granular data from reports)
+
+### Reproducibility
+
+To reproduce the analysis:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the extraction notebook
+cd greek-banking-analysis/notebooks
+jupyter notebook 01_extract.ipynb
+
+# Open the dashboard
+cd greek-banking-analysis
+open index.html
+```
+
+---
+
+## Data Dictionary
+
+See [DATA_DICTIONARY.md](greek-banking-analysis/data/DATA_DICTIONARY.md) for detailed field descriptions.
+
+---
+
+*Project: Greek Banking Sector Analysis 2022-2024*

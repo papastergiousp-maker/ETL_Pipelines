@@ -479,6 +479,18 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 
+  <!-- HEATMAP COMPARISON -->
+  <div class="chart-card" style="margin-bottom:10px;">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Bank Comparison Heatmap — 2024</div>
+        <div class="chart-subtitle">Key Performance Indicators · Green = better performance</div>
+      </div>
+      <span class="chart-tag">Peer Benchmark</span>
+    </div>
+    <div id="chart-heatmap" style="height:280px;"></div>
+  </div>
+
   <!-- ── ANALYST COMMENTARY ── -->
   <div class="cmnt-section">
     <div class="cmnt-header">
@@ -697,12 +709,16 @@ const fB   = v => v!=null ? `€${((+v)/1000).toFixed(1)}bn` : '—';
 // ─── STATIC CHARTS ────────────────────────────────────────────────────────────
 function renderStatic() {
 
-  // NII trend
+  // NII trend with animation
   Plotly.newPlot('chart-nii',
     BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nii')), name:b, type:'scatter', mode:'lines+markers',
       line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
       hovertemplate:`<b>${b}</b><br>NII: €%{y:.0f}m<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
+    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, 
+    { ...PCFG, responsive: true, displayModeBar: false, 
+      transition: { duration: 500, easing: 'cubic-in-out' },
+      frame: { duration: 800, redraw: true } 
+    });
 
   // Market share donut
   const sh = runQuery('SELECT bank, total_assets FROM kpis WHERE year=2024');
@@ -826,6 +842,42 @@ function renderStatic() {
     showlegend:true, legend:{orientation:'h',x:0,y:-0.3,font:{size:9,color:'#8892a8'}},
     yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m'},
     xaxis:{...DARK.xaxis}
+  }, PCFG);
+
+  // Heatmap — Bank Comparison 2024
+  const hmData = runQuery('SELECT bank, roe, nim, cost_to_income, loan_to_deposit FROM kpis WHERE year=2024');
+  const hmBanks = hmData.map(r => r.bank);
+  const hmMetrics = ['ROE (%)', 'NIM (%)', 'Cost/Income (%)', 'L/D Ratio (%)'];
+  const hmValues = [
+    hmData.map(r => +r.roe),
+    hmData.map(r => +r.nim),
+    hmData.map(r => +r.cost_to_income),
+    hmData.map(r => +r.loan_to_deposit)
+  ];
+  
+  Plotly.newPlot('chart-heatmap', [{
+    z: hmValues,
+    x: hmBanks,
+    y: hmMetrics,
+    type: 'heatmap',
+    colorscale: [
+      [0, '#ef4444'],      // red for low values
+      [0.25, '#f97316'],
+      [0.5, '#fbbf24'],    // yellow for mid
+      [0.75, '#10b981'],   // green for high
+      [1, '#059669']
+    ],
+    zmin: 0,
+    zmax: null,
+    text: hmValues.map(row => row.map(v => v.toFixed(1))),
+    texttemplate: '%{z:.1f}',
+    textfont: { size: 13, color: '#e8edf5' },
+    hovertemplate: '<b>%{y}</b><br>%{x}: %{z:.1f}<extra></extra>'
+  }], {
+    ...DARK,
+    margin: { l: 100, r: 20, t: 20, b: 60 },
+    yaxis: { ...DARK.yaxis, automargin: true },
+    xaxis: { ...DARK.xaxis, automargin: true }
   }, PCFG);
 }
 

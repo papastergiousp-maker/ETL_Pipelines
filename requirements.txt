@@ -1,4 +1,23 @@
-pandas
-pdfplumber
-plotly
-jupyter
+# Greek Banking Sector Analysis - Dependencies
+# Python 3.9+
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# PDF Extraction
+pdfplumber>=0.10.0
+
+# Database
+# sqlite3 — built into Python, no install needed
+
+# Visualization
+plotly>=5.18.0
+
+# Jupyter
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Utilities
+openpyxl>=3.1.0  # Excel support
+sqlalchemy>=2.0.0  # SQL toolkit
