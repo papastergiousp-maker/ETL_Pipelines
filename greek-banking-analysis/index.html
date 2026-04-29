@@ -386,9 +386,27 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="chart-card">
       <div class="chart-header">
         <div><div class="chart-title">Net Interest Margin — Trend</div><div class="chart-subtitle">SELECT bank, year, nim FROM kpis</div></div>
-        <span class="chart-tag">NBG 3.14% leads</span>
+        <span class="chart-tag">Eurobank 3.32% leads (2024)*</span>
       </div>
       <div id="chart-nim" style="height:210px;"></div>
+    </div>
+  </div>
+
+  <!-- TLTRO + NIM METHODOLOGY -->
+  <div class="charts-2" style="margin-bottom:10px;">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div><div class="chart-title">Eurobank — TLTRO Repayment & ECB Borrowing</div><div class="chart-subtitle">FROM balance_sheet WHERE bank='Eurobank' AND metric='Due to central banks'</div></div>
+        <span class="chart-tag">Full repayment 2024</span>
+      </div>
+      <div id="chart-tltro" style="height:210px;"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div><div class="chart-title">Eurobank — Earning Asset Mix 2022→2024</div><div class="chart-subtitle">Loans + Investment Securities + Due from banks (correct NIM denominator)</div></div>
+        <span class="chart-tag">Securities +67% YoY 2024</span>
+      </div>
+      <div id="chart-earn-assets" style="height:210px;"></div>
     </div>
   </div>
 
@@ -397,7 +415,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="chart-card">
       <div class="chart-header">
         <div><div class="chart-title">Asset Composition</div><div class="chart-subtitle">% of Total Assets · FROM balance_sheet WHERE year=<span id="bs-year-lbl1">2024</span></div></div>
-        <span class="chart-tag">Loans dominate</span>
+        <span class="chart-tag">Securities +67% for Eurobank</span>
       </div>
       <div id="chart-asset-comp" style="height:220px;"></div>
     </div>
@@ -697,6 +715,39 @@ function renderStatic() {
       line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
       hovertemplate:`<b>${b}</b><br>NIM: %{y:.2f}%<extra></extra>` })),
     { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,ticksuffix:'%'} }, PCFG);
+
+  // TLTRO repayment — Eurobank ECB borrowing 2022→2024
+  Plotly.newPlot('chart-tltro', [{
+    x:['2022','2023','2024'], y:[8774, 3771, 0], type:'bar',
+    marker:{ color:['#ef4444','#f97316','#10b981'], opacity:0.9, line:{color:'transparent'} },
+    text:['€8,774m','€3,771m','€0 — repaid'], textposition:'outside',
+    textfont:{color:'#8892a8', size:10},
+    hovertemplate:'<b>%{x}</b><br>ECB Borrowing: €%{y:.0f}m<extra></extra>'
+  }], {
+    ...DARK, showlegend:false,
+    margin:{l:44,r:20,t:8,b:44},
+    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m', range:[0,11500]},
+    xaxis:{...DARK.xaxis}
+  }, PCFG);
+
+  // Earning asset mix — Eurobank (NIM denominator breakdown)
+  Plotly.newPlot('chart-earn-assets', [
+    { name:'Loans', x:['2022','2023','2024'], y:[41677,41576,50953], type:'bar',
+      marker:{color:'#3b82f6',opacity:0.9},
+      hovertemplate:'<b>Loans</b><br>€%{y:.0f}m<extra></extra>' },
+    { name:'Securities', x:['2022','2023','2024'], y:[13261,14710,22184], type:'bar',
+      marker:{color:'#6366f1',opacity:0.9},
+      hovertemplate:'<b>Securities</b><br>€%{y:.0f}m<extra></extra>' },
+    { name:'Interbank', x:['2022','2023','2024'], y:[1329,2354,2196], type:'bar',
+      marker:{color:'#f59e0b',opacity:0.9},
+      hovertemplate:'<b>Due from banks</b><br>€%{y:.0f}m<extra></extra>' }
+  ], {
+    ...DARK, barmode:'stack',
+    margin:{l:44,r:20,t:8,b:44},
+    showlegend:true, legend:{orientation:'h',x:0,y:-0.3,font:{size:9,color:'#8892a8'}},
+    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m'},
+    xaxis:{...DARK.xaxis}
+  }, PCFG);
 }
 
 // ─── YEAR FILTER ──────────────────────────────────────────────────────────────
@@ -843,9 +894,10 @@ function setYear(y) {
   const getV  = (bank,metric)=>{ const r=bsAll.find(r=>r.bank===bank&&r.metric===metric); return r?+r.value:0; };
 
   const aTraces = [
-    {name:'Loans',      metric:'Loans and advances to customers',        color:'#3b82f6'},
-    {name:'Cash',       metric:'Cash and balances with central banks',   color:'#10b981'},
-    {name:'Interbank',  metric:'Due from credit institutions',           color:'#f59e0b'},
+    {name:'Loans',       metric:'Loans and advances to customers',        color:'#3b82f6'},
+    {name:'Securities',  metric:'Investment securities',                  color:'#6366f1'},
+    {name:'Cash',        metric:'Cash and balances with central banks',   color:'#10b981'},
+    {name:'Interbank',   metric:'Due from credit institutions',           color:'#f59e0b'},
   ].map(({name,metric,color})=>({
     x:BANKS.map(b=>{ const tot=getV(b,'Total assets'); return tot>0?(getV(b,metric)/tot*100):0; }),
     y:BANKS, name, type:'bar', orientation:'h',
@@ -854,7 +906,7 @@ function setYear(y) {
   }));
   aTraces.push({
     x:BANKS.map(b=>{ const tot=getV(b,'Total assets');
-      return tot>0?((tot-getV(b,'Loans and advances to customers')-getV(b,'Cash and balances with central banks')-getV(b,'Due from credit institutions'))/tot*100):0; }),
+      return tot>0?((tot-getV(b,'Loans and advances to customers')-getV(b,'Investment securities')-getV(b,'Cash and balances with central banks')-getV(b,'Due from credit institutions'))/tot*100):0; }),
     y:BANKS, name:'Other', type:'bar', orientation:'h',
     marker:{color:'#2d3a4f',opacity:0.9},
     hovertemplate:`<b>%{y}</b><br>Other: %{x:.1f}%<extra></extra>`
