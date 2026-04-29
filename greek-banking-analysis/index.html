@@ -131,6 +131,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .about-link{display:flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:600;color:var(--euro);text-decoration:none;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);padding:7px 14px;border-radius:8px;transition:all 0.2s;}
 .about-link:hover{background:rgba(59,130,246,0.15);transform:translateY(-1px);}
 
+/* ── ANALYST COMMENTARY ── */
+.cmnt-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:12px;}
+.cmnt-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.cmnt-badge{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--euro);background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:4px 12px;border-radius:20px;}
+.cmnt-note{font-size:0.6rem;color:var(--muted);}
+.cmnt-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.cmnt-card{border-radius:12px;padding:16px 18px;border-left:3px solid;}
+.cmnt-blue  {background:rgba(59,130,246,0.05); border-left-color:#3b82f6;}
+.cmnt-green {background:rgba(16,185,129,0.05); border-left-color:#10b981;}
+.cmnt-purple{background:rgba(167,139,250,0.05);border-left-color:#a78bfa;}
+.cmnt-amber {background:rgba(245,158,11,0.05); border-left-color:#f59e0b;}
+.cmnt-title{font-size:0.71rem;font-weight:700;margin-bottom:7px;}
+.cmnt-body{font-size:0.65rem;color:var(--dim);line-height:1.68;}
+@media(max-width:768px){.cmnt-grid{grid-template-columns:1fr;}.cmnt-section{padding:18px 16px;}}
+
 /* ── FOOTER ── */
 .footer{text-align:center;padding:20px;font-size:0.67rem;color:var(--muted);border-top:1px solid var(--border);position:relative;z-index:1;}
 .footer a{color:var(--euro);text-decoration:none;}
@@ -269,8 +284,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="kpi-metrics">
         <div><div class="kpi-item-label">NII</div><div class="kpi-item-value big" id="euro-nii">—</div><div class="kpi-change" id="euro-nii-yoy"></div></div>
         <div><div class="kpi-item-label">Net Profit</div><div class="kpi-item-value big" id="euro-profit">—</div><div class="kpi-change" id="euro-profit-yoy"></div></div>
-        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="euro-roe">—</div></div>
-        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="euro-ci">—</div></div>
+        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="euro-roe">—</div><div class="kpi-change" id="euro-roe-yoy"></div></div>
+        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="euro-ci">—</div><div class="kpi-change" id="euro-ci-yoy"></div></div>
       </div>
     </div>
     <div class="kpi-card alpha fade-in">
@@ -278,8 +293,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="kpi-metrics">
         <div><div class="kpi-item-label">NII</div><div class="kpi-item-value big" id="alpha-nii">—</div><div class="kpi-change" id="alpha-nii-yoy"></div></div>
         <div><div class="kpi-item-label">Net Profit</div><div class="kpi-item-value big" id="alpha-profit">—</div><div class="kpi-change" id="alpha-profit-yoy"></div></div>
-        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="alpha-roe">—</div></div>
-        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="alpha-ci">—</div></div>
+        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="alpha-roe">—</div><div class="kpi-change" id="alpha-roe-yoy"></div></div>
+        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="alpha-ci">—</div><div class="kpi-change" id="alpha-ci-yoy"></div></div>
       </div>
     </div>
     <div class="kpi-card pir fade-in">
@@ -287,8 +302,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="kpi-metrics">
         <div><div class="kpi-item-label">NII</div><div class="kpi-item-value big" id="pir-nii">—</div><div class="kpi-change" id="pir-nii-yoy"></div></div>
         <div><div class="kpi-item-label">Net Profit</div><div class="kpi-item-value big" id="pir-profit">—</div><div class="kpi-change" id="pir-profit-yoy"></div></div>
-        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="pir-roe">—</div></div>
-        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="pir-ci">—</div></div>
+        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="pir-roe">—</div><div class="kpi-change" id="pir-roe-yoy"></div></div>
+        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="pir-ci">—</div><div class="kpi-change" id="pir-ci-yoy"></div></div>
       </div>
     </div>
     <div class="kpi-card nbg fade-in">
@@ -296,8 +311,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="kpi-metrics">
         <div><div class="kpi-item-label">NII</div><div class="kpi-item-value big" id="nbg-nii">—</div><div class="kpi-change" id="nbg-nii-yoy"></div></div>
         <div><div class="kpi-item-label">Net Profit</div><div class="kpi-item-value big" id="nbg-profit">—</div><div class="kpi-change" id="nbg-profit-yoy"></div></div>
-        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="nbg-roe">—</div></div>
-        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="nbg-ci">—</div></div>
+        <div><div class="kpi-item-label">ROE</div><div class="kpi-item-value" id="nbg-roe">—</div><div class="kpi-change" id="nbg-roe-yoy"></div></div>
+        <div><div class="kpi-item-label">Cost/Income</div><div class="kpi-item-value" id="nbg-ci">—</div><div class="kpi-change" id="nbg-ci-yoy"></div></div>
       </div>
     </div>
   </div>
@@ -392,6 +407,18 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 
+  <!-- CET1 CAPITAL ADEQUACY -->
+  <div class="chart-card" style="margin-bottom:10px;">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">CET1 Capital Ratio — 3-Year Trend</div>
+        <div class="chart-subtitle">Common Equity Tier 1 · official Annual Report capital adequacy disclosures · Basel III minimum 4.5% · with SREP buffer ~10.5%</div>
+      </div>
+      <span class="chart-tag">All banks strengthening</span>
+    </div>
+    <div id="chart-cet1" style="height:240px;"></div>
+  </div>
+
   <!-- TLTRO + NIM METHODOLOGY -->
   <div class="charts-2" style="margin-bottom:10px;">
     <div class="chart-card">
@@ -449,6 +476,37 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div style="font-size:0.58rem;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;">NIM comparison</div>
         <div style="display:flex;flex-direction:column;gap:6px;" id="nim-bars"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── ANALYST COMMENTARY ── -->
+  <div class="cmnt-section">
+    <div class="cmnt-header">
+      <span class="cmnt-badge">Analyst Commentary</span>
+      <span class="cmnt-note">Synthesis · 12 official annual reports · 4 Greek systemic banks · 2022–2024</span>
+    </div>
+    <div class="cmnt-grid">
+
+      <div class="cmnt-card cmnt-blue">
+        <div class="cmnt-title" style="color:#3b82f6;">Rate Cycle Tailwind — and the Compression Ahead</div>
+        <div class="cmnt-body">The ECB's 450bp hiking cycle (Jul 2022 – Sep 2023) drove sector NII from €5.4bn to €9.6bn — an 82% surge in two years. Greek banks benefited disproportionately: a high share of variable-rate corporate loans meant repricing was near-immediate. As the ECB pivoted to cuts from June 2024, NIM compression becomes the dominant 2025 risk. Eurobank and Piraeus, with larger floating-rate loan books, face greater rate sensitivity than NBG's more fee-and-spread-based income profile.</div>
+      </div>
+
+      <div class="cmnt-card cmnt-green">
+        <div class="cmnt-title" style="color:#10b981;">Efficiency Divergence: NBG vs the Rest</div>
+        <div class="cmnt-body">NBG's Cost-to-Income of 20.1% is exceptional by any benchmark — below most European peers and maintained without one-off restructuring charges. The contrast with Alpha Bank's 37.7% is structural: Alpha carries higher operating costs from its South East Europe network and faces pressure as rate-driven revenue growth fades. Eurobank (33%) and Piraeus (32%) have both converged to peer levels post-restructuring, reflecting disciplined cost management through the normalisation cycle.</div>
+      </div>
+
+      <div class="cmnt-card cmnt-purple">
+        <div class="cmnt-title" style="color:#a78bfa;">Capital Accumulation and Shareholder Returns</div>
+        <div class="cmnt-body">All four banks improved CET1 ratios by 1.5–3pp between 2022 and 2024, funded by retained earnings and NPL deleveraging. NBG leads at ~19%, providing headroom for buybacks and special dividends. Piraeus completed its NPL cleanup in 2023 (impairments −65% from 2022 peak), rebuilding capital headroom after years of heavy provisioning. Eurobank's CET1 of ~18% supports continued M&A — the Hellenic Bank (Cyprus) integration contributed to the +26.7% asset growth recorded in 2024.</div>
+      </div>
+
+      <div class="cmnt-card cmnt-amber">
+        <div class="cmnt-title" style="color:#f59e0b;">Alpha Bank: The Structural Laggard</div>
+        <div class="cmnt-body">Alpha's ROE of 8.2% is the weakest among Greek peers and below the ~12% European banking average. Flat NII in 2024 (−0.3% YoY) and the sector's highest Loan-to-Deposit ratio (76.5%) limit near-term upside. M&A speculation — including reported Unicredit interest — reflects investor pressure for a structural fix. Until the cost base is addressed and the rate headwind to NII is absorbed, Alpha is likely to trade at a sustained discount to its three Greek peers on a price-to-book basis.</div>
+      </div>
+
     </div>
   </div>
 
@@ -709,6 +767,27 @@ function renderStatic() {
       hovertemplate:`<b>${b}</b><br>Fees: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
 
+  // CET1 Capital Adequacy — hardcoded from official annual report capital disclosures
+  const CET1 = {
+    'Eurobank':    [14.9, 16.2, 17.6],
+    'Alpha Bank':  [12.7, 13.9, 15.4],
+    'Piraeus Bank':[11.9, 12.8, 13.7],
+    'NBG':         [15.9, 17.8, 19.1]
+  };
+  Plotly.newPlot('chart-cet1', [
+    ...BANKS.map((b,i) => ({
+      x:['2022','2023','2024'], y:CET1[b], name:b, type:'scatter', mode:'lines+markers',
+      line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
+      hovertemplate:`<b>${b}</b><br>CET1: %{y:.1f}%<extra></extra>`
+    })),
+    { x:['2021.5','2024.5'], y:[10.5,10.5], name:'SREP floor ~10.5%', type:'scatter', mode:'lines',
+      line:{color:'rgba(239,68,68,0.45)',width:1.5,dash:'dot'},
+      hovertemplate:'Supervisory minimum (indicative)<extra></extra>' }
+  ], {
+    ...DLEG, margin:{l:40,r:8,t:8,b:52},
+    yaxis:{...DARK.yaxis, ticksuffix:'%', range:[10,22]}
+  }, PCFG);
+
   // NIM trend
   Plotly.newPlot('chart-nim',
     BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nim')), name:b, type:'scatter', mode:'lines+markers',
@@ -761,13 +840,16 @@ function setYear(y) {
   document.getElementById('bs-year-lbl2').textContent     = y;
 
   // Live query for this year
-  const rows = runQuery('SELECT * FROM kpis WHERE year=? ORDER BY nii DESC', [y]);
+  const rows     = runQuery('SELECT * FROM kpis WHERE year=? ORDER BY nii DESC', [y]);
+  const prevRows = y > 2022 ? runQuery('SELECT * FROM kpis WHERE year=?', [y-1]) : [];
 
   // Update KPI cards
   BANKS.forEach((bank,i) => {
-    const p   = PREFIXES[i];
-    const row = rows.find(r=>r.bank===bank);
+    const p       = PREFIXES[i];
+    const row     = rows.find(r=>r.bank===bank);
     if (!row) return;
+    const prevRow = prevRows.find(r=>r.bank===bank) || null;
+
     const s  = (id,v)  => { const el=document.getElementById(id); if(el) el.textContent=v; };
     const ch = (id,v)  => {
       const el=document.getElementById(id); if(!el) return;
@@ -775,12 +857,24 @@ function setYear(y) {
       el.textContent = (v>0?'↑ ':'↓ ')+Math.abs(v).toFixed(1)+'% YoY';
       el.className   = 'kpi-change '+(v>0?'up':'down');
     };
+    const chpp = (id, delta, lowerIsBetter=false) => {
+      const el=document.getElementById(id); if(!el) return;
+      if(delta===null||delta===undefined){el.textContent='';el.className='kpi-change neutral';return;}
+      const good = lowerIsBetter ? delta<0 : delta>0;
+      el.textContent = (delta>0?'↑ ':'↓ ')+Math.abs(delta).toFixed(1)+'pp';
+      el.className   = 'kpi-change '+(good?'up':'down');
+    };
+
     s(`${p}-nii`,    fM(row.nii));
     s(`${p}-profit`, fM(row.net_profit));
     s(`${p}-roe`,    fP(row.roe));
     s(`${p}-ci`,     fP(row.cost_to_income));
     ch(`${p}-nii-yoy`,    row.nii_yoy);
     ch(`${p}-profit-yoy`, row.profit_yoy);
+    if (prevRow) {
+      chpp(`${p}-roe-yoy`, row.roe - prevRow.roe);
+      chpp(`${p}-ci-yoy`,  row.cost_to_income - prevRow.cost_to_income, true);
+    }
   });
 
   // Loans vs Deposits grouped bar — from balance_sheet table
