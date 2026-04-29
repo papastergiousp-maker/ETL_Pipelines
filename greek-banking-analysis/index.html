@@ -709,16 +709,12 @@ const fB   = v => v!=null ? `€${((+v)/1000).toFixed(1)}bn` : '—';
 // ─── STATIC CHARTS ────────────────────────────────────────────────────────────
 function renderStatic() {
 
-  // NII trend with animation
+  // NII trend
   Plotly.newPlot('chart-nii',
     BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nii')), name:b, type:'scatter', mode:'lines+markers',
       line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
       hovertemplate:`<b>${b}</b><br>NII: €%{y:.0f}m<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, 
-    { ...PCFG, responsive: true, displayModeBar: false, 
-      transition: { duration: 500, easing: 'cubic-in-out' },
-      frame: { duration: 800, redraw: true } 
-    });
+    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
 
   // Market share donut
   const sh = runQuery('SELECT bank, total_assets FROM kpis WHERE year=2024');
@@ -845,34 +841,35 @@ function renderStatic() {
   }, PCFG);
 
   // Heatmap — Bank Comparison 2024
+  // Colors normalized per metric with direction awareness (green = better regardless of direction)
   const hmData = runQuery('SELECT bank, roe, nim, cost_to_income, loan_to_deposit FROM kpis WHERE year=2024');
   const hmBanks = hmData.map(r => r.bank);
   const hmMetrics = ['ROE (%)', 'NIM (%)', 'Cost/Income (%)', 'L/D Ratio (%)'];
-  const hmValues = [
+  const hmRaw = [
     hmData.map(r => +r.roe),
     hmData.map(r => +r.nim),
     hmData.map(r => +r.cost_to_income),
     hmData.map(r => +r.loan_to_deposit)
   ];
-  
+  // 1 = higher is better, -1 = lower is better
+  const hmDir = [1, 1, -1, -1];
+  const hmScores = hmRaw.map((row, i) => {
+    const mn = Math.min(...row), mx = Math.max(...row);
+    const range = mx - mn || 1;
+    return row.map(v => hmDir[i] === 1 ? (v - mn) / range : 1 - (v - mn) / range);
+  });
+
   Plotly.newPlot('chart-heatmap', [{
-    z: hmValues,
+    z: hmScores,
     x: hmBanks,
     y: hmMetrics,
     type: 'heatmap',
-    colorscale: [
-      [0, '#ef4444'],      // red for low values
-      [0.25, '#f97316'],
-      [0.5, '#fbbf24'],    // yellow for mid
-      [0.75, '#10b981'],   // green for high
-      [1, '#059669']
-    ],
-    zmin: 0,
-    zmax: null,
-    text: hmValues.map(row => row.map(v => v.toFixed(1))),
-    texttemplate: '%{z:.1f}',
+    colorscale: [[0,'#ef4444'],[0.5,'#fbbf24'],[1,'#059669']],
+    zmin: 0, zmax: 1, showscale: false,
+    text: hmRaw.map(row => row.map(v => v.toFixed(1))),
+    texttemplate: '%{text}',
     textfont: { size: 13, color: '#e8edf5' },
-    hovertemplate: '<b>%{y}</b><br>%{x}: %{z:.1f}<extra></extra>'
+    hovertemplate: '<b>%{y}</b><br>%{x}: %{text}<extra></extra>'
   }], {
     ...DARK,
     margin: { l: 100, r: 20, t: 20, b: 60 },
