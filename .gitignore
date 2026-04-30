@@ -1,5 +1,5 @@
-# PDFs — large source files (107MB), keep locally
-greek-banking-analysis/data/raw/*.pdf
+# PDFs — large source files (~107MB), keep locally
+02_sector_dashboard/data/raw/*.pdf
 
 # Power BI source (binary)
 *.pbix

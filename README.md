@@ -23,7 +23,7 @@ Full extract → clean → load → query → visualise pipeline for Eurobank (2
 
 ### Dashboard Preview
 
-![Eurobank Dashboard](eurobank_dashboard.png)
+![Eurobank Dashboard](01_eurobank_pipeline/powerbi/eurobank_dashboard.png)
 
 ### Key Findings
 
@@ -106,7 +106,7 @@ Interactive web dashboard comparing all four Greek systemic banks: **Eurobank, A
 
 Data extracted from 12 official annual report PDFs (4 banks × 3 years) using the same Python/pdfplumber pipeline. Results stored in SQLite and rendered as a fully client-side dashboard using Plotly and sql.js.
 
-Open `greek-banking-analysis/index.html` in a browser — no server required.
+Open `02_sector_dashboard/index.html` in a browser — no server required.
 
 ### Sector Snapshot (2024, € million)
 
@@ -130,24 +130,26 @@ Open `greek-banking-analysis/index.html` in a browser — no server required.
 ```
 Greek_Banking_Sector_Analysis/
 │
-├── Database/
-│   ├── balance_sheet.csv          ← Eurobank Balance Sheet 2022–2024
-│   ├── income_statement.csv       ← Eurobank Income Statement 2022–2024
-│   └── eurobank.db                ← SQLite database (Eurobank, Project 1)
-│
-├── greek-banking-analysis/
+├── 01_eurobank_pipeline/          ← Project 1: single-bank deep-dive
 │   ├── data/
-│   │   ├── greek_banking_final.db ← SQLite (4 banks × 3 years, Project 2)
+│   │   ├── income_statement.csv   ← Eurobank IS 2022–2024 (wide format)
+│   │   ├── balance_sheet.csv      ← Eurobank BS 2022–2024 (wide format)
+│   │   └── eurobank.db            ← SQLite database (Eurobank)
+│   └── powerbi/
+│       ├── eurobank_dashboard.png ← Dashboard screenshot
+│       ├── eurobank_BI_dashboard.pdf
+│       └── eurobank_dashboard.pbix ← Power BI source file
+│
+├── 02_sector_dashboard/           ← Project 2: 4-bank sector analysis
+│   ├── data/
+│   │   ├── greek_banking_final.db ← SQLite (4 banks × 3 years)
 │   │   ├── processed/             ← Cleaned CSVs (balance sheet, IS, KPIs)
 │   │   └── raw/                   ← 12 source PDFs (4 banks × 3 years)
 │   ├── notebooks/
-│   │   ├── 01_extract.ipynb       ← Full pipeline: extract → clean → load → analyse
+│   │   ├── 01_extract.ipynb       ← Full ETL pipeline: PDF → SQLite
 │   │   └── 02_advanced_analysis.ipynb ← DuPont decomposition, sector ratios
 │   └── index.html                 ← Interactive Plotly dashboard (open in browser)
 │
-├── eurobank_dashboard.png         ← Power BI dashboard screenshot
-├── eurobank_BI_dashboard.pdf      ← Power BI dashboard export
-├── eurobank_dashboard.pbix        ← Power BI source file
 ├── requirements.txt               ← Python dependencies
 └── README.md
 ```
@@ -221,18 +223,18 @@ All figures in € million.
 pip install -r requirements.txt
 
 # Run the extraction notebook
-cd greek-banking-analysis/notebooks
+cd 02_sector_dashboard/notebooks
 jupyter notebook 01_extract.ipynb
 
 # Open the dashboard
-# Open greek-banking-analysis/index.html in any browser
+# Open 02_sector_dashboard/index.html in any browser
 ```
 
 ---
 
 ## Data Dictionary
 
-See [DATA_DICTIONARY.md](greek-banking-analysis/data/DATA_DICTIONARY.md) for detailed field descriptions.
+See [DATA_DICTIONARY.md](02_sector_dashboard/data/DATA_DICTIONARY.md) for detailed field descriptions.
 
 ---
 
