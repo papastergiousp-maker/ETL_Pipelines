@@ -106,7 +106,7 @@ Interactive web dashboard comparing all four Greek systemic banks: **Eurobank, A
 
 Data extracted from 12 official annual report PDFs (4 banks × 3 years) using the same Python/pdfplumber pipeline. Results stored in SQLite and rendered as a fully client-side dashboard using Plotly and sql.js.
 
-Open `02_sector_dashboard/index.html` in a browser — no server required.
+Open `02_Banking_Sector_Dashboard/index.html` in a browser — no server required.
 
 ### Sector Snapshot (2024, € million)
 
@@ -140,7 +140,7 @@ Greek_Banking_Sector_Analysis/
 │       ├── eurobank_BI_dashboard.pdf
 │       └── eurobank_dashboard.pbix ← Power BI source file
 │
-├── 02_sector_dashboard/           ← Project 2: 4-bank sector analysis
+├── 02_Banking_Sector_Dashboard/           ← Project 2: 4-bank sector analysis
 │   ├── data/
 │   │   ├── greek_banking_final.db ← SQLite (4 banks × 3 years)
 │   │   ├── processed/             ← Cleaned CSVs (balance sheet, IS, KPIs)
@@ -223,18 +223,18 @@ All figures in € million.
 pip install -r requirements.txt
 
 # Run the extraction notebook
-cd 02_sector_dashboard/notebooks
+cd 02_Banking_Sector_Dashboard/notebooks
 jupyter notebook 01_extract.ipynb
 
 # Open the dashboard
-# Open 02_sector_dashboard/index.html in any browser
+# Open 02_Banking_Sector_Dashboard/index.html in any browser
 ```
 
 ---
 
 ## Data Dictionary
 
-See [DATA_DICTIONARY.md](02_sector_dashboard/data/DATA_DICTIONARY.md) for detailed field descriptions.
+See [DATA_DICTIONARY.md](02_Banking_Sector_Dashboard/data/DATA_DICTIONARY.md) for detailed field descriptions.
 
 ---
 

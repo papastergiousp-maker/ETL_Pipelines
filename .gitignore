@@ -1,5 +1,5 @@
 # PDFs — large source files (~107MB), keep locally
-02_sector_dashboard/data/raw/*.pdf
+02_Banking_Sector_Dashboard/data/raw/*.pdf
 
 # Power BI source (binary)
 *.pbix
