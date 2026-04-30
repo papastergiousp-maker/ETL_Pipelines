@@ -1,31 +1,11 @@
-metric,unit,year,value
-Cash and balances with central banks,€ million,2022,14994
-Due from credit institutions,€ million,2022,1329
-Loans and advances to customers,€ million,2022,41677
-Investment securities,€ million,2022,13261
-Total assets,€ million,2022,81471
-Due to central banks,€ million,2022,8774
-Due to credit institutions,€ million,2022,1814
-Deposits from customers,€ million,2022,55427
-Total liabilities,€ million,2022,74436
-Total equity,€ million,2022,7035
-Cash and balances with central banks,€ million,2023,10943
-Due from credit institutions,€ million,2023,2354
-Loans and advances to customers,€ million,2023,41576
-Investment securities,€ million,2023,14710
-Total assets,€ million,2023,79815
-Due to central banks,€ million,2023,3771
-Due to credit institutions,€ million,2023,3078
-Deposits from customers,€ million,2023,57423
-Total liabilities,€ million,2023,72485
-Total equity,€ million,2023,7330
-Cash and balances with central banks,€ million,2024,16131
-Due from credit institutions,€ million,2024,2196
-Loans and advances to customers,€ million,2024,50953
-Investment securities,€ million,2024,22184
-Total assets,€ million,2024,101151
-Due to central banks,€ million,2024,0
-Due to credit institutions,€ million,2024,2800
-Deposits from customers,€ million,2024,74600
-Total liabilities,€ million,2024,92515
-Total equity,€ million,2024,8636
+metric,value_2022,value_2023,value_2024,unit
+Cash and balances with central banks,14994,10943,16131,€ million
+Due from credit institutions,1329,2354,2196,€ million
+Loans and advances to customers,41677,41576,50953,€ million
+Investment securities,13261,14710,22184,€ million
+Total assets,81471,79815,101151,€ million
+Due to central banks,8774,3771,0,€ million
+Due to credit institutions,1814,3078,2800,€ million
+Deposits from customers,57297,57842,78860,€ million
+Total liabilities,74804,72283,92515,€ million
+Total equity,6667,7532,8636,€ million

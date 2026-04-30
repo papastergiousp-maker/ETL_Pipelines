@@ -1,85 +1,94 @@
-metric,unit,year,value,bank
-Cash and balances with central banks,€ million,2022,12894.8,Alpha Bank
-Loans and advances to customers,€ million,2022,38746.9,Alpha Bank
-Total assets,€ million,2022,77200.6,Alpha Bank
-Deposits from customers,€ million,2022,50256.6,Alpha Bank
-Total liabilities,€ million,2022,71001.0,Alpha Bank
-Total equity,€ million,2022,6199.6,Alpha Bank
-Cash and balances with central banks,€ million,2023,4219.1,Alpha Bank
-Loans and advances to customers,€ million,2023,36180.9,Alpha Bank
-Total assets,€ million,2023,72694.1,Alpha Bank
-Deposits from customers,€ million,2023,48468.8,Alpha Bank
-Total liabilities,€ million,2023,65405.4,Alpha Bank
-Total equity,€ million,2023,7288.7,Alpha Bank
-Cash and balances with central banks,€ million,2024,2998.0,Alpha Bank
-Loans and advances to customers,€ million,2024,39070.0,Alpha Bank
-Total assets,€ million,2024,70954.0,Alpha Bank
-Deposits from customers,€ million,2024,51063.0,Alpha Bank
-Total liabilities,€ million,2024,62799.0,Alpha Bank
-Total equity,€ million,2024,8155.0,Alpha Bank
-Cash and balances with central banks,€ million,2022,9653.0,Piraeus Bank
-Loans and advances to customers,€ million,2022,37367.0,Piraeus Bank
-Total assets,€ million,2022,75403.0,Piraeus Bank
-Deposits from customers,€ million,2022,58372.0,Piraeus Bank
-Total liabilities,€ million,2022,68891.0,Piraeus Bank
-Total equity,€ million,2022,6512.0,Piraeus Bank
-Cash and balances with central banks,€ million,2023,10567.0,Piraeus Bank
-Loans and advances to customers,€ million,2023,37527.0,Piraeus Bank
-Total assets,€ million,2023,76450.0,Piraeus Bank
-Deposits from customers,€ million,2023,59567.0,Piraeus Bank
-Total liabilities,€ million,2023,69097.0,Piraeus Bank
-Total equity,€ million,2023,7353.0,Piraeus Bank
-Cash and balances with central banks,€ million,2024,7423.0,Piraeus Bank
-Loans and advances to customers,€ million,2024,40685.0,Piraeus Bank
-Total assets,€ million,2024,80044.0,Piraeus Bank
-Deposits from customers,€ million,2024,62853.0,Piraeus Bank
-Total liabilities,€ million,2024,71771.0,Piraeus Bank
-Total equity,€ million,2024,8273.0,Piraeus Bank
-Cash and balances with central banks,€ million,2022,14226.0,NBG
-Loans and advances to customers,€ million,2022,35561.0,NBG
-Total assets,€ million,2022,78113.0,NBG
-Deposits from customers,€ million,2022,55192.0,NBG
-Total liabilities,€ million,2022,71226.0,NBG
-Total equity,€ million,2022,6887.0,NBG
-Cash and balances with central banks,€ million,2023,9015.0,NBG
-Loans and advances to customers,€ million,2023,34223.0,NBG
-Total assets,€ million,2023,74584.0,NBG
-Deposits from customers,€ million,2023,57126.0,NBG
-Total liabilities,€ million,2023,66932.0,NBG
-Total equity,€ million,2023,7652.0,NBG
-Cash and balances with central banks,€ million,2024,5380.0,NBG
-Loans and advances to customers,€ million,2024,36139.0,NBG
-Total assets,€ million,2024,74957.0,NBG
-Deposits from customers,€ million,2024,57593.0,NBG
-Total liabilities,€ million,2024,66505.0,NBG
-Total equity,€ million,2024,8452.0,NBG
-Cash and balances with central banks,€ million,2022,14994.0,Eurobank
-Loans and advances to customers,€ million,2022,41677.0,Eurobank
-Total assets,€ million,2022,81471.0,Eurobank
-Due to credit institutions,€ million,2022,1814.0,Eurobank
-Deposits from customers,€ million,2022,55427.0,Eurobank
-Total liabilities,€ million,2022,74436.0,Eurobank
-Total equity,€ million,2022,7035.0,Eurobank
-Cash and balances with central banks,€ million,2023,10943.0,Eurobank
-Loans and advances to customers,€ million,2023,41576.0,Eurobank
-Total assets,€ million,2023,79815.0,Eurobank
-Due to credit institutions,€ million,2023,3078.0,Eurobank
-Deposits from customers,€ million,2023,57423.0,Eurobank
-Total liabilities,€ million,2023,72485.0,Eurobank
-Total equity,€ million,2023,7330.0,Eurobank
-Cash and balances with central banks,€ million,2024,16131.0,Eurobank
-Loans and advances to customers,€ million,2024,50953.0,Eurobank
-Total assets,€ million,2024,101151.0,Eurobank
-Due to credit institutions,€ million,2024,2800.0,Eurobank
-Deposits from customers,€ million,2024,74600.0,Eurobank
-Total liabilities,€ million,2024,92515.0,Eurobank
-Total equity,€ million,2024,8636.0,Eurobank
-Due to credit institutions,€ million,2023,4618.0,Piraeus Bank
-Due to credit institutions,€ million,2024,2378.0,Piraeus Bank
-Due to credit institutions,€ million,2022,9811.0,NBG
-Due to credit institutions,€ million,2023,3800.0,NBG
-Due to credit institutions,€ million,2024,1665.0,NBG
-Due to credit institutions,€ million,2022,7093.0,Alpha Bank
-Due to credit institutions,€ million,2023,7093.0,Alpha Bank
-Due to credit institutions,€ million,2024,6533.0,Alpha Bank
-Due to credit institutions,€ million,2022,6185.0,Piraeus Bank
+bank,year,metric,value,unit
+Alpha Bank,2022,Cash and balances with central banks,12894.8,€ million
+Alpha Bank,2022,Deposits from customers,50256.6,€ million
+Alpha Bank,2022,Due to credit institutions,7093.0,€ million
+Alpha Bank,2022,Loans and advances to customers,38746.9,€ million
+Alpha Bank,2022,Total assets,77200.6,€ million
+Alpha Bank,2022,Total equity,6199.6,€ million
+Alpha Bank,2022,Total liabilities,71001.0,€ million
+Alpha Bank,2023,Cash and balances with central banks,4219.1,€ million
+Alpha Bank,2023,Deposits from customers,48468.8,€ million
+Alpha Bank,2023,Due to credit institutions,7093.0,€ million
+Alpha Bank,2023,Loans and advances to customers,36180.9,€ million
+Alpha Bank,2023,Total assets,72694.1,€ million
+Alpha Bank,2023,Total equity,7288.7,€ million
+Alpha Bank,2023,Total liabilities,65405.4,€ million
+Alpha Bank,2024,Cash and balances with central banks,2998.0,€ million
+Alpha Bank,2024,Deposits from customers,51063.0,€ million
+Alpha Bank,2024,Due to credit institutions,6533.0,€ million
+Alpha Bank,2024,Loans and advances to customers,39070.0,€ million
+Alpha Bank,2024,Total assets,70954.0,€ million
+Alpha Bank,2024,Total equity,8155.0,€ million
+Alpha Bank,2024,Total liabilities,62799.0,€ million
+Eurobank,2022,Cash and balances with central banks,14994.0,€ million
+Eurobank,2022,Deposits from customers,57297.0,€ million
+Eurobank,2022,Due from credit institutions,1329.0,
+Eurobank,2022,Due to central banks,8774.0,
+Eurobank,2022,Due to credit institutions,1814.0,€ million
+Eurobank,2022,Investment securities,13261.0,
+Eurobank,2022,Loans and advances to customers,41677.0,€ million
+Eurobank,2022,Total assets,81471.0,€ million
+Eurobank,2022,Total equity,6667.0,€ million
+Eurobank,2022,Total liabilities,74804.0,€ million
+Eurobank,2023,Cash and balances with central banks,10943.0,€ million
+Eurobank,2023,Deposits from customers,57842.0,€ million
+Eurobank,2023,Due from credit institutions,2354.0,
+Eurobank,2023,Due to central banks,3771.0,
+Eurobank,2023,Due to credit institutions,3078.0,€ million
+Eurobank,2023,Investment securities,14710.0,
+Eurobank,2023,Loans and advances to customers,41576.0,€ million
+Eurobank,2023,Total assets,79815.0,€ million
+Eurobank,2023,Total equity,7532.0,€ million
+Eurobank,2023,Total liabilities,72283.0,€ million
+Eurobank,2024,Cash and balances with central banks,16131.0,€ million
+Eurobank,2024,Deposits from customers,78860.0,€ million
+Eurobank,2024,Due from credit institutions,2196.0,
+Eurobank,2024,Due to central banks,0.0,
+Eurobank,2024,Due to credit institutions,2800.0,€ million
+Eurobank,2024,Investment securities,22184.0,
+Eurobank,2024,Loans and advances to customers,50953.0,€ million
+Eurobank,2024,Total assets,101151.0,€ million
+Eurobank,2024,Total equity,8636.0,€ million
+Eurobank,2024,Total liabilities,92515.0,€ million
+NBG,2022,Cash and balances with central banks,14226.0,€ million
+NBG,2022,Deposits from customers,55192.0,€ million
+NBG,2022,Due to credit institutions,9811.0,€ million
+NBG,2022,Loans and advances to customers,35561.0,€ million
+NBG,2022,Total assets,78113.0,€ million
+NBG,2022,Total equity,6475.0,€ million
+NBG,2022,Total liabilities,71638.0,€ million
+NBG,2023,Cash and balances with central banks,9015.0,€ million
+NBG,2023,Deposits from customers,57126.0,€ million
+NBG,2023,Due to credit institutions,3800.0,€ million
+NBG,2023,Loans and advances to customers,34223.0,€ million
+NBG,2023,Total assets,74584.0,€ million
+NBG,2023,Total equity,7652.0,€ million
+NBG,2023,Total liabilities,66932.0,€ million
+NBG,2024,Cash and balances with central banks,5380.0,€ million
+NBG,2024,Deposits from customers,57593.0,€ million
+NBG,2024,Due to credit institutions,1665.0,€ million
+NBG,2024,Loans and advances to customers,36139.0,€ million
+NBG,2024,Total assets,74957.0,€ million
+NBG,2024,Total equity,8452.0,€ million
+NBG,2024,Total liabilities,66505.0,€ million
+Piraeus Bank,2022,Cash and balances with central banks,9653.0,€ million
+Piraeus Bank,2022,Deposits from customers,58372.0,€ million
+Piraeus Bank,2022,Due to credit institutions,6185.0,€ million
+Piraeus Bank,2022,Loans and advances to customers,37367.0,€ million
+Piraeus Bank,2022,Total assets,75403.0,€ million
+Piraeus Bank,2022,Total equity,6512.0,€ million
+Piraeus Bank,2022,Total liabilities,68891.0,€ million
+Piraeus Bank,2023,Cash and balances with central banks,10567.0,€ million
+Piraeus Bank,2023,Deposits from customers,59567.0,€ million
+Piraeus Bank,2023,Due to credit institutions,4618.0,€ million
+Piraeus Bank,2023,Loans and advances to customers,37527.0,€ million
+Piraeus Bank,2023,Total assets,76450.0,€ million
+Piraeus Bank,2023,Total equity,7353.0,€ million
+Piraeus Bank,2023,Total liabilities,69097.0,€ million
+Piraeus Bank,2024,Cash and balances with central banks,7423.0,€ million
+Piraeus Bank,2024,Deposits from customers,62853.0,€ million
+Piraeus Bank,2024,Due to credit institutions,2378.0,€ million
+Piraeus Bank,2024,Loans and advances to customers,40685.0,€ million
+Piraeus Bank,2024,Total assets,80044.0,€ million
+Piraeus Bank,2024,Total equity,8273.0,€ million
+Piraeus Bank,2024,Total liabilities,71771.0,€ million

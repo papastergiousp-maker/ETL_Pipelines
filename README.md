@@ -1,6 +1,6 @@
 # Greek Banking Financial Analysis 2022–2024
 
-**End-to-end financial analysis of the Greek banking sector — data extracted directly from official annual report PDFs, no pre-cleaned datasets used.**
+**End-to-end financial analysis of the Greek banking sector — data verified against official annual report PDFs, no pre-cleaned datasets used.**
 
 Two interconnected projects: a deep-dive single-bank pipeline (Eurobank) and a multi-bank comparative dashboard covering all four Greek systemic banks.
 
@@ -29,19 +29,21 @@ Full extract → clean → load → query → visualise pipeline for Eurobank (2
 
 | KPI | 2022 | 2023 | 2024 |
 |:----|-----:|-----:|-----:|
-| Net Interest Income | €1,456m | €2,174m | €2,504m |
-| Operating Income | €2,089m | €2,821m | €3,242m |
-| Net Profit | €1,353m | €1,148m | €1,458m |
-| Cost-to-Income | 46.8% | 38.2% | 33.0% |
-| Loan-to-Deposit | 75.2% | 72.4% | 68.3% |
-| ROE | — | — | 16.9% |
+| Net Interest Income | €1,551m | €2,174m | €2,504m |
+| Operating Income | €3,135m | €2,914m | €3,339m |
+| Net Profit | €1,336m | €1,148m | €1,458m |
+| Cost-to-Income | 29.0% | 31.1% | 32.6% |
+| Loan-to-Deposit | 72.7% | 71.9% | 64.6% |
+| ROE | 20.0% | 15.2% | 16.9% |
+
+> **Note:** 2022 Operating Income includes €727m one-time trading gains and €324m other income, which suppresses the 2022 Cost-to-Income ratio. Underlying recurring C/I normalises to ~32–33% from 2023 onward.
 
 **Insights**
-- **NII +72%** over 2 years — driven by higher interest rates and strong loan growth
-- **Cost-to-Income 46.8% → 33.0%** — significant efficiency improvement
-- **Loan-to-Deposit 68.3%** — healthy liquidity, well below the 80% threshold
-- **ROE 16.9%** — above European banking average (~12%)
-- **Net Profit +27% YoY** in 2024 despite a challenging macro environment
+- **NII +61%** over 2 years — driven by higher interest rates and strong loan growth
+- **Cost-to-Income 32.6%** in 2024 — well below the European banking average of ~55%
+- **Loan-to-Deposit 64.6%** (2024) — conservative liquidity position, well below the 80% threshold
+- **ROE 16.9%** in 2024 — above the European banking average (~12%)
+- **Net Profit +27% YoY** in 2024 despite ECB rate cuts beginning in June 2024
 
 ### SQL Highlights
 
@@ -49,9 +51,9 @@ Full extract → clean → load → query → visualise pipeline for Eurobank (2
 -- Cost-to-Income Ratio trend
 SELECT
     'Cost-to-Income Ratio' AS kpi,
-    ROUND(ABS(value_2022) * 100.0 / 2089, 1) AS ratio_2022,
-    ROUND(ABS(value_2023) * 100.0 / 2821, 1) AS ratio_2023,
-    ROUND(ABS(value_2024) * 100.0 / 3242, 1) AS ratio_2024
+    ROUND(ABS(value_2022) * 100.0 / 3135, 1) AS ratio_2022,
+    ROUND(ABS(value_2023) * 100.0 / 2914, 1) AS ratio_2023,
+    ROUND(ABS(value_2024) * 100.0 / 3339, 1) AS ratio_2024
 FROM income_statement
 WHERE metric = 'Operating expenses';
 
@@ -116,35 +118,38 @@ Open `greek-banking-analysis/index.html` in a browser — no server required.
 | Alpha Bank | 1,646 | 668 | 70,954 | 8.2% |
 
 **Insights**
-- **Sector NII +58%** from 2022 to 2024 (€5.4bn → €8.6bn) — rate cycle tailwind across all four banks
-- **Eurobank leads** on both NII and ROE, reflecting its diversified regional presence
-- **NBG most cost-efficient** — operating expenses €581m vs sector average ~€846m
-- **Combined sector deposits grew +8%** YoY to ~€246bn in 2024, signalling deposit franchise strength
+- **Sector NII +55%** from 2022 to 2024 (€5.5bn → €8.6bn) — rate cycle tailwind across all four banks
+- **Eurobank leads** on both NII and ROE, reflecting its diversified regional presence and 2024 Hellenic Bank acquisition
+- **Piraeus most cost-efficient** in 2024 — Cost-to-Income 31.8%, down from 34.5% in 2022
+- **Combined sector deposits +12% YoY** to ~€250bn in 2024, with Eurobank's jump driven by the Cyprus acquisition
 
 ---
 
 ## Repository Structure
 
 ```
-eurobank-financial-analysis/
+Greek_Banking_Sector_Analysis/
 │
 ├── Database/
 │   ├── balance_sheet.csv          ← Eurobank Balance Sheet 2022–2024
 │   ├── income_statement.csv       ← Eurobank Income Statement 2022–2024
-│   └── eurobank.db                ← SQLite database (Eurobank)
+│   └── eurobank.db                ← SQLite database (Eurobank, Project 1)
 │
 ├── greek-banking-analysis/
 │   ├── data/
-│   │   ├── greek_banking_final.db ← SQLite (4 banks × 3 years)
+│   │   ├── greek_banking_final.db ← SQLite (4 banks × 3 years, Project 2)
 │   │   ├── processed/             ← Cleaned CSVs (balance sheet, IS, KPIs)
 │   │   └── raw/                   ← 12 source PDFs (4 banks × 3 years)
 │   ├── notebooks/
-│   │   └── 01_extract.ipynb       ← Full pipeline: extract → clean → load → analyse
+│   │   ├── 01_extract.ipynb       ← Full pipeline: extract → clean → load → analyse
+│   │   └── 02_advanced_analysis.ipynb ← DuPont decomposition, sector ratios
 │   └── index.html                 ← Interactive Plotly dashboard (open in browser)
 │
 ├── eurobank_dashboard.png         ← Power BI dashboard screenshot
 ├── eurobank_BI_dashboard.pdf      ← Power BI dashboard export
-└── eurobank_dashboard.pbix        ← Power BI source file
+├── eurobank_dashboard.pbix        ← Power BI source file
+├── requirements.txt               ← Python dependencies
+└── README.md
 ```
 
 ---
@@ -178,10 +183,20 @@ All figures in € million.
 | 1. **PDF Collection** | Downloaded official Annual Reports (2022-2024) for all 4 systemic banks from their investor relations portals | Manual download |
 | 2. **Table Extraction** | Identified and extracted financial tables from PDF reports using programmatic parsing | `pdfplumber` |
 | 3. **Data Cleaning** | Normalized column names, handled missing values, standardized units (€ millions) | `pandas` |
-| 4. **Data Validation** | Cross-checked totals and calculated ratios against published KPIs in reports | Python + manual verification |
+| 4. **Data Validation** | Cross-checked all key line items against source PDFs; corrected extraction errors | Python + manual verification |
 | 5. **Database Loading** | Loaded cleaned data into SQLite for efficient querying | `sqlite3` |
 | 6. **KPI Calculation** | Computed derived metrics (ROE, Cost-to-Income, NIM, YoY growth) using SQL | SQL + pandas |
 | 7. **Visualization** | Built interactive dashboard using Plotly + sql.js | Plotly, sql.js |
+
+### KPI Definitions
+
+| KPI | Formula | Notes |
+|:----|:--------|:------|
+| ROE | Net Profit / Total Equity × 100 | Uses year-end total equity |
+| Cost-to-Income | \|Operating Expenses\| / Operating Income × 100 | Operating income includes trading gains |
+| NIM | Net Interest Income / Total Assets × 100 | Year-end assets as denominator |
+| Loan-to-Deposit | Loans / Customer Deposits × 100 | Net loans (post-ECL) |
+| NII YoY | (NII_t − NII_{t-1}) / NII_{t-1} × 100 | — |
 
 ### Data Quality Notes
 
@@ -190,18 +205,16 @@ All figures in € million.
 - **Currency**: Euros (€)
 - **Units**: Millions unless otherwise stated
 - **Coverage**: 4 Greek systemic banks × 3 years (2022-2024)
-- **Validation**: All calculated KPIs cross-checked against reported figures where available
+- **Validation**: All IS and BS line items manually cross-checked against source PDF pages
 
 ### Limitations
 
-1. **Annual only**: No quarterly data available in this version
+1. **Annual only**: No quarterly data in this version
 2. **Static data**: Requires manual refresh when new reports are published
-3. **Estimated ratios**: Some derived ratios (e.g., NIM) use simplified formulas based on available data
-4. **NPL data**: Non-performing loan ratios not included in current dataset (requires more granular data from reports)
+3. **NIM denominator**: Uses year-end total assets rather than average earning assets — understates NIM relative to bank-reported figures
+4. **NPL data**: Non-performing loan ratios not included in current dataset
 
 ### Reproducibility
-
-To reproduce the analysis:
 
 ```bash
 # Install dependencies
@@ -212,8 +225,7 @@ cd greek-banking-analysis/notebooks
 jupyter notebook 01_extract.ipynb
 
 # Open the dashboard
-cd greek-banking-analysis
-open index.html
+# Open greek-banking-analysis/index.html in any browser
 ```
 
 ---

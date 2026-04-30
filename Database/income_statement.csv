@@ -1,25 +1,9 @@
-metric,unit,year,value
-Net interest income,€ million,2022,1456
-Net banking fee and commission income,€ million,2022,387
-Operating income,€ million,2022,2089
-Operating expenses,€ million,2022,-978
-Profit from operations before impairments,€ million,2022,1111
-Impairment losses on loans,€ million,2022,-345
-Profit before tax,€ million,2022,766
-Net profit attributable to shareholders,€ million,2022,1353
-Net interest income,€ million,2023,2174
-Net banking fee and commission income,€ million,2023,447
-Operating income,€ million,2023,2821
-Operating expenses,€ million,2023,-1078
-Profit from operations before impairments,€ million,2023,1743
-Impairment losses on loans,€ million,2023,-413
-Profit before tax,€ million,2023,1386
-Net profit attributable to shareholders,€ million,2023,1148
-Net interest income,€ million,2024,2504
-Net banking fee and commission income,€ million,2024,561
-Operating income,€ million,2024,3242
-Operating expenses,€ million,2024,-1071
-Profit from operations before impairments,€ million,2024,2171
-Impairment losses on loans,€ million,2024,-319
-Profit before tax,€ million,2024,1917
-Net profit attributable to shareholders,€ million,2024,1458
+metric,value_2022,value_2023,value_2024,unit
+Net interest income,1551,2174,2504,€ million
+Net banking fee and commission income,448,447,561,€ million
+Operating income,3135,2914,3339,€ million
+Operating expenses,-910,-906,-1090,€ million
+Profit from operations before impairments,2225,2008,2249,€ million
+Impairment losses on loans,-292,-413,-305,€ million
+Profit before tax,1741,1550,1878,€ million
+Net profit attributable to shareholders,1336,1148,1458,€ million

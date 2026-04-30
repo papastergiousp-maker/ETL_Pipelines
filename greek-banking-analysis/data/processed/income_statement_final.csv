@@ -1,85 +1,88 @@
-metric,unit,year,value,bank
-Impairment losses on loans,€ million,2022,-559.0,Alpha Bank
-Net banking fee and commission income,€ million,2022,396.3,Alpha Bank
-Net interest income,€ million,2022,1306.7,Alpha Bank
-Net profit attributable to shareholders,€ million,2022,342.2,Alpha Bank
-Operating expenses,€ million,2022,-1074.9,Alpha Bank
-Operating income,€ million,2022,2089.0,Alpha Bank
-Profit before tax,€ million,2022,563.2,Alpha Bank
-Impairment losses on loans,€ million,2023,-381.0,Alpha Bank
-Net banking fee and commission income,€ million,2023,373.6,Alpha Bank
-Net interest income,€ million,2023,1651.5,Alpha Bank
-Net profit attributable to shareholders,€ million,2023,655.0,Alpha Bank
-Operating expenses,€ million,2023,-807.5,Alpha Bank
-Operating income,€ million,2023,2168.2,Alpha Bank
-Profit before tax,€ million,2023,828.3,Alpha Bank
-Impairment losses on loans,€ million,2024,-360.0,Alpha Bank
-Net banking fee and commission income,€ million,2024,421.0,Alpha Bank
-Net interest income,€ million,2024,1646.0,Alpha Bank
-Net profit attributable to shareholders,€ million,2024,668.0,Alpha Bank
-Operating expenses,€ million,2024,-857.0,Alpha Bank
-Operating income,€ million,2024,2272.0,Alpha Bank
-Profit before tax,€ million,2024,871.0,Alpha Bank
-Impairment losses on loans,€ million,2022,-345.0,Eurobank
-Net banking fee and commission income,€ million,2022,387.0,Eurobank
-Net interest income,€ million,2022,1456.0,Eurobank
-Net profit attributable to shareholders,€ million,2022,1353.0,Eurobank
-Operating expenses,€ million,2022,-978.0,Eurobank
-Operating income,€ million,2022,2089.0,Eurobank
-Profit before tax,€ million,2022,766.0,Eurobank
-Impairment losses on loans,€ million,2023,-413.0,Eurobank
-Net banking fee and commission income,€ million,2023,447.0,Eurobank
-Net interest income,€ million,2023,2174.0,Eurobank
-Net profit attributable to shareholders,€ million,2023,1148.0,Eurobank
-Operating expenses,€ million,2023,-1078.0,Eurobank
-Operating income,€ million,2023,2821.0,Eurobank
-Profit before tax,€ million,2023,1386.0,Eurobank
-Impairment losses on loans,€ million,2024,-319.0,Eurobank
-Net banking fee and commission income,€ million,2024,561.0,Eurobank
-Net interest income,€ million,2024,2504.0,Eurobank
-Net profit attributable to shareholders,€ million,2024,1458.0,Eurobank
-Operating expenses,€ million,2024,-1071.0,Eurobank
-Operating income,€ million,2024,3242.0,Eurobank
-Profit before tax,€ million,2024,1917.0,Eurobank
-Impairment losses on loans,€ million,2022,-523.0,Piraeus Bank
-Net banking fee and commission income,€ million,2022,372.0,Piraeus Bank
-Net interest income,€ million,2022,1304.0,Piraeus Bank
-Net profit attributable to shareholders,€ million,2022,864.0,Piraeus Bank
-Operating expenses,€ million,2022,-867.0,Piraeus Bank
-Operating income,€ million,2022,2516.0,Piraeus Bank
-Profit before tax,€ million,2022,943.0,Piraeus Bank
-Impairment losses on loans,€ million,2023,-404.0,Piraeus Bank
-Net banking fee and commission income,€ million,2023,468.0,Piraeus Bank
-Net interest income,€ million,2023,2003.0,Piraeus Bank
-Net profit attributable to shareholders,€ million,2023,788.0,Piraeus Bank
-Operating expenses,€ million,2023,-863.0,Piraeus Bank
-Operating income,€ million,2023,2607.0,Piraeus Bank
-Profit before tax,€ million,2023,1078.0,Piraeus Bank
-Impairment losses on loans,€ million,2024,-181.0,Piraeus Bank
-Net banking fee and commission income,€ million,2024,561.0,Piraeus Bank
-Net interest income,€ million,2024,2088.0,Piraeus Bank
-Net profit attributable to shareholders,€ million,2024,1066.0,Piraeus Bank
-Operating expenses,€ million,2024,-877.0,Piraeus Bank
-Operating income,€ million,2024,2757.0,Piraeus Bank
-Profit before tax,€ million,2024,1436.0,Piraeus Bank
-Net interest income,€ million,2022,1369.0,NBG
-Net banking fee and commission income,€ million,2022,347.0,NBG
-Operating income,€ million,2022,2355.0,NBG
-Operating expenses,€ million,2022,-475.0,NBG
-Impairment losses on loans,€ million,2022,-280.0,NBG
-Profit before tax,€ million,2022,1155.0,NBG
-Net profit attributable to shareholders,€ million,2022,1120.0,NBG
-Net interest income,€ million,2023,2263.0,NBG
-Net banking fee and commission income,€ million,2023,382.0,NBG
-Operating income,€ million,2023,2760.0,NBG
-Operating expenses,€ million,2023,-485.0,NBG
-Impairment losses on loans,€ million,2023,-268.0,NBG
-Profit before tax,€ million,2023,1479.0,NBG
-Net profit attributable to shareholders,€ million,2023,1106.0,NBG
-Net interest income,€ million,2024,2356.0,NBG
-Net banking fee and commission income,€ million,2024,427.0,NBG
-Operating income,€ million,2024,2885.0,NBG
-Operating expenses,€ million,2024,-581.0,NBG
-Impairment losses on loans,€ million,2024,-180.0,NBG
-Profit before tax,€ million,2024,1517.0,NBG
-Net profit attributable to shareholders,€ million,2024,1158.0,NBG
+bank,year,metric,value,unit
+Alpha Bank,2022,Impairment losses on loans,-559.0,€ million
+Alpha Bank,2022,Net banking fee and commission income,396.3,€ million
+Alpha Bank,2022,Net interest income,1306.7,€ million
+Alpha Bank,2022,Net profit attributable to shareholders,342.2,€ million
+Alpha Bank,2022,Operating expenses,-1074.9,€ million
+Alpha Bank,2022,Operating income,2194.0,€ million
+Alpha Bank,2022,Profit before tax,563.2,€ million
+Alpha Bank,2023,Impairment losses on loans,-381.0,€ million
+Alpha Bank,2023,Net banking fee and commission income,373.6,€ million
+Alpha Bank,2023,Net interest income,1651.5,€ million
+Alpha Bank,2023,Net profit attributable to shareholders,655.0,€ million
+Alpha Bank,2023,Operating expenses,-807.5,€ million
+Alpha Bank,2023,Operating income,2168.2,€ million
+Alpha Bank,2023,Profit before tax,828.3,€ million
+Alpha Bank,2024,Impairment losses on loans,-360.0,€ million
+Alpha Bank,2024,Net banking fee and commission income,421.0,€ million
+Alpha Bank,2024,Net interest income,1646.0,€ million
+Alpha Bank,2024,Net profit attributable to shareholders,668.0,€ million
+Alpha Bank,2024,Operating expenses,-857.0,€ million
+Alpha Bank,2024,Operating income,2272.0,€ million
+Alpha Bank,2024,Profit before tax,871.0,€ million
+Eurobank,2022,Impairment losses on loans,-292.0,€ million
+Eurobank,2022,Net banking fee and commission income,448.0,€ million
+Eurobank,2022,Net interest income,1551.0,€ million
+Eurobank,2022,Net profit attributable to shareholders,1336.0,€ million
+Eurobank,2022,Operating expenses,-910.0,€ million
+Eurobank,2022,Operating income,3135.0,€ million
+Eurobank,2022,Profit before tax,1741.0,€ million
+Eurobank,2022,Profit from operations before impairments,2225.0,
+Eurobank,2023,Impairment losses on loans,-413.0,€ million
+Eurobank,2023,Net banking fee and commission income,447.0,€ million
+Eurobank,2023,Net interest income,2174.0,€ million
+Eurobank,2023,Net profit attributable to shareholders,1148.0,€ million
+Eurobank,2023,Operating expenses,-906.0,€ million
+Eurobank,2023,Operating income,2914.0,€ million
+Eurobank,2023,Profit before tax,1550.0,€ million
+Eurobank,2023,Profit from operations before impairments,2008.0,
+Eurobank,2024,Impairment losses on loans,-305.0,€ million
+Eurobank,2024,Net banking fee and commission income,561.0,€ million
+Eurobank,2024,Net interest income,2504.0,€ million
+Eurobank,2024,Net profit attributable to shareholders,1458.0,€ million
+Eurobank,2024,Operating expenses,-1090.0,€ million
+Eurobank,2024,Operating income,3339.0,€ million
+Eurobank,2024,Profit before tax,1878.0,€ million
+Eurobank,2024,Profit from operations before impairments,2249.0,
+NBG,2022,Impairment losses on loans,-280.0,€ million
+NBG,2022,Net banking fee and commission income,347.0,€ million
+NBG,2022,Net interest income,1369.0,€ million
+NBG,2022,Net profit attributable to shareholders,1120.0,€ million
+NBG,2022,Operating expenses,-855.0,€ million
+NBG,2022,Operating income,2355.0,€ million
+NBG,2022,Profit before tax,1155.0,€ million
+NBG,2023,Impairment losses on loans,-268.0,€ million
+NBG,2023,Net banking fee and commission income,382.0,€ million
+NBG,2023,Net interest income,2263.0,€ million
+NBG,2023,Net profit attributable to shareholders,1106.0,€ million
+NBG,2023,Operating expenses,-928.0,€ million
+NBG,2023,Operating income,2760.0,€ million
+NBG,2023,Profit before tax,1479.0,€ million
+NBG,2024,Impairment losses on loans,-180.0,€ million
+NBG,2024,Net banking fee and commission income,427.0,€ million
+NBG,2024,Net interest income,2356.0,€ million
+NBG,2024,Net profit attributable to shareholders,1158.0,€ million
+NBG,2024,Operating expenses,-1053.0,€ million
+NBG,2024,Operating income,2885.0,€ million
+NBG,2024,Profit before tax,1517.0,€ million
+Piraeus Bank,2022,Impairment losses on loans,-523.0,€ million
+Piraeus Bank,2022,Net banking fee and commission income,372.0,€ million
+Piraeus Bank,2022,Net interest income,1304.0,€ million
+Piraeus Bank,2022,Net profit attributable to shareholders,864.0,€ million
+Piraeus Bank,2022,Operating expenses,-867.0,€ million
+Piraeus Bank,2022,Operating income,2516.0,€ million
+Piraeus Bank,2022,Profit before tax,943.0,€ million
+Piraeus Bank,2023,Impairment losses on loans,-404.0,€ million
+Piraeus Bank,2023,Net banking fee and commission income,468.0,€ million
+Piraeus Bank,2023,Net interest income,2003.0,€ million
+Piraeus Bank,2023,Net profit attributable to shareholders,788.0,€ million
+Piraeus Bank,2023,Operating expenses,-863.0,€ million
+Piraeus Bank,2023,Operating income,2607.0,€ million
+Piraeus Bank,2023,Profit before tax,1078.0,€ million
+Piraeus Bank,2024,Impairment losses on loans,-181.0,€ million
+Piraeus Bank,2024,Net banking fee and commission income,561.0,€ million
+Piraeus Bank,2024,Net interest income,2088.0,€ million
+Piraeus Bank,2024,Net profit attributable to shareholders,1066.0,€ million
+Piraeus Bank,2024,Operating expenses,-877.0,€ million
+Piraeus Bank,2024,Operating income,2757.0,€ million
+Piraeus Bank,2024,Profit before tax,1436.0,€ million
