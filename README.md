@@ -1,8 +1,62 @@
-# Greek Banking Financial Analysis 2022–2024
+# Greek Banking Sector Analysis 2022–2024
 
-**End-to-end financial analysis of the Greek banking sector — data verified against official annual report PDFs, no pre-cleaned datasets used.**
+> Investment-grade financial analysis of the four Greek systemic banks — built entirely from official annual report PDFs, with 5-step DuPont decomposition, CAMELS scoring, peer benchmarking, NII forecasting, and EBA-style stress testing.
 
-Two interconnected projects: a deep-dive single-bank pipeline (Eurobank) and a multi-bank comparative dashboard covering all four Greek systemic banks.
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
+![Plotly](https://img.shields.io/badge/Plotly-5.18%2B-3F4F75?logo=plotly&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power_BI-DAX-F2C811?logo=powerbi&logoColor=black)
+![pytest](https://img.shields.io/badge/pytest-26_passing-2ECC40?logo=pytest&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-3.0-150458?logo=pandas&logoColor=white)
+
+---
+
+### Headline result
+
+**Sector NII grew +55% (2022→2024)** driven almost entirely by ECB rate hikes — the NIM × Assets decomposition (notebook `03_analysis/04`) confirms that the rate/spread effect accounted for >90% of NII growth in 2022→2023. Yet under EBA-style stress (+200bps cost of risk, −15% loan volume, −50bps NIM), Piraeus Bank's CET1 would fall to 9.9% — below the ECB regulatory minimum of 10.5%.
+
+![Eurobank Dashboard](01_eurobank_pipeline/powerbi/eurobank_dashboard.png)
+
+---
+
+### What this project demonstrates
+
+| Skill | Where |
+|-------|-------|
+| **SQL** — window functions, CTEs, JOIN, GROUP BY | `01_eurobank_pipeline/` |
+| **Python / pandas** — ETL, tidy-data transforms, financial modelling | All notebooks |
+| **PDF data extraction** — pdfplumber, table parsing from 12 annual reports | `02_Banking_Sector_Dashboard/notebooks/01_extract.ipynb` |
+| **Financial modelling** — 5-step DuPont, CAMELS, NIM decomposition, OLS forecasting | `03_analysis/` |
+| **Scenario analysis & stress testing** — EBA-style adverse scenario, CET1 impact | `04_forecasting/02_stress_test.ipynb` |
+| **Data quality engineering** — pytest suite (26 tests), balance sheet identity checks | `tests/test_kpis.py` |
+| **Statistical analysis** — z-scores, percentile ranking, regression | `03_analysis/03_peer_benchmarking.ipynb` |
+| **BI & dashboards** — Power BI with DAX measures + browser-native Plotly/sql.js app | `01_eurobank_pipeline/powerbi/`, `02_Banking_Sector_Dashboard/index.html` |
+
+---
+
+### Data architecture
+
+```mermaid
+flowchart LR
+    PDFs["12 Annual Report PDFs\n4 banks × 3 years"] --> extract["pdfplumber\nextraction"]
+    extract --> clean["pandas\ncleaning & validation"]
+    clean --> tests["pytest\n26 tests"]
+    clean --> SQLite[("SQLite DB\nkpis · income_stmt · balance_sheet")]
+    SQLite --> analysis["03_analysis/\n5 analytical notebooks\nDuPont · CAMELS · Peer · NII Walk · Quality"]
+    SQLite --> forecast["04_forecasting/\nNII forecast 2025–26\nEBA stress test"]
+    SQLite --> html["Plotly / sql.js\nbrowser dashboard"]
+    SQLite --> powerbi["Power BI\nDAX dashboard"]
+```
+
+---
+
+### Running the tests
+
+```bash
+pip install -r requirements.txt
+pytest tests/ -v
+# → 26 passed in ~1s
+```
 
 ---
 
@@ -131,26 +185,35 @@ Open `02_Banking_Sector_Dashboard/index.html` in a browser — no server require
 Greek_Banking_Sector_Analysis/
 │
 ├── 01_eurobank_pipeline/          ← Project 1: single-bank deep-dive
-│   ├── data/
-│   │   ├── income_statement.csv   ← Eurobank IS 2022–2024 (wide format)
-│   │   ├── balance_sheet.csv      ← Eurobank BS 2022–2024 (wide format)
-│   │   └── eurobank.db            ← SQLite database (Eurobank)
-│   └── powerbi/
-│       ├── eurobank_dashboard.png ← Dashboard screenshot
-│       ├── eurobank_BI_dashboard.pdf
-│       └── eurobank_dashboard.pbix ← Power BI source file
+│   ├── data/                      ← Eurobank IS, BS (wide + long format), SQLite
+│   └── powerbi/                   ← .pbix, dashboard PNG, PDF export
 │
-├── 02_Banking_Sector_Dashboard/           ← Project 2: 4-bank sector analysis
+├── 02_Banking_Sector_Dashboard/   ← Project 2: 4-bank sector analysis
 │   ├── data/
-│   │   ├── greek_banking_final.db ← SQLite (4 banks × 3 years)
-│   │   ├── processed/             ← Cleaned CSVs (balance sheet, IS, KPIs)
-│   │   └── raw/                   ← 12 source PDFs (4 banks × 3 years)
+│   │   ├── processed/             ← kpis_final.csv, income_statement_final.csv, balance_sheet_final.csv
+│   │   ├── raw/                   ← 12 source PDFs (4 banks × 3 years)
+│   │   └── greek_banking_final.db ← SQLite (3 tables, indexed)
 │   ├── notebooks/
 │   │   ├── 01_extract.ipynb       ← Full ETL pipeline: PDF → SQLite
-│   │   └── 02_advanced_analysis.ipynb ← DuPont decomposition, sector ratios
-│   └── index.html                 ← Interactive Plotly dashboard (open in browser)
+│   │   └── 02_advanced_analysis.ipynb ← 3-step DuPont, NIM, C/I, peer heatmap
+│   ├── index.html                 ← Plotly + sql.js browser dashboard (no server needed)
+│   └── rebuild_db.py              ← Rebuilds SQLite from CSVs
 │
-├── requirements.txt               ← Python dependencies
+├── 03_analysis/                   ← Investment-grade analytical layer
+│   ├── 01_dupont_decomposition.ipynb   ← 5-step banking DuPont (all 4 banks × 3 years)
+│   ├── 02_camels_scorecard.ipynb       ← CAMELS 1–5 rating heatmap
+│   ├── 03_peer_benchmarking.ipynb      ← Z-score, percentile ranks, radar charts
+│   ├── 04_nii_rate_volume_walk.ipynb   ← NIM × Assets rate/volume decomposition
+│   └── 05_earnings_quality.ipynb       ← One-off stripping: reported vs underlying ROE
+│
+├── 04_forecasting/                ← Forecasting and scenario analysis
+│   ├── 01_forecast_nii_2025_2026.ipynb ← OLS NII forecast, ECB scenario fan charts
+│   └── 02_stress_test.ipynb            ← EBA-style adverse scenario, CET1 impact
+│
+├── tests/
+│   └── test_kpis.py               ← pytest suite: 26 tests (KPI re-derivation, BS identity, sanity)
+│
+├── requirements.txt               ← Python dependencies (pandas, plotly, pytest, scipy, ...)
 └── README.md
 ```
 
@@ -224,11 +287,18 @@ All figures in € million.
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the extraction notebook
-cd 02_Banking_Sector_Dashboard/notebooks
-jupyter notebook 01_extract.ipynb
+# Run data quality tests
+pytest tests/ -v
+# → 26 passed in ~1s
 
-# Open the dashboard
+# Rebuild SQLite from processed CSVs
+python 02_Banking_Sector_Dashboard/rebuild_db.py
+
+# Run notebooks (in order)
+cd 03_analysis && jupyter notebook   # analytical layer
+cd 04_forecasting && jupyter notebook  # forecasting
+
+# Open the dashboard (no server needed)
 # Open 02_Banking_Sector_Dashboard/index.html in any browser
 ```
 
@@ -240,4 +310,16 @@ See [DATA_DICTIONARY.md](02_Banking_Sector_Dashboard/data/DATA_DICTIONARY.md) fo
 
 ---
 
-*Project: Greek Banking Sector Analysis 2022-2024*
+---
+
+## About the analyst
+
+**Spyros Papastergiou** — Financial & Data Analyst  
+Focused on European banking sector analysis, data engineering, and quantitative financial modelling.
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin)](https://linkedin.com/in/spyros-papastergiou)
+[![Email](https://img.shields.io/badge/Email-spyrossyo96%40gmail.com-D14836?logo=gmail)](mailto:spyrossyo96@gmail.com)
+
+---
+
+*Greek Banking Sector Analysis 2022–2024 | Data sourced exclusively from official annual reports*

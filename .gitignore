@@ -17,6 +17,9 @@ Thumbs.db
 # Claude Code local settings
 .claude/
 
+# Internal planning docs
+CLAUDE_UPGRADE_PROMPT.md
+
 # Secrets
 .env
 *.env
