@@ -1,51 +1,57 @@
 bank,year,metric,value,unit
 Alpha Bank,2022,Cash and balances with central banks,12894.8,€ million
 Alpha Bank,2022,Deposits from customers,50256.6,€ million
-Alpha Bank,2022,Due to credit institutions,7093.0,€ million
+Alpha Bank,2022,Due from credit institutions,1368.1,€ million
+Alpha Bank,2022,Due to credit institutions,14345.1,€ million
+Alpha Bank,2022,Investment securities,12710.1,€ million
 Alpha Bank,2022,Loans and advances to customers,38746.9,€ million
 Alpha Bank,2022,Total assets,77200.6,€ million
 Alpha Bank,2022,Total equity,6199.6,€ million
 Alpha Bank,2022,Total liabilities,71001.0,€ million
 Alpha Bank,2023,Cash and balances with central banks,4219.1,€ million
 Alpha Bank,2023,Deposits from customers,48468.8,€ million
+Alpha Bank,2023,Due from credit institutions,1722.5,€ million
 Alpha Bank,2023,Due to credit institutions,7093.0,€ million
+Alpha Bank,2023,Investment securities,15993.8,€ million
 Alpha Bank,2023,Loans and advances to customers,36180.9,€ million
 Alpha Bank,2023,Total assets,72694.1,€ million
 Alpha Bank,2023,Total equity,7288.7,€ million
 Alpha Bank,2023,Total liabilities,65405.4,€ million
 Alpha Bank,2024,Cash and balances with central banks,2998.0,€ million
 Alpha Bank,2024,Deposits from customers,51063.0,€ million
+Alpha Bank,2024,Due from credit institutions,2296.0,€ million
 Alpha Bank,2024,Due to credit institutions,6533.0,€ million
+Alpha Bank,2024,Investment securities,17574.0,€ million
 Alpha Bank,2024,Loans and advances to customers,39070.0,€ million
 Alpha Bank,2024,Total assets,70954.0,€ million
 Alpha Bank,2024,Total equity,8155.0,€ million
 Alpha Bank,2024,Total liabilities,62799.0,€ million
 Eurobank,2022,Cash and balances with central banks,14994.0,€ million
 Eurobank,2022,Deposits from customers,57297.0,€ million
-Eurobank,2022,Due from credit institutions,1329.0,
-Eurobank,2022,Due to central banks,8774.0,
+Eurobank,2022,Due from credit institutions,1329.0,€ million
+Eurobank,2022,Due to central banks,8774.0,€ million
 Eurobank,2022,Due to credit institutions,1814.0,€ million
-Eurobank,2022,Investment securities,13261.0,
+Eurobank,2022,Investment securities,13261.0,€ million
 Eurobank,2022,Loans and advances to customers,41677.0,€ million
 Eurobank,2022,Total assets,81471.0,€ million
 Eurobank,2022,Total equity,6667.0,€ million
 Eurobank,2022,Total liabilities,74804.0,€ million
 Eurobank,2023,Cash and balances with central banks,10943.0,€ million
 Eurobank,2023,Deposits from customers,57842.0,€ million
-Eurobank,2023,Due from credit institutions,2354.0,
-Eurobank,2023,Due to central banks,3771.0,
+Eurobank,2023,Due from credit institutions,2354.0,€ million
+Eurobank,2023,Due to central banks,3771.0,€ million
 Eurobank,2023,Due to credit institutions,3078.0,€ million
-Eurobank,2023,Investment securities,14710.0,
+Eurobank,2023,Investment securities,14710.0,€ million
 Eurobank,2023,Loans and advances to customers,41576.0,€ million
 Eurobank,2023,Total assets,79815.0,€ million
 Eurobank,2023,Total equity,7532.0,€ million
 Eurobank,2023,Total liabilities,72283.0,€ million
 Eurobank,2024,Cash and balances with central banks,16131.0,€ million
 Eurobank,2024,Deposits from customers,78860.0,€ million
-Eurobank,2024,Due from credit institutions,2196.0,
-Eurobank,2024,Due to central banks,0.0,
+Eurobank,2024,Due from credit institutions,2196.0,€ million
+Eurobank,2024,Due to central banks,0.0,€ million
 Eurobank,2024,Due to credit institutions,2800.0,€ million
-Eurobank,2024,Investment securities,22184.0,
+Eurobank,2024,Investment securities,22184.0,€ million
 Eurobank,2024,Loans and advances to customers,50953.0,€ million
 Eurobank,2024,Total assets,101151.0,€ million
 Eurobank,2024,Total equity,8636.0,€ million

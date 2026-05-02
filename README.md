@@ -195,9 +195,11 @@ All figures in € million.
 | KPI | Formula | Notes |
 |:----|:--------|:------|
 | ROE | Net Profit / Total Equity × 100 | Uses year-end total equity |
+| ROA | Net Profit / Total Assets × 100 | Uses year-end total assets |
 | Cost-to-Income | \|Operating Expenses\| / Operating Income × 100 | Operating income includes trading gains |
 | NIM | Net Interest Income / Total Assets × 100 | Year-end assets as denominator |
 | Loan-to-Deposit | Loans / Customer Deposits × 100 | Net loans (post-ECL) |
+| CET1 | Common Equity Tier 1 / Risk-Weighted Assets × 100 | As disclosed in Annual Report capital adequacy section |
 | NII YoY | (NII_t − NII_{t-1}) / NII_{t-1} × 100 | — |
 
 ### Data Quality Notes
