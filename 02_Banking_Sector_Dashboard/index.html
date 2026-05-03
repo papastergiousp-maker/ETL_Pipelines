@@ -150,6 +150,20 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cmnt-body{font-size:0.65rem;color:var(--dim);line-height:1.68;}
 @media(max-width:768px){.cmnt-grid{grid-template-columns:1fr;}.cmnt-section{padding:18px 16px;}}
 
+/* ── INVESTMENT IMPLICATIONS ── */
+.impl-section{background:linear-gradient(135deg,rgba(59,130,246,0.04),rgba(99,102,241,0.02));border:1px solid rgba(59,130,246,0.16);border-radius:16px;padding:24px 28px;margin-bottom:12px;}
+.impl-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.impl-badge{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);padding:4px 12px;border-radius:20px;}
+.impl-sub{font-size:0.6rem;color:var(--muted);}
+.impl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.impl-card{border-radius:12px;padding:14px 16px;border-top:3px solid;}
+.impl-signal{font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.impl-bank{font-size:0.82rem;font-weight:700;margin-bottom:8px;}
+.impl-metric{font-size:0.63rem;color:var(--dim);line-height:1.62;}
+.impl-tag{display:inline-block;font-size:0.58rem;font-weight:700;padding:2px 7px;border-radius:4px;margin-bottom:6px;}
+@media(max-width:900px){.impl-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:680px){.impl-grid{grid-template-columns:1fr;}}
+
 /* ── FOOTER ── */
 .footer{text-align:center;padding:20px;font-size:0.67rem;color:var(--muted);border-top:1px solid var(--border);position:relative;z-index:1;}
 .footer a{color:var(--euro);text-decoration:none;}
@@ -508,12 +522,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   <div class="chart-card" style="margin-bottom:10px;">
     <div class="chart-header">
       <div>
-        <div class="chart-title">Bank Comparison Heatmap — 2024</div>
-        <div class="chart-subtitle">Key Performance Indicators · Green = better performance</div>
+        <div class="chart-title">3-Year KPI Evolution Heatmap (2022–2024)</div>
+        <div class="chart-subtitle">5 metrics · 4 banks · 3 years · Green = better, Red = weaker within peer group</div>
       </div>
       <span class="chart-tag">Peer Benchmark</span>
     </div>
-    <div id="chart-heatmap" style="height:280px;"></div>
+    <div id="chart-heatmap" style="height:320px;"></div>
   </div>
 
   <!-- ── ANALYST COMMENTARY ── -->
@@ -542,6 +556,45 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="cmnt-card cmnt-amber">
         <div class="cmnt-title" style="color:#f59e0b;">Alpha Bank: The Structural Laggard</div>
         <div class="cmnt-body">Alpha's ROE of 8.2% is the weakest among Greek peers and below the ~12% European banking average. Flat NII in 2024 (−0.3% YoY) and the sector's highest Loan-to-Deposit ratio (76.5%) limit near-term upside. M&A speculation — including reported Unicredit interest — reflects investor pressure for a structural fix. Until the cost base is addressed and the rate headwind to NII is absorbed, Alpha is likely to trade at a sustained discount to its three Greek peers on a price-to-book basis.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── INVESTMENT IMPLICATIONS ── -->
+  <div class="impl-section">
+    <div class="impl-header">
+      <span class="impl-badge">Investment Implications</span>
+      <span class="impl-sub">Based on FY2022–2024 fundamentals · What the data says for a buy-side or sell-side analyst</span>
+    </div>
+    <div class="impl-grid">
+
+      <div class="impl-card" style="background:rgba(0,103,177,0.07);border-top-color:#0067B1;">
+        <div class="impl-signal" style="color:#0067B1;">&#9650; Overweight</div>
+        <div class="impl-bank" style="color:#e8edf5;">NBG</div>
+        <div class="impl-tag" style="background:rgba(0,103,177,0.15);color:#60a5fa;">ROA 1.54% &bull; CET1 19.1%</div>
+        <div class="impl-metric">Sector leader on both profitability and capital strength — a rare combination. CET1 of 19.1% is 650bp above regulatory floor, creating buyback/dividend optionality. NIM at 3.14% is the highest in the peer group: best positioned if ECB rate cuts are gradual.</div>
+      </div>
+
+      <div class="impl-card" style="background:rgba(0,103,177,0.05);border-top-color:#3b82f6;">
+        <div class="impl-signal" style="color:#60a5fa;">&#8594; Hold</div>
+        <div class="impl-bank" style="color:#e8edf5;">Eurobank</div>
+        <div class="impl-tag" style="background:rgba(59,130,246,0.12);color:#93c5fd;">C/I 32.6% &bull; CET1 17.6%</div>
+        <div class="impl-metric">Best cost efficiency in the peer group and proven M&A execution (Hellenic Bank: +27% assets, accretive day-one). Fee income share provides partial insulation against NIM compression. Deserves a quality premium on P/B; already partially priced in.</div>
+      </div>
+
+      <div class="impl-card" style="background:rgba(226,35,26,0.06);border-top-color:#E2231A;">
+        <div class="impl-signal" style="color:#f87171;">&#9660; Underweight</div>
+        <div class="impl-bank" style="color:#e8edf5;">Piraeus Bank</div>
+        <div class="impl-tag" style="background:rgba(226,35,26,0.15);color:#fca5a5;">CET1 13.7% &bull; CoR at 10yr low</div>
+        <div class="impl-metric">2024 profit surge (+35%) driven largely by impairment release (€523m → €181m, −65%). Underlying earnings growth is closer to flat. Credit cost normalisation toward sector average (€300–400m) would reduce net profit by ~15–20%. Lowest CET1 limits capital return capacity.</div>
+      </div>
+
+      <div class="impl-card" style="background:rgba(247,166,0,0.05);border-top-color:#F7A600;">
+        <div class="impl-signal" style="color:#fbbf24;">&#8594; Monitor</div>
+        <div class="impl-bank" style="color:#e8edf5;">Alpha Bank</div>
+        <div class="impl-tag" style="background:rgba(247,166,0,0.12);color:#fde68a;">ROE 8.2% &bull; C/I 37.7%</div>
+        <div class="impl-metric">Structural laggard: ROE of 8.2% is the weakest in the peer group and below the ~12% European banking average. C/I improvement story is real (49% → 38%) but incomplete. If Alpha closes the gap to 33–34% C/I by 2026, earnings uplift would be ~€200m. Upside is recovery-dependent.</div>
       </div>
 
     </div>
@@ -875,41 +928,52 @@ function renderStatic() {
   }, PCFG);
 
   // Heatmap — Bank Comparison 2024
-  // Colors normalized per metric with direction awareness (green = better regardless of direction)
-  const hmData = runQuery('SELECT bank, roe, nim, cost_to_income, loan_to_deposit FROM kpis WHERE year=2024');
-  const hmByBank = {}; hmData.forEach(r => hmByBank[r.bank] = r);
-  const hmBanks = ACTIVE_BANKS.filter(b => hmByBank[b]);
-  const hmMetrics = ['ROE (%)', 'NIM (%)', 'Cost/Income (%)', 'L/D Ratio (%)'];
-  const hmRaw = [
-    hmBanks.map(b => +hmByBank[b].roe),
-    hmBanks.map(b => +hmByBank[b].nim),
-    hmBanks.map(b => +hmByBank[b].cost_to_income),
-    hmBanks.map(b => +hmByBank[b].loan_to_deposit)
-  ];
-  // 1 = higher is better, -1 = lower is better
-  const hmDir = [1, 1, -1, -1];
-  const hmScores = hmRaw.map((row, i) => {
-    const mn = Math.min(...row), mx = Math.max(...row);
-    const range = mx - mn || 1;
-    return row.map(v => hmDir[i] === 1 ? (v - mn) / range : 1 - (v - mn) / range);
+  // 3-year heatmap: x = bank-year cols (12), y = 5 metrics
+  const hmAllData = runQuery('SELECT bank, year, roe, nim, cost_to_income, cet1, loan_to_deposit FROM kpis ORDER BY bank, year');
+  const hmCols = [];
+  ACTIVE_BANKS.forEach(b => YEARS.forEach(y => { if(hmAllData.some(r=>r.bank===b&&r.year===y)) hmCols.push([b,y]); }));
+  const shortName = b => b.replace(' Bank','');
+  const hmXlabels = hmCols.map(([b,y],i) => {
+    const prev = i > 0 ? hmCols[i-1][0] : null;
+    return (b !== prev ? shortName(b) + '\n' : '') + String(y).slice(2);
   });
-
+  const hmMetrics5  = ['ROE (%)', 'NIM (%)', 'C/I (%)', 'CET1 (%)', 'L/D (%)'];
+  const hmDirs5     = [1, 1, -1, 1, -1];
+  const hmKeys5     = ['roe', 'nim', 'cost_to_income', 'cet1', 'loan_to_deposit'];
+  const hmFmts5     = [v=>v.toFixed(1), v=>v.toFixed(2), v=>v.toFixed(1), v=>v.toFixed(1), v=>v.toFixed(1)];
+  const hmRaw5 = hmKeys5.map(k => hmCols.map(([b,y]) => {
+    const r = hmAllData.find(r=>r.bank===b&&r.year===y);
+    return r ? +r[k] : null;
+  }));
+  const hmScores5 = hmRaw5.map((row, i) => {
+    const vals = row.filter(v=>v!==null);
+    const mn = Math.min(...vals), mx = Math.max(...vals), range = mx - mn || 1;
+    return row.map(v => v===null ? null : (hmDirs5[i]===1 ? (v-mn)/range : 1-(v-mn)/range));
+  });
+  const hmText5 = hmRaw5.map((row,mi) => row.map(v => v===null ? '' : hmFmts5[mi](v)));
+  // Vertical separators between banks
+  const nActive = ACTIVE_BANKS.filter(b=>hmAllData.some(r=>r.bank===b)).length;
+  const hmShapes = Array.from({length:nActive-1},(_,i)=>({
+    type:'line', x0:(i+1)*3-0.5, x1:(i+1)*3-0.5, y0:-0.5, y1:4.5,
+    xref:'x', yref:'y', line:{color:'rgba(255,255,255,0.18)',width:1.5,dash:'dot'}
+  }));
   Plotly.newPlot('chart-heatmap', [{
-    z: hmScores,
-    x: hmBanks,
-    y: hmMetrics,
+    z: hmScores5, x: hmXlabels, y: hmMetrics5,
     type: 'heatmap',
     colorscale: [[0,'#ef4444'],[0.5,'#fbbf24'],[1,'#059669']],
     zmin: 0, zmax: 1, showscale: false,
-    text: hmRaw.map(row => row.map(v => v.toFixed(1))),
-    texttemplate: '%{text}',
-    textfont: { size: 13, color: '#e8edf5' },
+    text: hmText5, texttemplate: '%{text}',
+    textfont: { size: 10.5, color: '#e8edf5' },
     hovertemplate: '<b>%{y}</b><br>%{x}: %{text}<extra></extra>'
   }], {
-    ...DARK,
-    margin: { l: 100, r: 20, t: 20, b: 60 },
-    yaxis: { ...DARK.yaxis, automargin: true },
-    xaxis: { ...DARK.xaxis, automargin: true, type:'category' }
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+    font:{family:'DM Sans,sans-serif', color:'#5a6580', size:10},
+    margin:{l:88,r:12,t:12,b:72},
+    yaxis:{gridcolor:'rgba(255,255,255,0.04)',zeroline:false,showline:false,
+           autorange:'reversed', tickfont:{size:10.5}},
+    xaxis:{type:'category',tickangle:-35,tickfont:{size:9.5},
+           gridcolor:'rgba(255,255,255,0.04)',zeroline:false,showline:false},
+    shapes: hmShapes
   }, PCFG);
 }
 
