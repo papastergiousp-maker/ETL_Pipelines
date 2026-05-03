@@ -482,7 +482,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="chart-card">
       <div class="chart-header">
         <div><div class="chart-title">Eurobank — Earning Asset Mix 2022→2024</div><div class="chart-subtitle">Loans + Investment Securities + Due from banks (correct NIM denominator)</div></div>
-        <span class="chart-tag">Securities +67% YoY 2024</span>
+        <span class="chart-tag">Securities +67% (2022→2024)</span>
       </div>
       <div id="chart-earn-assets" style="height:210px;"></div>
     </div>
@@ -493,7 +493,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="chart-card">
       <div class="chart-header">
         <div><div class="chart-title">Asset Composition</div><div class="chart-subtitle">% of Total Assets · FROM balance_sheet WHERE year=<span id="bs-year-lbl1">2024</span></div></div>
-        <span class="chart-tag">Securities +67% for Eurobank</span>
+        <span class="chart-tag">Eurobank most diversified</span>
       </div>
       <div id="chart-asset-comp" style="height:220px;"></div>
     </div>
@@ -1087,7 +1087,7 @@ function setYear(y) {
   const loanVals = BANKS.map(b => ldByBank[b] ? +(ldByBank[b].loans/1000).toFixed(1) : null);
   const depVals  = BANKS.map(b => ldByBank[b] ? +(ldByBank[b].deposits/1000).toFixed(1) : null);
   const ldVals   = BANKS.map(b => ldByBank[b] ? +ldByBank[b].loan_to_deposit : null);
-  document.getElementById('ld-tag-2024').textContent = `${y} data`;
+  document.getElementById('ld-tag-2024').textContent = `Avg L/D ${y}: ${Math.round(activeRows.reduce((s,r)=>s+(+r.loan_to_deposit||0),0)/(activeRows.length||1))}%`;
   Plotly.react('chart-loans-dep',[
     { x:BANKS, y:loanVals, name:'Loans (€bn)', type:'bar',
       marker:{color:'rgba(59,130,246,0.85)'},
