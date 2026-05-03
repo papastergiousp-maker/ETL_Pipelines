@@ -921,17 +921,33 @@ function setYear(y) {
     }
   });
 
-  // Loans vs Deposits grouped bar — from kpis table (loans/deposits columns)
-  const ldKpis   = runQuery('SELECT bank, loans, deposits FROM kpis WHERE year=?', [y]);
+  // Loans vs Deposits + L/D ratio — dual-axis: bars (€bn) + ratio line (%)
+  const ldKpis   = runQuery('SELECT bank, loans, deposits, loan_to_deposit FROM kpis WHERE year=?', [y]);
   const loanVals = BANKS.map(b => { const r=ldKpis.find(r=>r.bank===b); return r?+(r.loans/1000).toFixed(1):null; });
   const depVals  = BANKS.map(b => { const r=ldKpis.find(r=>r.bank===b); return r?+(r.deposits/1000).toFixed(1):null; });
+  const ldVals   = BANKS.map(b => { const r=ldKpis.find(r=>r.bank===b); return r?+r.loan_to_deposit:null; });
   document.getElementById('ld-tag-2024').textContent = `L/D Ratio ${y}`;
-  Plotly.react('chart-loans-dep',[
-    { x:BANKS, y:loanVals, name:'Loans', type:'bar', marker:{color:'rgba(59,130,246,0.8)'}, hovertemplate:'<b>%{x}</b><br>Loans: €%{y:.1f}bn<extra></extra>' },
-    { x:BANKS, y:depVals,  name:'Deposits', type:'bar', marker:{color:'rgba(167,139,250,0.8)'}, hovertemplate:'<b>%{x}</b><br>Deposits: €%{y:.1f}bn<extra></extra>' }
+  Plotly.newPlot('chart-loans-dep',[
+    { x:BANKS, y:loanVals, name:'Loans (€bn)', type:'bar',
+      marker:{color:'rgba(59,130,246,0.85)'}, yaxis:'y',
+      hovertemplate:'<b>%{x}</b><br>Loans: €%{y:.1f}bn<extra></extra>' },
+    { x:BANKS, y:depVals, name:'Deposits (€bn)', type:'bar',
+      marker:{color:'rgba(167,139,250,0.85)'}, yaxis:'y',
+      hovertemplate:'<b>%{x}</b><br>Deposits: €%{y:.1f}bn<extra></extra>' },
+    { x:BANKS, y:ldVals, name:'L/D Ratio', type:'scatter', mode:'lines+markers+text',
+      line:{color:'#fbbf24',width:2.5}, marker:{size:8,color:'#fbbf24'}, yaxis:'y2',
+      text:ldVals.map(v=>v?v.toFixed(1)+'%':null), textposition:'top center',
+      textfont:{size:10,color:'#fbbf24'},
+      hovertemplate:'<b>%{x}</b><br>L/D Ratio: %{y:.1f}%<extra></extra>' },
   ],{
-    ...DLEG, barmode:'group', bargap:0.25, bargroupgap:0.05, margin:{l:44,r:8,t:8,b:52},
-    yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'bn'}
+    ...DLEG, barmode:'group', bargap:0.25, bargroupgap:0.05, margin:{l:44,r:52,t:8,b:52},
+    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'bn'},
+    yaxis2:{...DARK.yaxis, ticksuffix:'%', range:[50,90], overlaying:'y', side:'right', showgrid:false},
+    legend:{orientation:'h', x:0, y:-0.28, font:{size:9,color:'#8892a8'}},
+    shapes:[{type:'line',x0:-0.5,x1:3.5,y0:80,y1:80,yref:'y2',
+             line:{color:'rgba(239,68,68,0.35)',width:1.5,dash:'dot'}}],
+    annotations:[{x:3.5,y:80,yref:'y2',xanchor:'right',yanchor:'bottom',
+                  text:'80% threshold',font:{size:9,color:'rgba(239,68,68,0.55)'},showarrow:false,yshift:3}]
   }, PCFG);
 
   // L/D ratio bar
