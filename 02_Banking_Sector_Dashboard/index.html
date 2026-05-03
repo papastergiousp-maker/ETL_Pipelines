@@ -40,6 +40,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .year-tabs{display:flex;gap:2px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:3px;}
 .year-tab{padding:4px 12px;border-radius:6px;font-size:0.73rem;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .year-tab.active{background:var(--euro);color:white;}
+.bank-tabs{display:flex;gap:4px;}
+.bank-tab{padding:3px 10px;border-radius:6px;font-size:0.70rem;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,255,255,0.10);background:transparent;color:var(--muted);transition:all 0.18s;font-family:'DM Sans',sans-serif;}
+.bank-tab.active{border-color:var(--bc,#3b82f6);color:var(--bc,#3b82f6);}
+.bank-tab:not(.active){opacity:0.38;}
 .year-tab:hover:not(.active){color:var(--text);}
 .live-pill{display:flex;align-items:center;gap:5px;font-size:0.65rem;font-weight:700;letter-spacing:0.8px;color:var(--up);background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:20px;padding:3px 10px;white-space:nowrap;}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--up);animation:blink 2s infinite;}
@@ -215,10 +219,18 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
   <div class="header-right">
-    <div class="year-tabs">
-      <button class="year-tab" onclick="setYear(2022)">2022</button>
-      <button class="year-tab" onclick="setYear(2023)">2023</button>
-      <button class="year-tab active" onclick="setYear(2024)">2024</button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="bank-tabs">
+        <button class="bank-tab active" data-bank="Eurobank" style="--bc:#3b82f6" onclick="toggleBank('Eurobank')">Eurobank</button>
+        <button class="bank-tab active" data-bank="Alpha Bank" style="--bc:#10b981" onclick="toggleBank('Alpha Bank')">Alpha</button>
+        <button class="bank-tab active" data-bank="Piraeus Bank" style="--bc:#f59e0b" onclick="toggleBank('Piraeus Bank')">Piraeus</button>
+        <button class="bank-tab active" data-bank="NBG" style="--bc:#a78bfa" onclick="toggleBank('NBG')">NBG</button>
+      </div>
+      <div class="year-tabs">
+        <button class="year-tab" onclick="setYear(2022)">2022</button>
+        <button class="year-tab" onclick="setYear(2023)">2023</button>
+        <button class="year-tab active" onclick="setYear(2024)">2024</button>
+      </div>
     </div>
     <div class="live-pill"><div class="live-dot"></div><span>SQLite LIVE</span></div>
   </div>
@@ -632,6 +644,9 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 const DB_PATH  = 'data/greek_banking_final.db';
 const BANKS    = ['Eurobank','Alpha Bank','Piraeus Bank','NBG'];
 const COLORS   = ['#3b82f6','#10b981','#f59e0b','#a78bfa'];
+const bankColor = b => COLORS[BANKS.indexOf(b)];
+let   ACTIVE_BANKS = [...BANKS];
+let   CURRENT_YEAR  = 2024;
 const PREFIXES = ['euro','alpha','pir','nbg'];
 const YEARS    = [2022,2023,2024];
 const PCFG     = { responsive:true, displayModeBar:false };
@@ -711,8 +726,8 @@ function renderStatic() {
 
   // NII trend
   Plotly.newPlot('chart-nii',
-    BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nii')), name:b, type:'scatter', mode:'lines+markers',
-      line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nii')), name:b, type:'scatter', mode:'lines+markers',
+      line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>NII: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
 
@@ -722,7 +737,7 @@ function renderStatic() {
   document.getElementById('total-tag').textContent = `€${(tot/1000).toFixed(0)}bn total`;
   Plotly.newPlot('chart-share',[{
     values:sh.map(r=>r.total_assets), labels:sh.map(r=>r.bank), type:'pie', hole:0.58,
-    marker:{colors:sh.map(r=>COLORS[BANKS.indexOf(r.bank)])}, textinfo:'none',
+    marker:{colors:sh.map(r=>bankColor(r.bank))}, textinfo:'none',
     hovertemplate:'<b>%{label}</b><br>€%{value:.0f}m · %{percent}<extra></extra>'
   }],{
     ...DARK, margin:{l:10,r:10,t:8,b:10}, showlegend:true,
@@ -735,16 +750,16 @@ function renderStatic() {
 
   // ROE
   Plotly.newPlot('chart-roe',
-    BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'roe')), name:b, type:'bar',
-      marker:{color:COLORS[i],opacity:0.85},
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'roe')), name:b, type:'bar',
+      marker:{color:bankColor(b),opacity:0.85},
       hovertemplate:`<b>${b}</b><br>ROE: %{y:.1f}%<extra></extra>` })),
     { ...DLEG, barmode:'group', bargap:0.2, bargroupgap:0.08, margin:{l:44,r:8,t:8,b:52},
       yaxis:{...DARK.yaxis,ticksuffix:'%'} }, PCFG);
 
   // Cost-to-Income
   Plotly.newPlot('chart-ci',
-    BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'cost_to_income')), name:b, type:'scatter', mode:'lines+markers',
-      line:{color:COLORS[i],width:2.5}, marker:{color:COLORS[i],size:6},
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'cost_to_income')), name:b, type:'scatter', mode:'lines+markers',
+      line:{color:bankColor(b),width:2.5}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>C/I: %{y:.1f}%<extra></extra>` })),
     { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,ticksuffix:'%',autorange:'reversed'},
       shapes:[{type:'line',x0:2021.8,x1:2024.2,y0:40,y1:40,line:{color:'rgba(239,68,68,0.3)',width:1.5,dash:'dot'}}],
@@ -753,8 +768,8 @@ function renderStatic() {
 
   // Net Profit
   Plotly.newPlot('chart-profit',
-    BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'net_profit')), name:b, type:'bar',
-      marker:{color:COLORS[i],opacity:0.85},
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'net_profit')), name:b, type:'bar',
+      marker:{color:bankColor(b),opacity:0.85},
       hovertemplate:`<b>${b}</b><br>Profit: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, barmode:'group', bargap:0.2, bargroupgap:0.08, margin:{l:44,r:8,t:8,b:52},
       yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
@@ -762,9 +777,9 @@ function renderStatic() {
   // Impairments — from income_statement table
   const imp = runQuery(`SELECT bank, year, value FROM income_statement WHERE metric='Impairment losses on loans' ORDER BY bank, year`);
   Plotly.newPlot('chart-impairment',
-    BANKS.map((b,i)=>({ x:YEARS,
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS,
       y:YEARS.map(y=>{ const r=imp.find(r=>r.bank===b&&r.year===y); return r?Math.abs(r.value):null; }),
-      name:b, type:'bar', marker:{color:COLORS[i],opacity:0.85},
+      name:b, type:'bar', marker:{color:bankColor(b),opacity:0.85},
       hovertemplate:`<b>${b}</b><br>Impairments: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, barmode:'group', bargap:0.2, bargroupgap:0.08, margin:{l:44,r:8,t:8,b:52},
       yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
@@ -772,18 +787,18 @@ function renderStatic() {
   // Fee income — from income_statement table
   const fee = runQuery(`SELECT bank, year, value FROM income_statement WHERE metric='Net banking fee and commission income' ORDER BY bank, year`);
   Plotly.newPlot('chart-fee',
-    BANKS.map((b,i)=>({ x:YEARS,
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS,
       y:YEARS.map(y=>{ const r=fee.find(r=>r.bank===b&&r.year===y); return r?r.value:null; }),
       name:b, type:'scatter', mode:'lines+markers',
-      line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
+      line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>Fees: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
 
   // CET1 Capital Adequacy — SELECT bank, year, cet1 FROM kpis ORDER BY year
   Plotly.newPlot('chart-cet1', [
-    ...BANKS.map((b,i) => ({
+    ...ACTIVE_BANKS.map((b,i) => ({
       x:YEARS, y:YEARS.map(y=>kv(b,y,'cet1')), name:b, type:'scatter', mode:'lines+markers',
-      line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
+      line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>CET1: %{y:.1f}%<extra></extra>`
     })),
     { x:YEARS, y:[10.5,10.5,10.5], name:'SREP floor ~10.5%', type:'scatter', mode:'lines',
@@ -796,8 +811,8 @@ function renderStatic() {
 
   // NIM trend
   Plotly.newPlot('chart-nim',
-    BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nim')), name:b, type:'scatter', mode:'lines+markers',
-      line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
+    ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nim')), name:b, type:'scatter', mode:'lines+markers',
+      line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>NIM: %{y:.2f}%<extra></extra>` })),
     { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,ticksuffix:'%'} }, PCFG);
 
@@ -838,7 +853,7 @@ function renderStatic() {
   // Colors normalized per metric with direction awareness (green = better regardless of direction)
   const hmData = runQuery('SELECT bank, roe, nim, cost_to_income, loan_to_deposit FROM kpis WHERE year=2024');
   const hmByBank = {}; hmData.forEach(r => hmByBank[r.bank] = r);
-  const hmBanks = BANKS.filter(b => hmByBank[b]);
+  const hmBanks = ACTIVE_BANKS.filter(b => hmByBank[b]);
   const hmMetrics = ['ROE (%)', 'NIM (%)', 'Cost/Income (%)', 'L/D Ratio (%)'];
   const hmRaw = [
     hmBanks.map(b => +hmByBank[b].roe),
@@ -875,6 +890,7 @@ function renderStatic() {
 
 // ─── YEAR FILTER ──────────────────────────────────────────────────────────────
 function setYear(y) {
+  CURRENT_YEAR = y;
   document.querySelectorAll('.year-tab').forEach(b => b.classList.toggle('active', +b.textContent===y));
   document.getElementById('sql-year').textContent         = y;
   document.getElementById('ld-year-lbl').textContent      = y;
@@ -886,6 +902,7 @@ function setYear(y) {
   // Live query for this year
   const rows     = runQuery('SELECT * FROM kpis WHERE year=? ORDER BY nii DESC', [y]);
   const prevRows = y > 2022 ? runQuery('SELECT * FROM kpis WHERE year=?', [y-1]) : [];
+  const activeRows = rows.filter(r => ACTIVE_BANKS.includes(r.bank));
 
   // Update KPI cards
   BANKS.forEach((bank,i) => {
@@ -953,7 +970,7 @@ function setYear(y) {
   Plotly.react('chart-ld',[{
     x:ldRows.map(r=>r.loan_to_deposit), y:ldRows.map(r=>r.bank),
     type:'bar', orientation:'h',
-    marker:{color:ldRows.map(r=>COLORS[BANKS.indexOf(r.bank)])},
+    marker:{color:ldRows.map(r=>bankColor(r.bank))},
     text:ldRows.map(r=>r.loan_to_deposit.toFixed(1)+'%'), textposition:'outside',
     textfont:{size:11,color:'#8892a8'},
     hovertemplate:'<b>%{y}</b><br>L/D: %{x:.1f}%<extra></extra>'
@@ -966,9 +983,9 @@ function setYear(y) {
   }, PCFG);
 
   // Ranking table
-  document.getElementById('rank-tbody').innerHTML = rows.map(r=>`
+  document.getElementById('rank-tbody').innerHTML = activeRows.map(r=>`
     <tr>
-      <td><span class="bank-dot" style="background:${COLORS[BANKS.indexOf(r.bank)]}"></span>${r.bank}</td>
+      <td><span class="bank-dot" style="background:${bankColor(r.bank)}"></span>${r.bank}</td>
       <td><strong>${(+r.nii).toLocaleString('en',{maximumFractionDigits:0})}</strong></td>
       <td>${(+r.roe).toFixed(1)}</td>
       <td>${(+r.cost_to_income).toFixed(1)}</td>
@@ -977,20 +994,21 @@ function setYear(y) {
     </tr>`).join('');
 
   // NIM mini bars
-  const nimR = runQuery('SELECT bank, nim FROM kpis WHERE year=? ORDER BY nim DESC',[y]);
-  const maxN = Math.max(...nimR.map(r=>r.nim));
+  const nimR = runQuery('SELECT bank, nim FROM kpis WHERE year=? ORDER BY nim DESC',[y])
+    .filter(r => ACTIVE_BANKS.includes(r.bank));
+  const maxN = nimR.length ? Math.max(...nimR.map(r=>r.nim)) : 1;
   document.getElementById('nim-bars').innerHTML = nimR.map(r=>`
     <div style="display:flex;align-items:center;gap:8px;">
       <div style="font-size:0.67rem;width:76px;color:var(--dim);white-space:nowrap;">${r.bank.replace(' Bank','')}</div>
-      <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${(r.nim/maxN*100).toFixed(0)}%;background:${COLORS[BANKS.indexOf(r.bank)]}"></div></div>
-      <div style="font-size:0.67rem;font-family:'DM Mono',monospace;color:${COLORS[BANKS.indexOf(r.bank)]}">${(+r.nim).toFixed(2)}%</div>
+      <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${(r.nim/maxN*100).toFixed(0)}%;background:${bankColor(r.bank)}"></div></div>
+      <div style="font-size:0.67rem;font-family:'DM Mono',monospace;color:${bankColor(r.bank)}">${(+r.nim).toFixed(2)}%</div>
     </div>`).join('');
 
   // ── SECTOR TOTALS ──────────────────────────────────────────────────────────
-  const sNii    = rows.reduce((s,r)=>s+(+r.nii||0),0);
-  const sAssets = rows.reduce((s,r)=>s+(+r.total_assets||0),0);
-  const sProfit = rows.reduce((s,r)=>s+(+r.net_profit||0),0);
-  const avgRoe  = rows.reduce((s,r)=>s+(+r.roe||0),0)/rows.length;
+  const sNii    = activeRows.reduce((s,r)=>s+(+r.nii||0),0);
+  const sAssets = activeRows.reduce((s,r)=>s+(+r.total_assets||0),0);
+  const sProfit = activeRows.reduce((s,r)=>s+(+r.net_profit||0),0);
+  const avgRoe  = activeRows.length ? activeRows.reduce((s,r)=>s+(+r.roe||0),0)/activeRows.length : 0;
   document.getElementById('s-nii').textContent    = `€${(sNii/1000).toFixed(1)}bn`;
   document.getElementById('s-assets').textContent = `€${(sAssets/1000).toFixed(0)}bn`;
   document.getElementById('s-profit').textContent = `€${(sProfit/1000).toFixed(1)}bn`;
@@ -999,18 +1017,17 @@ function setYear(y) {
   // ── PROFITABILITY MATRIX ────────────────────────────────────────────────────
   const maxAssets = Math.max(...rows.map(r=>+r.total_assets));
   Plotly.react('chart-matrix',
-    rows.map(r=>{
-      const ci=BANKS.indexOf(r.bank);
+    activeRows.map(r=>{
       return {
         x:[+r.cost_to_income], y:[+r.roe],
         mode:'markers+text', type:'scatter', name:r.bank,
         text:[r.bank.replace(' Bank','')],
         textposition:'top center',
-        textfont:{size:10.5,color:COLORS[ci],family:'DM Sans,sans-serif'},
+        textfont:{size:10.5,color:bankColor(r.bank),family:'DM Sans,sans-serif'},
         marker:{
           size:[Math.sqrt(+r.total_assets/maxAssets)*58+22],
           sizemode:'diameter',
-          color:COLORS[ci], opacity:0.72,
+          color:bankColor(r.bank), opacity:0.72,
           line:{color:'rgba(255,255,255,0.22)',width:1.5}
         },
         hovertemplate:`<b>${r.bank}</b><br>ROE: ${(+r.roe).toFixed(1)}%<br>C/I: ${(+r.cost_to_income).toFixed(1)}%<br>Assets: €${((+r.total_assets)/1000).toFixed(0)}bn<extra></extra>`
@@ -1095,6 +1112,19 @@ function setYear(y) {
     xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,100],dtick:20},
     yaxis:{...DARK.yaxis,gridcolor:'transparent'}
   }, PCFG);
+}
+
+function toggleBank(bank) {
+  if (ACTIVE_BANKS.includes(bank)) {
+    if (ACTIVE_BANKS.length <= 1) return;
+    ACTIVE_BANKS = ACTIVE_BANKS.filter(b => b !== bank);
+  } else {
+    ACTIVE_BANKS = BANKS.filter(b => ACTIVE_BANKS.includes(b) || b === bank);
+  }
+  document.querySelectorAll('.bank-tab').forEach(btn =>
+    btn.classList.toggle('active', ACTIVE_BANKS.includes(btn.dataset.bank)));
+  renderStatic();
+  setYear(CURRENT_YEAR);
 }
 
 init();
