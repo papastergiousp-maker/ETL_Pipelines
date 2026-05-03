@@ -639,7 +639,7 @@ const DARK = {
   paper_bgcolor:'transparent', plot_bgcolor:'transparent',
   font:{ family:'DM Sans,sans-serif', color:'#5a6580', size:10.5 },
   margin:{ l:44, r:8, t:8, b:32 },
-  xaxis:{ gridcolor:'rgba(255,255,255,0.04)', zeroline:false, showline:false },
+  xaxis:{ gridcolor:'rgba(255,255,255,0.04)', zeroline:false, showline:false, dtick:1, tickformat:'d' },
   yaxis:{ gridcolor:'rgba(255,255,255,0.04)', zeroline:false, showline:false },
   showlegend:false,
 };
@@ -837,13 +837,14 @@ function renderStatic() {
   // Heatmap — Bank Comparison 2024
   // Colors normalized per metric with direction awareness (green = better regardless of direction)
   const hmData = runQuery('SELECT bank, roe, nim, cost_to_income, loan_to_deposit FROM kpis WHERE year=2024');
-  const hmBanks = hmData.map(r => r.bank);
+  const hmByBank = {}; hmData.forEach(r => hmByBank[r.bank] = r);
+  const hmBanks = BANKS.filter(b => hmByBank[b]);
   const hmMetrics = ['ROE (%)', 'NIM (%)', 'Cost/Income (%)', 'L/D Ratio (%)'];
   const hmRaw = [
-    hmData.map(r => +r.roe),
-    hmData.map(r => +r.nim),
-    hmData.map(r => +r.cost_to_income),
-    hmData.map(r => +r.loan_to_deposit)
+    hmBanks.map(b => +hmByBank[b].roe),
+    hmBanks.map(b => +hmByBank[b].nim),
+    hmBanks.map(b => +hmByBank[b].cost_to_income),
+    hmBanks.map(b => +hmByBank[b].loan_to_deposit)
   ];
   // 1 = higher is better, -1 = lower is better
   const hmDir = [1, 1, -1, -1];
@@ -868,7 +869,7 @@ function renderStatic() {
     ...DARK,
     margin: { l: 100, r: 20, t: 20, b: 60 },
     yaxis: { ...DARK.yaxis, automargin: true },
-    xaxis: { ...DARK.xaxis, automargin: true }
+    xaxis: { ...DARK.xaxis, automargin: true, type:'category' }
   }, PCFG);
 }
 
@@ -922,15 +923,15 @@ function setYear(y) {
 
   // Loans vs Deposits grouped bar — from balance_sheet table
   const bs = runQuery(`SELECT bank, metric, value FROM balance_sheet WHERE year=? AND metric IN ('Loans and advances to customers','Deposits from customers')`, [y]);
-  const loanVals = BANKS.map(b => { const r=bs.find(r=>r.bank===b&&r.metric==='Loans and advances to customers'); return r?r.value:null; });
-  const depVals  = BANKS.map(b => { const r=bs.find(r=>r.bank===b&&r.metric==='Deposits from customers');        return r?r.value:null; });
+  const loanVals = BANKS.map(b => { const r=bs.find(r=>r.bank===b&&r.metric==='Loans and advances to customers'); return r?+(r.value/1000).toFixed(1):null; });
+  const depVals  = BANKS.map(b => { const r=bs.find(r=>r.bank===b&&r.metric==='Deposits from customers');        return r?+(r.value/1000).toFixed(1):null; });
   document.getElementById('ld-tag-2024').textContent = `L/D Ratio ${y}`;
   Plotly.react('chart-loans-dep',[
-    { x:BANKS, y:loanVals, name:'Loans', type:'bar', marker:{color:'rgba(59,130,246,0.8)'}, hovertemplate:'<b>%{x}</b><br>Loans: €%{y:.0f}m<extra></extra>' },
-    { x:BANKS, y:depVals,  name:'Deposits', type:'bar', marker:{color:'rgba(167,139,250,0.8)'}, hovertemplate:'<b>%{x}</b><br>Deposits: €%{y:.0f}m<extra></extra>' }
+    { x:BANKS, y:loanVals, name:'Loans', type:'bar', marker:{color:'rgba(59,130,246,0.8)'}, hovertemplate:'<b>%{x}</b><br>Loans: €%{y:.1f}bn<extra></extra>' },
+    { x:BANKS, y:depVals,  name:'Deposits', type:'bar', marker:{color:'rgba(167,139,250,0.8)'}, hovertemplate:'<b>%{x}</b><br>Deposits: €%{y:.1f}bn<extra></extra>' }
   ],{
     ...DLEG, barmode:'group', bargap:0.25, bargroupgap:0.05, margin:{l:44,r:8,t:8,b:52},
-    yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'}
+    yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'bn'}
   }, PCFG);
 
   // L/D ratio bar
@@ -944,7 +945,7 @@ function setYear(y) {
     hovertemplate:'<b>%{y}</b><br>L/D: %{x:.1f}%<extra></extra>'
   }],{
     ...DARK, margin:{l:90,r:54,t:8,b:32},
-    xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,96]},
+    xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,96],dtick:20},
     yaxis:{...DARK.yaxis,gridcolor:'transparent'},
     shapes:[{type:'line',x0:80,x1:80,y0:-0.5,y1:3.5,line:{color:'rgba(239,68,68,0.4)',width:1.5,dash:'dot'}}],
     annotations:[{x:80,y:3.6,text:'80% threshold',font:{size:9,color:'#ef4444'},showarrow:false}]
@@ -1007,7 +1008,7 @@ function setYear(y) {
       xaxis:{...DARK.xaxis,
         title:{text:'Cost-to-Income %  (← lower = more efficient)',font:{size:9.5,color:'#5a6580'}},
         ticksuffix:'%', dtick:10,
-        range:[0,Math.max(...rows.map(r=>+r.cost_to_income))*1.35]
+        range:[20,50]
       },
       yaxis:{...DARK.yaxis,
         title:{text:'Return on Equity %  (↑ higher = more profitable)',font:{size:9.5,color:'#5a6580'}},
@@ -1052,7 +1053,7 @@ function setYear(y) {
     ...DARK, barmode:'stack',
     margin:{l:90,r:20,t:8,b:44},
     showlegend:true, legend:{orientation:'h',x:0,y:-0.3,font:{size:9,color:'#8892a8'}},
-    xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,100]},
+    xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,100],dtick:20},
     yaxis:{...DARK.yaxis,gridcolor:'transparent'}
   }, PCFG);
 
@@ -1077,7 +1078,7 @@ function setYear(y) {
     ...DARK, barmode:'stack',
     margin:{l:90,r:20,t:8,b:44},
     showlegend:true, legend:{orientation:'h',x:0,y:-0.3,font:{size:9,color:'#8892a8'}},
-    xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,100]},
+    xaxis:{...DARK.xaxis,ticksuffix:'%',range:[0,100],dtick:20},
     yaxis:{...DARK.yaxis,gridcolor:'transparent'}
   }, PCFG);
 }
