@@ -11,6 +11,14 @@
 
 ---
 
+### Why I built this
+
+Greek banking sector analysis requires sourcing data from 12 separate PDFs in three languages, reconciling non-standardised line items across four banks, and building the analytical framework from first principles — no Bloomberg terminal, no paid data vendor. I built this to demonstrate that investment-grade equity research is reproducible with open-source tools and public data, and to apply the kind of financial modelling I'd do as a junior analyst at a fund or advisory firm.
+
+The specific question I was trying to answer: *"Which Greek bank is best positioned heading into the ECB rate-cutting cycle — and which one is the most earnings-quality risk?"* The answer is in `03_analysis/00_executive_summary.ipynb`.
+
+---
+
 ### Headline result
 
 **Sector NII grew +55% (2022→2024)** driven almost entirely by ECB rate hikes — the NIM × Assets decomposition (notebook `03_analysis/04`) confirms that the rate/spread effect accounted for >90% of NII growth in 2022→2023. Yet under EBA-style stress (+200bps cost of risk, −15% loan volume, −50bps NIM), Piraeus Bank's CET1 would fall to 9.9% — below the ECB regulatory minimum of 10.5%.
@@ -200,6 +208,7 @@ Greek_Banking_Sector_Analysis/
 │   └── rebuild_db.py              ← Rebuilds SQLite from CSVs
 │
 ├── 03_analysis/                   ← Investment-grade analytical layer
+│   ├── 00_executive_summary.ipynb      ← Investment implications, NIM scenarios, risk matrix
 │   ├── 01_dupont_decomposition.ipynb   ← 5-step banking DuPont (all 4 banks × 3 years)
 │   ├── 02_camels_scorecard.ipynb       ← CAMELS 1–5 rating heatmap
 │   ├── 03_peer_benchmarking.ipynb      ← Z-score, percentile ranks, radar charts
@@ -309,6 +318,20 @@ cd 04_forecasting && jupyter notebook  # forecasting
 See [DATA_DICTIONARY.md](02_Banking_Sector_Dashboard/data/DATA_DICTIONARY.md) for detailed field descriptions.
 
 ---
+
+---
+
+## What I learned / would do differently
+
+**What worked well:**
+- Treating the data extraction as a proper ETL (not just manual copy-paste) forced early decisions about data quality that paid off later
+- The pytest suite caught three real calculation bugs before they reached the dashboard — validation is not optional in financial modelling
+- Building the browser dashboard with `sql.js` (client-side SQLite) was a deliberate choice: zero server cost, zero maintenance, easy to share — the right tool for a static portfolio artefact
+
+**What I'd do differently with more time:**
+- Replace the annual-only data with quarterly reports — this would enable proper rate/volume decomposition and a more accurate NIM forecast
+- Add NPL ratios and payout ratios as standalone KPIs — both are critical for bank credit analysis and were omitted only because the data was not cleanly extractable from the PDFs
+- Integrate market data (share price, P/B ratio) via a free API — the analysis currently stops at accounting metrics; a P/B bridge would complete the valuation picture
 
 ---
 

@@ -729,7 +729,7 @@ function renderStatic() {
     ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nii')), name:b, type:'scatter', mode:'lines+markers',
       line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>NII: €%{y:.0f}m<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
+    { ...DLEG, margin:{l:44,r:8,t:24,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'},annotations:[{x:2022,y:1.10,xref:'x',yref:'paper',text:'ECB hikes begin',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},{x:2023,y:1.10,xref:'x',yref:'paper',text:'Peak 4.50%',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},{x:2024,y:1.10,xref:'x',yref:'paper',text:'ECB cuts begin',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},]}, PCFG);
 
   // Market share donut
   const sh = runQuery('SELECT bank, total_assets FROM kpis WHERE year=2024');
@@ -792,7 +792,7 @@ function renderStatic() {
       name:b, type:'scatter', mode:'lines+markers',
       line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>Fees: €%{y:.0f}m<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
+    { ...DLEG, margin:{l:44,r:8,t:24,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'},annotations:[{x:2022,y:1.10,xref:'x',yref:'paper',text:'ECB hikes begin',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},{x:2023,y:1.10,xref:'x',yref:'paper',text:'Peak 4.50%',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},{x:2024,y:1.10,xref:'x',yref:'paper',text:'ECB cuts begin',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},]}, PCFG);
 
   // CET1 Capital Adequacy — SELECT bank, year, cet1 FROM kpis ORDER BY year
   Plotly.newPlot('chart-cet1', [
@@ -814,7 +814,7 @@ function renderStatic() {
     ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nim')), name:b, type:'scatter', mode:'lines+markers',
       line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
       hovertemplate:`<b>${b}</b><br>NIM: %{y:.2f}%<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,ticksuffix:'%'} }, PCFG);
+    { ...DLEG, margin:{l:44,r:8,t:24,b:52}, yaxis:{...DARK.yaxis,ticksuffix:'%'},annotations:[{x:2022,y:1.10,xref:'x',yref:'paper',text:'ECB hikes begin',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},{x:2023,y:1.10,xref:'x',yref:'paper',text:'Peak 4.50%',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},{x:2024,y:1.10,xref:'x',yref:'paper',text:'ECB cuts begin',showarrow:false,font:{size:7.5,color:'rgba(255,255,255,0.28)'},xanchor:'center'},]}, PCFG);
 
   // TLTRO repayment — Eurobank ECB borrowing 2022→2024
   Plotly.newPlot('chart-tltro', [{
