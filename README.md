@@ -290,25 +290,50 @@ All figures in € million.
 3. **NIM denominator**: Uses year-end total assets rather than average earning assets — understates NIM relative to bank-reported figures
 4. **NPL data**: Non-performing loan ratios not included in current dataset
 
-### Reproducibility
+### Running from scratch
+
+**Prerequisites:** Python 3.9+, pip, Jupyter
+
+> **Note on raw data:** The 12 annual report PDFs are not included in this repo (file size). Download them from each bank's investor relations portal (links in Data Sources above) and place them in `02_Banking_Sector_Dashboard/data/raw/`. The processed CSVs and SQLite DB **are** included — steps 1–2 below can be skipped if you trust the existing processed data.
 
 ```bash
-# Install dependencies
+# 1. Clone and install
+git clone https://github.com/papastergiousp-maker/ETL_Pipelines.git
+cd ETL_Pipelines
 pip install -r requirements.txt
 
-# Run data quality tests
-pytest tests/ -v
-# → 26 passed in ~1s
+# 2. (Optional) Re-run the PDF extraction pipeline
+jupyter nbconvert --to notebook --execute \
+  02_Banking_Sector_Dashboard/notebooks/01_extract.ipynb
+# → writes kpis_final.csv, income_statement_final.csv, balance_sheet_final.csv
+#   to 02_Banking_Sector_Dashboard/data/processed/
 
-# Rebuild SQLite from processed CSVs
+# 3. Rebuild the SQLite database from processed CSVs
 python 02_Banking_Sector_Dashboard/rebuild_db.py
+# → writes greek_banking_final.db (~120 KB)
 
-# Run notebooks (in order)
-cd 03_analysis && jupyter notebook   # analytical layer
-cd 04_forecasting && jupyter notebook  # forecasting
+# 4. Validate data quality (26 tests, ~1s)
+pytest tests/ -v
+# Expected: 26 passed
 
-# Open the dashboard (no server needed)
-# Open 02_Banking_Sector_Dashboard/index.html in any browser
+# 5. Run the analytical notebooks (execute in order)
+jupyter nbconvert --to notebook --execute --inplace 03_analysis/00_executive_summary.ipynb
+jupyter nbconvert --to notebook --execute --inplace 03_analysis/01_dupont_decomposition.ipynb
+jupyter nbconvert --to notebook --execute --inplace 03_analysis/02_camels_scorecard.ipynb
+jupyter nbconvert --to notebook --execute --inplace 03_analysis/03_peer_benchmarking.ipynb
+jupyter nbconvert --to notebook --execute --inplace 03_analysis/04_nii_rate_volume_walk.ipynb
+jupyter nbconvert --to notebook --execute --inplace 03_analysis/05_earnings_quality.ipynb
+# Each notebook prints: ✅ All checks passed
+
+# 6. Run the forecasting notebooks
+jupyter nbconvert --to notebook --execute --inplace 04_forecasting/01_forecast_nii_2025_2026.ipynb
+jupyter nbconvert --to notebook --execute --inplace 04_forecasting/02_stress_test.ipynb
+
+# 7. Open the dashboard (no server needed — runs entirely client-side via sql.js)
+#    Windows:  start 02_Banking_Sector_Dashboard/index.html
+#    macOS:    open  02_Banking_Sector_Dashboard/index.html
+#    Linux:    xdg-open 02_Banking_Sector_Dashboard/index.html
+#    Or visit: https://phytai.com/dashboard
 ```
 
 ---
