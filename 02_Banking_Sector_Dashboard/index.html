@@ -921,10 +921,10 @@ function setYear(y) {
     }
   });
 
-  // Loans vs Deposits grouped bar — from balance_sheet table
-  const bs = runQuery(`SELECT bank, metric, value FROM balance_sheet WHERE year=? AND metric IN ('Loans and advances to customers','Deposits from customers')`, [y]);
-  const loanVals = BANKS.map(b => { const r=bs.find(r=>r.bank===b&&r.metric==='Loans and advances to customers'); return r?+(r.value/1000).toFixed(1):null; });
-  const depVals  = BANKS.map(b => { const r=bs.find(r=>r.bank===b&&r.metric==='Deposits from customers');        return r?+(r.value/1000).toFixed(1):null; });
+  // Loans vs Deposits grouped bar — from kpis table (loans/deposits columns)
+  const ldKpis   = runQuery('SELECT bank, loans, deposits FROM kpis WHERE year=?', [y]);
+  const loanVals = BANKS.map(b => { const r=ldKpis.find(r=>r.bank===b); return r?+(r.loans/1000).toFixed(1):null; });
+  const depVals  = BANKS.map(b => { const r=ldKpis.find(r=>r.bank===b); return r?+(r.deposits/1000).toFixed(1):null; });
   document.getElementById('ld-tag-2024').textContent = `L/D Ratio ${y}`;
   Plotly.react('chart-loans-dep',[
     { x:BANKS, y:loanVals, name:'Loans', type:'bar', marker:{color:'rgba(59,130,246,0.8)'}, hovertemplate:'<b>%{x}</b><br>Loans: €%{y:.1f}bn<extra></extra>' },
