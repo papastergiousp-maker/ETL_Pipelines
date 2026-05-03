@@ -714,7 +714,7 @@ function renderStatic() {
     BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nii')), name:b, type:'scatter', mode:'lines+markers',
       line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
       hovertemplate:`<b>${b}</b><br>NII: €%{y:.0f}m<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
+    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
 
   // Market share donut
   const sh = runQuery('SELECT bank, total_assets FROM kpis WHERE year=2024');
@@ -757,7 +757,7 @@ function renderStatic() {
       marker:{color:COLORS[i],opacity:0.85},
       hovertemplate:`<b>${b}</b><br>Profit: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, barmode:'group', bargap:0.2, bargroupgap:0.08, margin:{l:44,r:8,t:8,b:52},
-      yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
+      yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
 
   // Impairments — from income_statement table
   const imp = runQuery(`SELECT bank, year, value FROM income_statement WHERE metric='Impairment losses on loans' ORDER BY bank, year`);
@@ -767,7 +767,7 @@ function renderStatic() {
       name:b, type:'bar', marker:{color:COLORS[i],opacity:0.85},
       hovertemplate:`<b>${b}</b><br>Impairments: €%{y:.0f}m<extra></extra>` })),
     { ...DLEG, barmode:'group', bargap:0.2, bargroupgap:0.08, margin:{l:44,r:8,t:8,b:52},
-      yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
+      yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
 
   // Fee income — from income_statement table
   const fee = runQuery(`SELECT bank, year, value FROM income_statement WHERE metric='Net banking fee and commission income' ORDER BY bank, year`);
@@ -777,7 +777,7 @@ function renderStatic() {
       name:b, type:'scatter', mode:'lines+markers',
       line:{color:COLORS[i],width:2.5,shape:'spline'}, marker:{color:COLORS[i],size:6},
       hovertemplate:`<b>${b}</b><br>Fees: €%{y:.0f}m<extra></extra>` })),
-    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m'} }, PCFG);
+    { ...DLEG, margin:{l:44,r:8,t:8,b:52}, yaxis:{...DARK.yaxis,tickprefix:'€',ticksuffix:'m',tickformat:',.0f'} }, PCFG);
 
   // CET1 Capital Adequacy — SELECT bank, year, cet1 FROM kpis ORDER BY year
   Plotly.newPlot('chart-cet1', [
@@ -811,7 +811,7 @@ function renderStatic() {
   }], {
     ...DARK, showlegend:false,
     margin:{l:44,r:20,t:8,b:44},
-    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m', range:[0,11500]},
+    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m', tickformat:',.0f', range:[0,11500]},
     xaxis:{...DARK.xaxis}
   }, PCFG);
 
@@ -830,7 +830,7 @@ function renderStatic() {
     ...DARK, barmode:'stack',
     margin:{l:44,r:20,t:8,b:44},
     showlegend:true, legend:{orientation:'h',x:0,y:-0.3,font:{size:9,color:'#8892a8'}},
-    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m'},
+    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'m', tickformat:',.0f'},
     xaxis:{...DARK.xaxis}
   }, PCFG);
 
