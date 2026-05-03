@@ -176,6 +176,18 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .bench-table tr.avg td{color:var(--muted);font-style:italic;}
 .bench-flag{font-size:0.75rem;margin-right:4px;}
 
+/* ── VALUATION FRAMEWORK ── */
+.val-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 28px;margin-bottom:12px;}
+.val-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.val-badge{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:#a78bfa;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);padding:4px 12px;border-radius:20px;}
+.val-sub{font-size:0.6rem;color:var(--muted);}
+.val-table{width:100%;border-collapse:collapse;font-size:0.67rem;}
+.val-table th{text-align:left;padding:6px 10px;color:var(--muted);font-weight:700;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border);}
+.val-table td{padding:7px 10px;color:var(--dim);border-bottom:1px solid rgba(255,255,255,0.04);}
+.val-table tr.vgreek td{color:#e8edf5;font-weight:600;}
+.val-signal{font-weight:800;font-size:0.65rem;}
+.val-note{margin-top:10px;font-size:0.58rem;color:var(--muted);line-height:1.6;}
+
 /* ── FOOTER ── */
 .footer{text-align:center;padding:20px;font-size:0.67rem;color:var(--muted);border-top:1px solid var(--border);position:relative;z-index:1;}
 .footer a{color:var(--euro);text-decoration:none;}
@@ -605,6 +617,50 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 
+  <!-- ── VALUATION FRAMEWORK ── -->
+  <div class="val-section">
+    <div class="val-header">
+      <span class="val-badge">Valuation Framework</span>
+      <span class="val-sub">Price-to-Book vs Justified P/B (Gordon Growth) · CoE 11% · Market prices approximate end-2024</span>
+    </div>
+    <table class="val-table">
+      <thead>
+        <tr>
+          <th>Bank</th><th>Market P/B (est.)</th><th>ROE 2024</th><th>CoE (est.)</th><th>Justified P/B</th><th>vs Market</th><th>Signal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="vgreek">
+          <td>NBG</td><td>~1.3x</td><td>13.7%</td><td>11%</td><td>~1.2x</td>
+          <td style="color:#fbbf24;">≈ fair</td>
+          <td class="val-signal" style="color:#60a5fa;">▲ Total return via buybacks</td>
+        </tr>
+        <tr class="vgreek">
+          <td>Eurobank</td><td>~1.3x</td><td>16.9%</td><td>11%</td><td>~1.5x</td>
+          <td style="color:#10b981;">~15% discount</td>
+          <td class="val-signal" style="color:#60a5fa;">→ Quality premium warranted</td>
+        </tr>
+        <tr class="vgreek">
+          <td>Piraeus</td><td>~0.9x</td><td>12.9%</td><td>11%</td><td>~1.2x</td>
+          <td style="color:#f59e0b;">apparent ~25% discount</td>
+          <td class="val-signal" style="color:#f87171;">▼ CoR risk closes gap</td>
+        </tr>
+        <tr class="vgreek">
+          <td>Alpha Bank</td><td>~0.8x</td><td>8.2%</td><td>11%</td><td>~0.7x</td>
+          <td style="color:#9ca3af;">slight premium to justified</td>
+          <td class="val-signal" style="color:#fbbf24;">→ Re-rate needs ROE &gt; 11%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="val-note">
+      <strong>Justified P/B = ROE / CoE</strong> (Gordon Growth, zero long-run growth assumption for conservatism).
+      CoE 11% = risk-free ~3.5% + beta-adjusted ERP ~5.5% + residual country risk ~2%.
+      NBG's near-fair P/B is supported by its €500m capital return programme (dividends + buyback) — total return thesis holds without multiple expansion.
+      Piraeus's apparent 25% P/B discount is largely offset by CoR normalisation risk (~€165m after-tax headwind): on a normalised earnings basis, the stock is closer to fair value.
+      Alpha requires ROE to exceed its CoE (~11%) before a sustained re-rating is justified; at current ROE of 8.2%, the stock's intrinsic P/B is ~0.7x.
+    </div>
+  </div>
+
   <!-- ── INVESTMENT IMPLICATIONS ── -->
   <div class="impl-section">
     <div class="impl-header">
@@ -616,28 +672,28 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="impl-card" style="background:rgba(0,103,177,0.07);border-top-color:#0067B1;">
         <div class="impl-signal" style="color:#0067B1;">&#9650; Overweight</div>
         <div class="impl-bank" style="color:#e8edf5;">NBG</div>
-        <div class="impl-tag" style="background:rgba(0,103,177,0.15);color:#60a5fa;">ROA 1.54% &bull; CET1 19.1%</div>
+        <div class="impl-tag" style="background:rgba(0,103,177,0.15);color:#60a5fa;">ROA 1.54% &bull; CET1 19.1% &bull; P/B ~1.3x</div>
         <div class="impl-metric">Sector leader on both profitability and capital strength — a rare combination. CET1 of 19.1% is 860bp above the 10.5% SREP floor, creating buyback/dividend optionality. NIM at 3.14% is the highest in the peer group: best positioned if ECB rate cuts are gradual.</div>
       </div>
 
       <div class="impl-card" style="background:rgba(0,103,177,0.05);border-top-color:#3b82f6;">
         <div class="impl-signal" style="color:#60a5fa;">&#8594; Hold</div>
         <div class="impl-bank" style="color:#e8edf5;">Eurobank</div>
-        <div class="impl-tag" style="background:rgba(59,130,246,0.12);color:#93c5fd;">C/I 32.6% &bull; CET1 17.6%</div>
+        <div class="impl-tag" style="background:rgba(59,130,246,0.12);color:#93c5fd;">C/I 32.6% &bull; CET1 17.6% &bull; P/B ~1.3x</div>
         <div class="impl-metric">Second-best cost efficiency in the peer group (32.6% C/I, behind Piraeus 31.8%) and proven M&A execution (Hellenic Bank: +27% assets, accretive day-one). Fee income share provides partial insulation against NIM compression. Deserves a quality premium on P/B; already partially priced in.</div>
       </div>
 
       <div class="impl-card" style="background:rgba(226,35,26,0.06);border-top-color:#E2231A;">
         <div class="impl-signal" style="color:#f87171;">&#9660; Underweight</div>
         <div class="impl-bank" style="color:#e8edf5;">Piraeus Bank</div>
-        <div class="impl-tag" style="background:rgba(226,35,26,0.15);color:#fca5a5;">CET1 13.7% &bull; CoR at 10yr low</div>
+        <div class="impl-tag" style="background:rgba(226,35,26,0.15);color:#fca5a5;">CET1 13.7% &bull; P/B ~0.9x vs justified ~1.2x</div>
         <div class="impl-metric">2024 profit surge (+35%, €788m → €1,066m) driven primarily by impairment release (€404m → €181m). The ~€165m after-tax impairment benefit accounts for ~60% of the profit increase; strip it out and underlying profit growth was approximately +14% — real but modest. Credit cost normalisation toward the 2023 level would reduce net profit by ~€165m (~15%). Lowest CET1 in the peer group (320bp above regulatory floor) limits near-term capital return capacity.</div>
       </div>
 
       <div class="impl-card" style="background:rgba(247,166,0,0.05);border-top-color:#F7A600;">
         <div class="impl-signal" style="color:#fbbf24;">&#8594; Monitor</div>
         <div class="impl-bank" style="color:#e8edf5;">Alpha Bank</div>
-        <div class="impl-tag" style="background:rgba(247,166,0,0.12);color:#fde68a;">ROE 8.2% &bull; C/I 37.7%</div>
+        <div class="impl-tag" style="background:rgba(247,166,0,0.12);color:#fde68a;">ROE 8.2% &bull; P/B ~0.8x (justified ~0.7x)</div>
         <div class="impl-metric">Structural laggard: ROE of 8.2% is the weakest in the peer group and below the ~11% European banking average. C/I improvement story is real (49% → 38%) but incomplete. If Alpha closes the gap to 33–34% C/I by 2026, earnings uplift would be ~€200m. Upside is recovery-dependent.</div>
       </div>
 
