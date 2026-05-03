@@ -470,16 +470,28 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 
-  <!-- CET1 CAPITAL ADEQUACY -->
-  <div class="chart-card" style="margin-bottom:10px;">
-    <div class="chart-header">
-      <div>
-        <div class="chart-title">CET1 Capital Ratio — 3-Year Trend</div>
-        <div class="chart-subtitle">SELECT bank, year, cet1 FROM kpis · official Annual Report capital adequacy disclosures · Basel III minimum 4.5% · SREP buffer ~10.5%</div>
+  <!-- CET1 + NPE QUALITY ROW -->
+  <div class="charts-2" style="margin-bottom:10px;">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">CET1 Capital Ratio — 3-Year Trend</div>
+          <div class="chart-subtitle">SELECT bank, year, cet1 FROM kpis · official Annual Report capital adequacy disclosures · Basel III minimum 4.5% · SREP buffer ~10.5%</div>
+        </div>
+        <span class="chart-tag">All banks strengthening</span>
       </div>
-      <span class="chart-tag">All banks strengthening</span>
+      <div id="chart-cet1" style="height:220px;"></div>
     </div>
-    <div id="chart-cet1" style="height:240px;"></div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">NPE Ratio — 3-Year Cleanup</div>
+          <div class="chart-subtitle">SELECT bank, year, npe_ratio FROM kpis · verified from official Annual Reports 2022–2024</div>
+        </div>
+        <span class="chart-tag">Sector NPL cleanup complete</span>
+      </div>
+      <div id="chart-npe" style="height:220px;"></div>
+    </div>
   </div>
 
   <!-- TLTRO + NIM METHODOLOGY -->
@@ -532,7 +544,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div><div class="chart-title">KPI Rankings</div><div class="chart-subtitle">SELECT * FROM kpis WHERE year=<span id="rank-year-lbl">2024</span> ORDER BY nii DESC</div></div>
       </div>
       <table class="rank-table">
-        <thead><tr><th>Bank</th><th>NII</th><th>ROE%</th><th>C/I%</th><th>NIM%</th><th>Assets</th></tr></thead>
+        <thead><tr><th>Bank</th><th>NII</th><th>ROE%</th><th>C/I%</th><th>NIM%</th><th>NPE%</th><th>Assets</th></tr></thead>
         <tbody id="rank-tbody"></tbody>
       </table>
       <div style="margin-top:14px;">
@@ -996,6 +1008,17 @@ function renderStatic() {
     yaxis:{...DARK.yaxis, ticksuffix:'%', range:[10,22]}
   }, PCFG);
 
+  // NPE Ratio — verified from official Annual Reports
+  Plotly.newPlot('chart-npe',
+    ACTIVE_BANKS.map(b=>({
+      x:YEARS, y:YEARS.map(y=>kv(b,y,'npe_ratio')), name:b, type:'scatter', mode:'lines+markers',
+      line:{color:bankColor(b),width:2.5,shape:'spline'}, marker:{color:bankColor(b),size:6},
+      hovertemplate:`<b>${b}</b><br>NPE: %{y:.1f}%<extra></extra>`
+    })),
+    { ...DLEG, margin:{l:40,r:8,t:8,b:52},
+      yaxis:{...DARK.yaxis, ticksuffix:'%', autorange:'reversed',
+             title:{text:'NPE ratio (lower = better)',font:{size:9},standoff:4}} }, PCFG);
+
   // NIM trend
   Plotly.newPlot('chart-nim',
     ACTIVE_BANKS.map((b,i)=>({ x:YEARS, y:YEARS.map(y=>kv(b,y,'nim')), name:b, type:'scatter', mode:'lines+markers',
@@ -1188,6 +1211,7 @@ function setYear(y) {
       <td>${(+r.roe).toFixed(1)}</td>
       <td>${(+r.cost_to_income).toFixed(1)}</td>
       <td>${(+r.nim).toFixed(2)}</td>
+      <td>${r.npe_ratio != null ? (+r.npe_ratio).toFixed(1) : '—'}</td>
       <td>${fB(r.total_assets)}</td>
     </tr>`).join('');
 

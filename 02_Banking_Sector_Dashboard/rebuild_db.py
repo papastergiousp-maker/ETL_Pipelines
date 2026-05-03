@@ -73,6 +73,10 @@ def rebuild():
          "SELECT value FROM balance_sheet WHERE bank='Alpha Bank' AND year=2022 AND metric='Investment securities'"),
         ("Sector NII 2024",
          "SELECT ROUND(SUM(nii),1) FROM kpis WHERE year=2024"),
+        ("NPE ratio NBG 2024",
+         "SELECT npe_ratio FROM kpis WHERE bank='NBG' AND year=2024"),
+        ("NPE ratio Alpha 2022",
+         "SELECT npe_ratio FROM kpis WHERE bank='Alpha Bank' AND year=2022"),
     ]
     for label, sql in checks:
         row = conn.execute(sql).fetchone()
