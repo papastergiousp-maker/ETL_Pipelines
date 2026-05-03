@@ -921,7 +921,7 @@ function setYear(y) {
     }
   });
 
-  // Loans vs Deposits — grouped bars per bank, L/D ratio embedded in hover
+  // Loans vs Deposits — grouped bars per bank, L/D ratio in hover
   const ldKpis = runQuery('SELECT bank, loans, deposits, loan_to_deposit FROM kpis WHERE year=?', [y]);
   const ldByBank = {};
   ldKpis.forEach(r => ldByBank[r.bank] = r);
@@ -929,22 +929,22 @@ function setYear(y) {
   const depVals  = BANKS.map(b => ldByBank[b] ? +(ldByBank[b].deposits/1000).toFixed(1) : null);
   const ldVals   = BANKS.map(b => ldByBank[b] ? +ldByBank[b].loan_to_deposit : null);
   document.getElementById('ld-tag-2024').textContent = `${y} data`;
-  Plotly.newPlot('chart-loans-dep',[
+  Plotly.react('chart-loans-dep',[
     { x:BANKS, y:loanVals, name:'Loans (€bn)', type:'bar',
       marker:{color:'rgba(59,130,246,0.85)'},
-      text:loanVals.map(v=>v!=null?`€${v}bn`:null), textposition:'outside',
-      textfont:{size:9, color:'rgba(120,170,255,0.85)'},
       hovertemplate:'<b>%{x}</b><br>Loans: €%{y:.1f}bn<extra></extra>' },
     { x:BANKS, y:depVals, name:'Deposits (€bn)', type:'bar',
       marker:{color:'rgba(167,139,250,0.85)'},
       customdata:ldVals,
-      text:depVals.map(v=>v!=null?`€${v}bn`:null), textposition:'outside',
-      textfont:{size:9, color:'rgba(190,160,255,0.85)'},
-      hovertemplate:'<b>%{x}</b><br>Deposits: €%{y:.1f}bn<br><b>L/D Ratio: %{customdata:.1f}%</b><extra></extra>' },
+      hovertemplate:'<b>%{x}</b><br>Deposits: €%{y:.1f}bn<br><b>L/D: %{customdata:.1f}%</b><extra></extra>' },
   ],{
-    ...DLEG, barmode:'group', bargap:0.25, bargroupgap:0.08,
-    margin:{l:44,r:12,t:20,b:52},
-    yaxis:{...DARK.yaxis, tickprefix:'€', ticksuffix:'bn', range:[0,90]},
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+    font:{family:'DM Sans,sans-serif', color:'#5a6580', size:10.5},
+    barmode:'group', bargap:0.25, bargroupgap:0.08,
+    margin:{l:44,r:12,t:8,b:52},
+    xaxis:{gridcolor:'rgba(255,255,255,0.04)', zeroline:false, showline:false, type:'category'},
+    yaxis:{gridcolor:'rgba(255,255,255,0.04)', zeroline:false, showline:false, ticksuffix:'bn'},
+    showlegend:true,
     legend:{orientation:'h', x:0.5, xanchor:'center', y:-0.25, font:{size:9,color:'#8892a8'}},
   }, PCFG);
 
