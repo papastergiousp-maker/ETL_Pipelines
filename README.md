@@ -5,6 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-5.18%2B-3F4F75?logo=plotly&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?logo=streamlit&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power_BI-DAX-F2C811?logo=powerbi&logoColor=black)
 ![pytest](https://img.shields.io/badge/pytest-26_passing-2ECC40?logo=pytest&logoColor=white)
 ![pandas](https://img.shields.io/badge/pandas-3.0-150458?logo=pandas&logoColor=white)
@@ -42,6 +43,7 @@ The specific question I was trying to answer: *"Which Greek bank is best positio
 | **Data quality engineering** — pytest suite (26 tests), balance sheet identity checks | `tests/test_kpis.py` |
 | **Statistical analysis** — z-scores, percentile ranking, regression | `03_analysis/03_peer_benchmarking.ipynb` |
 | **BI & dashboards** — Power BI with DAX measures + browser-native Plotly/sql.js app | `01_eurobank_pipeline/powerbi/`, `02_Banking_Sector_Dashboard/index.html` |
+| **Interactive app** — Streamlit multi-page app with live ECB scenario sliders and stress test | `05_streamlit_app/` |
 
 ---
 
@@ -57,7 +59,21 @@ flowchart LR
     SQLite --> forecast["04_forecasting/\nNII forecast 2025–26\nEBA stress test"]
     SQLite --> html["Plotly / sql.js\nbrowser dashboard"]
     SQLite --> powerbi["Power BI\nDAX dashboard"]
+    SQLite --> streamlit["Streamlit app\n5 pages · live sliders"]
 ```
+
+---
+
+### Running the Streamlit app
+
+```bash
+pip install -r requirements.txt
+streamlit run 05_streamlit_app/app.py
+```
+
+Pages: **Overview** · **Bank Deep-Dive** · **Peer Comparison** · **Forecast & Stress** · **Methodology**
+
+The Forecast & Stress page lets you dial ECB rate scenarios and adjust CoR / loan growth / NIM compression sliders to see real-time CET1 impact — including Piraeus breaching the 10.5% SREP floor under EBA adverse parameters.
 
 ---
 
