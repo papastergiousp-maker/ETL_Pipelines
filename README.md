@@ -321,8 +321,8 @@ All figures in € million.
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/papastergiousp-maker/ETL_Pipelines.git
-cd ETL_Pipelines
+git clone https://github.com/papastergiousp-maker/greek-banking-sector-analysis.git
+cd greek-banking-sector-analysis
 pip install -r requirements.txt
 
 # 2. (Optional) Re-run the PDF extraction pipeline
@@ -352,11 +352,14 @@ jupyter nbconvert --to notebook --execute --inplace 03_analysis/05_earnings_qual
 jupyter nbconvert --to notebook --execute --inplace 04_forecasting/01_forecast_nii_2025_2026.ipynb
 jupyter nbconvert --to notebook --execute --inplace 04_forecasting/02_stress_test.ipynb
 
-# 7. Open the dashboard (no server needed — runs entirely client-side via sql.js)
+# 7. Open the static dashboard (no server needed — runs entirely client-side via sql.js)
 #    Windows:  start 02_Banking_Sector_Dashboard/index.html
 #    macOS:    open  02_Banking_Sector_Dashboard/index.html
 #    Linux:    xdg-open 02_Banking_Sector_Dashboard/index.html
 #    Or visit: https://phytai.com/dashboard
+
+# 8. Run the interactive Streamlit app (live ECB scenarios + stress test sliders)
+streamlit run 05_streamlit_app/app.py
 ```
 
 ---
