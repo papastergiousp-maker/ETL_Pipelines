@@ -35,6 +35,9 @@ The specific question I was trying to answer: *"Which Greek bank is best positio
 | **Python / pandas** — ETL, tidy-data transforms, financial modelling | All notebooks |
 | **PDF data extraction** — pdfplumber, table parsing from 12 annual reports | `02_Banking_Sector_Dashboard/notebooks/01_extract.ipynb` |
 | **Financial modelling** — 5-step DuPont, CAMELS, NIM decomposition, OLS forecasting | `03_analysis/` |
+| **Equity valuation** — P/B vs justified P/B (Gordon Growth), CoE estimation, investment signals | `02_Banking_Sector_Dashboard/index.html` |
+| **Credit quality analysis** — NPE ratio extraction from 12 PDFs, 3-year cleanup trend | `02_Banking_Sector_Dashboard/data/processed/kpis_final.csv` |
+| **Capital return analysis** — dividend restart, payout ratios, SREP buffer headroom | `02_Banking_Sector_Dashboard/index.html` |
 | **Scenario analysis & stress testing** — EBA-style adverse scenario, CET1 impact | `04_forecasting/02_stress_test.ipynb` |
 | **Data quality engineering** — pytest suite (26 tests), balance sheet identity checks | `tests/test_kpis.py` |
 | **Statistical analysis** — z-scores, percentile ranking, regression | `03_analysis/03_peer_benchmarking.ipynb` |
@@ -104,7 +107,7 @@ Full extract → clean → load → query → visualise pipeline for Eurobank (2
 - **NII +61%** over 2 years — driven by higher interest rates and strong loan growth
 - **Cost-to-Income 32.6%** in 2024 — well below the European banking average of ~55%
 - **Loan-to-Deposit 64.6%** (2024) — conservative liquidity position, well below the 80% threshold
-- **ROE 16.9%** in 2024 — above the European banking average (~12%)
+- **ROE 16.9%** in 2024 — above the European banking average (~11%)
 - **Net Profit +27% YoY** in 2024 despite ECB rate cuts beginning in June 2024
 
 ### SQL Highlights
@@ -181,9 +184,11 @@ Open `02_Banking_Sector_Dashboard/index.html` in a browser — no server require
 
 **Insights**
 - **Sector NII +55%** from 2022 to 2024 (€5.5bn → €8.6bn) — rate cycle tailwind across all four banks
-- **Eurobank leads** on both NII and ROE, reflecting its diversified regional presence and 2024 Hellenic Bank acquisition
+- **NPE cleanup complete**: sector NPE ratios fell from 5–8% (2022) to 2.6–3.8% (2024), verified from 12 annual report PDFs
+- **Eurobank leads** on ROE (16.9%) and M&A execution; NBG leads on capital strength (CET1 19.1%, ROA 1.54%)
 - **Piraeus most cost-efficient** in 2024 — Cost-to-Income 31.8%, down from 34.5% in 2022
-- **Combined sector deposits +12% YoY** to ~€250bn in 2024, with Eurobank's jump driven by the Cyprus acquisition
+- **All four banks resumed dividends** after a decade of suspension — payout ratios 18–50% of 2024 profits
+- **Valuation**: NBG and Eurobank trade near justified P/B (ROE/CoE); Alpha's 8.2% ROE remains below its 11% cost of equity
 
 ---
 
@@ -272,6 +277,8 @@ All figures in € million.
 | NIM | Net Interest Income / Total Assets × 100 | Year-end assets as denominator |
 | Loan-to-Deposit | Loans / Customer Deposits × 100 | Net loans (post-ECL) |
 | CET1 | Common Equity Tier 1 / Risk-Weighted Assets × 100 | As disclosed in Annual Report capital adequacy section |
+| NPE Ratio | Non-Performing Exposures / Gross Loans × 100 | Extracted from credit risk disclosures in each annual report |
+| Justified P/B | ROE / Cost of Equity | Gordon Growth Model; CoE = 11% (Rf 3.5% + β×ERP 5.5% + CRP 2%) |
 | NII YoY | (NII_t − NII_{t-1}) / NII_{t-1} × 100 | — |
 
 ### Data Quality Notes
@@ -288,7 +295,7 @@ All figures in € million.
 1. **Annual only**: No quarterly data in this version
 2. **Static data**: Requires manual refresh when new reports are published
 3. **NIM denominator**: Uses year-end total assets rather than average earning assets — understates NIM relative to bank-reported figures
-4. **NPL data**: Non-performing loan ratios not included in current dataset
+4. **P/B valuation**: Market P/B figures are estimated (end-2024 approximations) — live share price integration would improve precision
 
 ### Running from scratch
 
@@ -355,8 +362,8 @@ See [DATA_DICTIONARY.md](02_Banking_Sector_Dashboard/data/DATA_DICTIONARY.md) fo
 
 **What I'd do differently with more time:**
 - Replace the annual-only data with quarterly reports — this would enable proper rate/volume decomposition and a more accurate NIM forecast
-- Add NPL ratios and payout ratios as standalone KPIs — both are critical for bank credit analysis and were omitted only because the data was not cleanly extractable from the PDFs
-- Integrate market data (share price, P/B ratio) via a free API — the analysis currently stops at accounting metrics; a P/B bridge would complete the valuation picture
+- Integrate live share price data via a free API to replace the estimated end-2024 P/B figures with real-time valuations
+- Add Pillar 3 disclosure parsing to extract bank-specific rate sensitivity data (€ NII impact per 25bp ECB cut) — currently estimated at sector level
 
 ---
 
