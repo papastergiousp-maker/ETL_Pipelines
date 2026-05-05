@@ -4,6 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Streamlit_App-Live-FF4B4B?logo=streamlit&logoColor=white)](https://greek-banking-sector-analysis.streamlit.app/)
 [![Dashboard](https://img.shields.io/badge/Static_Dashboard-Live-3F4F75?logo=plotly&logoColor=white)](https://phytai.com/dashboard/)
+[![CI](https://github.com/papastergiousp-maker/greek-banking-sector-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/papastergiousp-maker/greek-banking-sector-analysis/actions/workflows/ci.yml)
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
@@ -35,7 +36,7 @@ The specific question I was trying to answer: *"Which Greek bank is best positio
 
 | Skill | Where |
 |-------|-------|
-| **SQL** — window functions, CTEs, JOIN, GROUP BY | `01_eurobank_pipeline/` |
+| **SQL** — window functions (LAG, RANK, DENSE_RANK), multi-CTE pipelines, conditional aggregation, cross-table JOINs | `sql/` · `01_eurobank_pipeline/` |
 | **Python / pandas** — ETL, tidy-data transforms, financial modelling | All notebooks |
 | **PDF data extraction** — pdfplumber, table parsing from 12 annual reports | `02_Banking_Sector_Dashboard/notebooks/01_extract.ipynb` |
 | **Financial modelling** — 5-step DuPont, CAMELS, NIM decomposition, OLS forecasting | `03_analysis/` |
@@ -254,6 +255,15 @@ Greek_Banking_Sector_Analysis/
 ├── tests/
 │   └── test_kpis.py               ← pytest suite: 26 tests (KPI re-derivation, BS identity, sanity)
 │
+├── sql/                           ← Standalone SQL showcase (LAG, RANK, CTEs, CASE WHEN, JOIN)
+│   ├── 01_nii_yoy_growth.sql      ← YoY NII growth via LAG window function
+│   ├── 02_sector_vs_bank.sql      ← Bank vs sector avg (CTE + JOIN)
+│   ├── 03_peer_ranking.sql        ← Composite peer rank (RANK + DENSE_RANK)
+│   ├── 04_capital_headroom.sql    ← CET1 buffer classification (CASE WHEN)
+│   ├── 05_npe_cleanup_progress.sql← NPE improvement (conditional aggregation)
+│   └── 06_income_decomposition.sql← NII vs non-NII mix (multi-CTE + RANK)
+│
+├── .github/workflows/ci.yml       ← GitHub Actions: pytest on every push to main
 ├── requirements.txt               ← Python dependencies (pandas, plotly, pytest, scipy, ...)
 └── README.md
 ```
