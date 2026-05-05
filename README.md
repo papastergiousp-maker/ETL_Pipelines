@@ -2,6 +2,9 @@
 
 > Investment-grade financial analysis of the four Greek systemic banks — built entirely from official annual report PDFs, with 5-step DuPont decomposition, CAMELS scoring, peer benchmarking, NII forecasting, and EBA-style stress testing.
 
+[![Live App](https://img.shields.io/badge/Streamlit_App-Live-FF4B4B?logo=streamlit&logoColor=white)](https://greek-banking-sector-analysis.streamlit.app/)
+[![Dashboard](https://img.shields.io/badge/Static_Dashboard-Live-3F4F75?logo=plotly&logoColor=white)](https://phytai.com/dashboard/)
+
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-5.18%2B-3F4F75?logo=plotly&logoColor=white)
@@ -66,6 +69,9 @@ flowchart LR
 
 ### Running the Streamlit app
 
+**Live:** [https://greek-banking-sector-analysis.streamlit.app/](https://greek-banking-sector-analysis.streamlit.app/)
+
+Or run locally:
 ```bash
 pip install -r requirements.txt
 streamlit run 05_streamlit_app/app.py
