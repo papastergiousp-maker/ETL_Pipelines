@@ -140,9 +140,8 @@ with tab1:
         **LAYOUT,
         title=f"NII Forecast 2025–2026 — {scenario}",
         height=420,
-        yaxis=dict(**LAYOUT["yaxis"]),
-        xaxis=dict(**LAYOUT["xaxis"], tickvals=[2022, 2023, 2024, 2025, 2026]),
     )
+    fig_nii.update_xaxes(tickvals=[2022, 2023, 2024, 2025, 2026])
     st.plotly_chart(fig_nii, use_container_width=True)
 
     # ── Forecast summary table ─────────────────────────────────────────────────
@@ -169,7 +168,7 @@ with tab2:
     st.markdown(
         "Applies a simultaneous shock to (1) NIM compression, (2) loan volume decline, "
         "and (3) additional cost of risk. Based on EBA 2023 adverse scenario parameters. "
-        "CET1 impact estimated using ~60% RWA density (Greek banking sector average)."
+        "CET1 impact estimated using loan book × 50% risk weight (consistent with `04_forecasting/02_stress_test.ipynb`)."
     )
 
     c_l, c_r = st.columns([1, 2])
@@ -269,10 +268,10 @@ SREP Floor: **{SREP_FLOOR}% CET1**
             **LAYOUT,
             barmode="stack",
             title="CET1 — Baseline vs Stressed",
-            yaxis=dict(**LAYOUT["yaxis"], ticksuffix="%", range=[0, 25]),
             height=340,
             legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="#94a3b8")),
         )
+        fig_cet.update_yaxes(ticksuffix="%", range=[0, 25])
         st.plotly_chart(fig_cet, use_container_width=True)
 
     st.caption(

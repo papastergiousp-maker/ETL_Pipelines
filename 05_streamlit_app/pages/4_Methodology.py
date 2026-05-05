@@ -48,7 +48,7 @@ st.subheader("Metric Definitions")
 defs = [
     ("NII", "Net Interest Income", "Interest income minus interest expense. Primary revenue line for Greek banks."),
     ("NIM", "Net Interest Margin", "NII / Total Assets. Proxy — uses year-end assets, not average earning assets."),
-    ("ROE", "Return on Equity", "Net Profit / Average Equity. Average approximated as (Equity_t + Equity_{t-1}) / 2 where available."),
+    ("ROE", "Return on Equity", "Net Profit / Total Equity (year-end). Uses period-end equity; average equity would give marginally higher ROE in growth years."),
     ("ROA", "Return on Assets", "Net Profit / Total Assets."),
     ("C/I", "Cost-to-Income Ratio", "Operating Expenses (absolute) / Operating Income. Lower = more efficient."),
     ("L/D", "Loan-to-Deposit Ratio", "Gross Loans / Customer Deposits. Liquidity proxy; lower = more liquid."),
@@ -57,7 +57,7 @@ defs = [
     ("NPE Ratio", "Non-Performing Exposure Ratio", "NPEs / Gross Loans. Extracted from annual reports with pdfplumber; all figures verified to source PDF page."),
     ("PPOP", "Pre-Provision Operating Profit", "Operating Income minus Operating Expenses (before impairment)."),
     ("CoR", "Cost of Risk", "Impairment Losses / Gross Loans. Measures credit loss rate on the loan book."),
-    ("Justified P/B", "Gordon Growth P/B", "ROE / CoE. Estimated using CoE = 11% (Rf 3.5% + β×ERP 5.5% + CRP 2.0%)."),
+    ("Justified P/B", "Gordon Growth P/B", "(ROE − g) / (CoE − g). CoE = 10.3% (Rf 3.5% + β×ERP 5.5% + CRP 1.3% post-Greek IG upgrade), g = 2%."),
     ("RWA Proxy", "Stress-Test RWA", "Loan book × 0.50 risk weight, consistent with `04_forecasting/02_stress_test.ipynb`. Used to translate Δ profit into Δ CET1 ratio."),
 ]
 
@@ -105,10 +105,10 @@ st.subheader("Known Limitations")
 st.markdown("""
 | Limitation | Impact | Workaround Used |
 |---|---|---|
-| Annual data only (no quarterly) | Cannot isolate intra-year rate pass-through | Rate sensitivity estimated at sector level |
+| Annual data only (no quarterly) | Cannot isolate intra-year rate pass-through | Rate sensitivity from bank-specific Pillar 3 IRRBB disclosures (FY2024) |
 | NIM uses year-end assets (not average earning assets) | NIM slightly overstated in growth years | Consistent methodology applied to all banks |
 | Static P/B estimates (~end-2024 prices) | Market prices have moved; justified P/B is directional only | Clearly flagged as approximate in dashboard |
-| RWA proxy (60% density) | Stressed CET1 impact is directional, not precise | Methodology note on every stress output |
+| RWA proxy (50% loan book risk weight) | Stressed CET1 impact is directional, not precise | Methodology note on every stress output |
 | No live ECB rate feed | Forecast scenarios are pre-defined, not live | Three scenarios cover realistic range |
 | Minority interests and one-off items | Tax rate implied from actuals; one-offs partially stripped in `05_earnings_quality.ipynb` | Noted in earnings quality notebook |
 

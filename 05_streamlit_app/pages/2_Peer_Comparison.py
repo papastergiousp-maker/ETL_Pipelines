@@ -20,7 +20,7 @@ with st.sidebar:
     st.markdown("### 📊 Peer Comparison")
     year = st.radio("Select year", YEARS, index=2)
     st.divider()
-    st.caption("Z-scores and percentile ranks computed against the 4-bank peer group.")
+    st.caption("Normalised scores (min-max) and percentile ranks computed against the 4-bank peer group.")
 
 
 @st.cache_data
@@ -33,7 +33,7 @@ ky   = kpis[kpis.year == year].set_index("bank")
 
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.title("Peer Comparison")
-st.caption(f"FY{year} — z-score and percentile ranking across Eurobank, Alpha Bank, Piraeus Bank, NBG")
+st.caption(f"FY{year} — normalised percentile ranking (min-max) across Eurobank, Alpha Bank, Piraeus Bank, NBG")
 st.divider()
 
 # ── Normalise for radar ────────────────────────────────────────────────────────
@@ -188,8 +188,9 @@ for r in range(rows_needed):
             height=300,
             showlegend=False,
             margin=dict(l=30, r=10, t=50, b=40),
-            yaxis=dict(**LAYOUT["yaxis"],
-                       ticksuffix=suffix,
-                       autorange="reversed" if not higher_better else True),
+        )
+        fig_bar.update_yaxes(
+            ticksuffix=suffix,
+            autorange="reversed" if not higher_better else True,
         )
         cols[i].plotly_chart(fig_bar, use_container_width=True)
