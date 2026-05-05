@@ -47,6 +47,8 @@ The specific question I was trying to answer: *"Which Greek bank is best positio
 | **Statistical analysis** — z-scores, percentile ranking, regression | `03_analysis/03_peer_benchmarking.ipynb` |
 | **BI & dashboards** — Power BI with DAX measures + browser-native Plotly/sql.js app | `01_eurobank_pipeline/powerbi/`, `02_Banking_Sector_Dashboard/index.html` |
 | **Interactive app** — Streamlit multi-page app with live ECB scenario sliders and stress test | `05_streamlit_app/` |
+| **Excel financial model** — 7-tab workbook: Cover, Sector Summary, one tab per bank, Assumptions | `deliverables/greek_banking_model.xlsx` |
+| **Text-to-SQL / AI fluency** — natural-language queries answered by Claude API against SQLite DB | `06_llm_qa/01_text_to_sql.ipynb` |
 
 ---
 
@@ -63,6 +65,8 @@ flowchart LR
     SQLite --> html["Plotly / sql.js\nbrowser dashboard"]
     SQLite --> powerbi["Power BI\nDAX dashboard"]
     SQLite --> streamlit["Streamlit app\n5 pages · live sliders"]
+    SQLite --> excel["Excel model\n7 tabs · conditional formatting"]
+    SQLite --> llm["Text-to-SQL\nClaude API · 5 Q&A pairs"]
 ```
 
 ---

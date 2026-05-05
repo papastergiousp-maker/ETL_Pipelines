@@ -29,6 +29,9 @@ pandas-datareader>=0.10.0
 # Interactive app
 streamlit>=1.35.0
 
+# LLM / AI
+anthropic>=0.25.0
+
 # Utilities
 openpyxl>=3.1.0  # Excel support
 sqlalchemy>=2.0.0  # SQL toolkit
