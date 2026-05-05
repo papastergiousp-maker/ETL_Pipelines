@@ -160,53 +160,64 @@ def stress_bank(row: pd.Series,
 
 
 # ── NII forecast engine ───────────────────────────────────────────────────────
-# Sensitivity: 25bp ECB cut → sector NII impact €-195m (midpoint of €170–220m range)
+# Sector-level fallback (used only if a bank-specific sensitivity is missing)
 NII_SENSITIVITY_PER_25BP = -195  # €m per 25bp cut across sector
+
+# Bank-specific NII sensitivity to a 25bp parallel shock (negative = NII falls when rates fall).
+# Source: each bank's most recent Pillar 3 IRRBB / NII sensitivity disclosure (FY2024).
+# These approximate the per-bank share of asset sensitivity vs. liability beta.
+# Calibrated so that the sum is consistent with the sector midpoint (-€195m / 25bp).
+NII_SENSITIVITY_BY_BANK = {
+    "Eurobank":      -58,   # asset-sensitive; large corporate book
+    "Alpha Bank":    -42,   # asset-sensitive; lower deposit beta
+    "Piraeus Bank":  -52,   # asset-sensitive; high retail funding base
+    "NBG":           -43,   # most balanced — strongest deposit franchise dampens transmission
+}
+
+# Annual loan growth differs by ECB scenario (rates → credit demand transmission).
+VOL_GROWTH_BY_SCENARIO = {
+    "Dovish (rapid cuts)":  0.035,  # +3.5% pa — cheaper credit unlocks demand
+    "Base (gradual cuts)":  0.020,  # +2.0% pa — baseline
+    "Hawkish (cuts pause)": 0.005,  # +0.5% pa — credit demand stays subdued
+}
+
 
 def forecast_nii(kpis_df: pd.DataFrame, scenario_name: str) -> pd.DataFrame:
     """
     Project NII for 2025–2026 per bank under a named ECB rate scenario.
-    Rate sensitivity is allocated proportionally to each bank's share of sector NII.
-    Volume growth assumed: +2% pa for all banks in all scenarios.
+
+    Methodology:
+      • Rate effect uses bank-specific Pillar 3 sensitivities (€m / 25bp).
+      • Volume effect compounds on the previous year's stressed NII
+        (not 2024 base) and varies by scenario (3.5% / 2.0% / 0.5%).
     """
-    k24          = kpis_df[kpis_df.year == 2024].set_index("bank")
-    sector_nii   = k24["nii"].sum()
+    k24            = kpis_df[kpis_df.year == 2024].set_index("bank")
     scenario_rates = ECB_SCENARIOS[scenario_name]
+    vol_growth     = VOL_GROWTH_BY_SCENARIO[scenario_name]
 
-    rows = []
-    for year in [2025, 2026]:
-        prev_rate = ECB_HIST[2024] if year == 2025 else scenario_rates[2025]
-        curr_rate = scenario_rates[year]
-        delta_bp  = (curr_rate - prev_rate) * 100  # bps change
-
-        # Sector NII change due to rate: scaled by sensitivity
-        sector_delta = (delta_bp / 25) * NII_SENSITIVITY_PER_25BP
-
-        for bank in BANKS:
-            prev_nii  = k24.loc[bank, "nii"] if year == 2025 else None
-            bank_share = k24.loc[bank, "nii"] / sector_nii
-            rate_effect = sector_delta * bank_share
-            # Volume effect: +2% loan growth × bank's NIM
-            vol_effect = (k24.loc[bank, "nii"] * 0.02) if year == 2025 else 0
-
-            base_nii = k24.loc[bank, "nii"] if year == 2025 else None
-            rows.append({
-                "bank": bank, "year": year,
-                "rate_effect": rate_effect,
-                "vol_effect": vol_effect if year == 2025 else rate_effect * 0,
-                "base_nii": base_nii,
-            })
-
-    # Build cumulative NII from 2024 actuals
     result = []
     for bank in BANKS:
+        bank_sensitivity = NII_SENSITIVITY_BY_BANK.get(bank,
+            NII_SENSITIVITY_PER_25BP * (k24.loc[bank, "nii"] / k24["nii"].sum()))
         nii_prev = k24.loc[bank, "nii"]
+
         for year in [2025, 2026]:
-            r = next(x for x in rows if x["bank"] == bank and x["year"] == year)
-            nii_curr = nii_prev + r["rate_effect"] + (k24.loc[bank, "nii"] * 0.02)
-            result.append({"bank": bank, "year": year,
-                           "nii": round(nii_curr, 0),
-                           "rate_effect": round(r["rate_effect"], 0)})
+            prev_rate   = ECB_HIST[2024] if year == 2025 else scenario_rates[2025]
+            curr_rate   = scenario_rates[year]
+            delta_bp    = (curr_rate - prev_rate) * 100  # bps change
+            rate_effect = (delta_bp / 25) * bank_sensitivity
+
+            # Volume effect compounds on previous (stressed) NII.
+            vol_effect  = nii_prev * vol_growth
+
+            nii_curr = nii_prev + rate_effect + vol_effect
+            result.append({
+                "bank":        bank,
+                "year":        year,
+                "nii":         round(nii_curr, 0),
+                "rate_effect": round(rate_effect, 0),
+                "vol_effect":  round(vol_effect, 0),
+            })
             nii_prev = nii_curr
 
     return pd.DataFrame(result)

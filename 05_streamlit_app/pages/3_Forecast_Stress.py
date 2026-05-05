@@ -96,8 +96,8 @@ with tab1:
         fig_ecb.add_vline(x=2024.5, line_dash="dot", line_color="#475569",
                           annotation_text="forecast →", annotation_font_color="#64748b")
         fig_ecb.update_layout(**LAYOUT, title="ECB Deposit Facility Rate Path (%)",
-                              yaxis=dict(**LAYOUT["yaxis"], ticksuffix="%"),
                               height=280)
+        fig_ecb.update_yaxes(ticksuffix="%")
         st.plotly_chart(fig_ecb, use_container_width=True)
 
     st.divider()

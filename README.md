@@ -315,7 +315,7 @@ All figures in € million.
 | Loan-to-Deposit | Loans / Customer Deposits × 100 | Net loans (post-ECL) |
 | CET1 | Common Equity Tier 1 / Risk-Weighted Assets × 100 | As disclosed in Annual Report capital adequacy section |
 | NPE Ratio | Non-Performing Exposures / Gross Loans × 100 | Extracted from credit risk disclosures in each annual report |
-| Justified P/B | ROE / Cost of Equity | Gordon Growth Model; CoE = 11% (Rf 3.5% + β×ERP 5.5% + CRP 2%) |
+| Justified P/B | (ROE − g) / (CoE − g) | Gordon Growth Model; g = 2.0% (sustainable RWA growth); CoE = 10.3% (Rf 3.5% + β×ERP 5.5% + CRP 1.3% post-IG upgrade) |
 | NII YoY | (NII_t − NII_{t-1}) / NII_{t-1} × 100 | — |
 
 ### Data Quality Notes

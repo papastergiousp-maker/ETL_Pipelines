@@ -131,8 +131,8 @@ with col_l:
             marker=dict(size=7),
             hovertemplate=f"<b>{bank}</b><br>NII: €%{{y:,.0f}}m<extra></extra>",
         ))
-    fig_nii.update_layout(**LAYOUT, title="Net Interest Income (€m)",
-                          xaxis=dict(**LAYOUT["xaxis"], tickvals=YEARS))
+    fig_nii.update_layout(**LAYOUT, title="Net Interest Income (€m)")
+    fig_nii.update_xaxes(tickvals=YEARS)
     st.plotly_chart(fig_nii, use_container_width=True)
 
 # ── ROE trend ──────────────────────────────────────────────────────────────────
@@ -150,9 +150,9 @@ with col_r:
     fig_roe.add_hline(y=11, line_dash="dot", line_color="#475569",
                       annotation_text="CoE ~11%",
                       annotation_font_color="#94a3b8")
-    fig_roe.update_layout(**LAYOUT, title="Return on Equity (%)",
-                          yaxis=dict(**LAYOUT["yaxis"], ticksuffix="%"),
-                          xaxis=dict(**LAYOUT["xaxis"], tickvals=YEARS))
+    fig_roe.update_layout(**LAYOUT, title="Return on Equity (%)")
+    fig_roe.update_yaxes(ticksuffix="%")
+    fig_roe.update_xaxes(tickvals=YEARS)
     st.plotly_chart(fig_roe, use_container_width=True)
 
 col_l2, col_r2 = st.columns(2)
@@ -169,10 +169,9 @@ with col_l2:
             marker=dict(size=7),
             hovertemplate=f"<b>{bank}</b><br>C/I: %{{y:.1f}}%<extra></extra>",
         ))
-    fig_ci.update_layout(**LAYOUT, title="Cost-to-Income Ratio (%)",
-                         yaxis=dict(**LAYOUT["yaxis"], ticksuffix="%",
-                                    autorange="reversed"),
-                         xaxis=dict(**LAYOUT["xaxis"], tickvals=YEARS))
+    fig_ci.update_layout(**LAYOUT, title="Cost-to-Income Ratio (%)")
+    fig_ci.update_yaxes(ticksuffix="%", autorange="reversed")
+    fig_ci.update_xaxes(tickvals=YEARS)
     st.plotly_chart(fig_ci, use_container_width=True)
 
 # ── NPE trend ──────────────────────────────────────────────────────────────────
@@ -189,10 +188,9 @@ with col_r2:
             marker=dict(size=7),
             hovertemplate=f"<b>{bank}</b><br>NPE: %{{y:.1f}}%<extra></extra>",
         ))
-    fig_npe.update_layout(**LAYOUT, title="NPE Ratio (%) — lower is better",
-                          yaxis=dict(**LAYOUT["yaxis"], ticksuffix="%",
-                                     autorange="reversed"),
-                          xaxis=dict(**LAYOUT["xaxis"], tickvals=YEARS))
+    fig_npe.update_layout(**LAYOUT, title="NPE Ratio (%) — lower is better")
+    fig_npe.update_yaxes(ticksuffix="%", autorange="reversed")
+    fig_npe.update_xaxes(tickvals=YEARS)
     st.plotly_chart(fig_npe, use_container_width=True)
 
 st.divider()
