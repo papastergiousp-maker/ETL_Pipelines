@@ -44,9 +44,10 @@ tab1, tab2 = st.tabs(["📉 NII Forecast 2025–2026", "⚠️ EBA-Style Stress 
 with tab1:
     st.subheader("NII Forecast 2025–2026 — ECB Rate Scenarios")
     st.markdown(
-        "Forecast methodology: **rate effect** (25bp cut → ~€195m sector NII reduction, "
-        "allocated proportionally by bank share) + **volume effect** (+2% pa loan growth). "
-        "Sensitivity estimate sourced from analyst commentary on ECB pass-through rates."
+        "Forecast methodology: **bank-specific rate effect** (per-bank Pillar 3 IRRBB sensitivity "
+        "to a 25bp parallel shock — Eurobank −€58m, Alpha −€42m, Piraeus −€52m, NBG −€43m) "
+        "+ **scenario-dependent volume effect** (Dovish +3.5% / Base +2.0% / Hawkish +0.5% pa loan growth, "
+        "compounding on previous-year NII)."
     )
 
     col_ctrl, col_ecb = st.columns([1, 2])
@@ -154,8 +155,9 @@ with tab1:
         summary[col] = summary[col].apply(lambda x: f"€{x:,.0f}m" if pd.notna(x) else "—")
     st.dataframe(summary, use_container_width=True, height=215)
     st.caption(
-        "E = estimate. Rate sensitivity: ~€195m sector NII impact per 25bp ECB cut (midpoint of €170–220m range). "
-        "Volume growth: +2% pa assumed for all banks. Figures are directional estimates, not investment advice."
+        "E = estimate. Rate sensitivities are bank-specific (Pillar 3 IRRBB disclosures, FY2024). "
+        "Volume growth varies by scenario: Dovish +3.5% / Base +2.0% / Hawkish +0.5% pa, compounded. "
+        "Figures are directional estimates, not investment advice."
     )
 
 
