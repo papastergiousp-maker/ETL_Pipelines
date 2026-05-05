@@ -48,6 +48,7 @@ The specific question I was trying to answer: *"Which Greek bank is best positio
 | **BI & dashboards** — Power BI with DAX measures + browser-native Plotly/sql.js app | `01_eurobank_pipeline/powerbi/`, `02_Banking_Sector_Dashboard/index.html` |
 | **Interactive app** — Streamlit multi-page app with live ECB scenario sliders and stress test | `05_streamlit_app/` |
 | **Excel financial model** — 7-tab workbook: Cover, Sector Summary, one tab per bank, Assumptions | `deliverables/greek_banking_model.xlsx` |
+| **PowerPoint deck** — 12-slide board-ready presentation: sector landscape, bank one-pagers, stress test, valuation | `deliverables/greek_banking_deck.pptx` |
 | **Text-to-SQL / AI fluency** — natural-language queries answered by Claude API against SQLite DB | `06_llm_qa/01_text_to_sql.ipynb` |
 
 ---

@@ -29,6 +29,9 @@ pandas-datareader>=0.10.0
 # Interactive app
 streamlit>=1.35.0
 
+# Deliverables
+python-pptx>=0.6.21
+
 # LLM / AI
 anthropic>=0.25.0
 
