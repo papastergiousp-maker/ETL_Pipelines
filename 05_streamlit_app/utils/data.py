@@ -44,6 +44,15 @@ def load_kpis() -> pd.DataFrame:
     con = _connect()
     df  = pd.read_sql("SELECT * FROM kpis ORDER BY bank, year", con)
     con.close()
+
+    # Average-equity ROE: (NP_t) / [(Equity_t + Equity_{t-1}) / 2]
+    # Industry standard; year-end equity overstates ROE in capital-growth years.
+    # 2022 is NaN because we lack 2021 equity — flagged "N/A" in the UI.
+    df = df.sort_values(["bank", "year"]).copy()
+    df["equity_lag"] = df.groupby("bank")["equity"].shift(1)
+    df["avg_equity"] = (df["equity"] + df["equity_lag"]) / 2
+    df["roe_avg_eq"] = (df["net_profit"] / df["avg_equity"] * 100).round(2)
+
     return df
 
 

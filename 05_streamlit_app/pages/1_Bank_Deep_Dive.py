@@ -54,6 +54,9 @@ def delta_fmt(curr, prev, suffix="", invert=False):
 
 c1.metric("ROE 2024",    pct(k24["roe"]),
           *delta_fmt(k24["roe"], k23["roe"], "%"))
+_roe_avg = k24.get("roe_avg_eq") if hasattr(k24, "get") else (k24["roe_avg_eq"] if "roe_avg_eq" in k24.index else None)
+if _roe_avg and not pd.isna(_roe_avg):
+    c1.caption(f"Avg-eq: {_roe_avg:.1f}%")
 c2.metric("NIM 2024",    pct(k24["nim"]),
           *delta_fmt(k24["nim"], k23["nim"], "%"))
 c3.metric("C/I 2024",    pct(k24["cost_to_income"]),
@@ -89,14 +92,24 @@ fig.add_trace(go.Scatter(x=YEARS, y=[bkpis.loc[y, "nii"] for y in YEARS],
                          hovertemplate="€%{y:,.0f}m<extra></extra>"),
               row=1, col=1)
 
-# ROE
+# ROE (year-end equity — as reported)
 fig.add_trace(go.Scatter(x=YEARS, y=[bkpis.loc[y, "roe"] for y in YEARS],
-                         mode="lines+markers", name="ROE",
+                         mode="lines+markers", name="ROE (YE equity)",
                          line=line_style, marker=marker_style,
-                         hovertemplate="%{y:.1f}%<extra></extra>"),
+                         hovertemplate="ROE (YE): %{y:.1f}%<extra></extra>"),
               row=1, col=2)
-fig.add_hline(y=11, line_dash="dot", line_color="#475569", row=1, col=2,
-              annotation_text="CoE 11%", annotation_font_color="#94a3b8")
+# ROE (average equity — industry standard, available 2023–2024 only)
+_roe_avg_yrs = [y for y in YEARS if not pd.isna(bkpis.loc[y, "roe_avg_eq"])]
+_roe_avg_vals = [bkpis.loc[y, "roe_avg_eq"] for y in _roe_avg_yrs]
+if _roe_avg_yrs:
+    fig.add_trace(go.Scatter(x=_roe_avg_yrs, y=_roe_avg_vals,
+                             mode="lines+markers", name="RoE (avg equity)",
+                             line=dict(color=color, width=1.5, dash="dot"),
+                             marker=dict(color=color, size=6, symbol="circle-open"),
+                             hovertemplate="ROE (avg eq): %{y:.1f}%<extra></extra>"),
+                  row=1, col=2)
+fig.add_hline(y=10.3, line_dash="dot", line_color="#475569", row=1, col=2,
+              annotation_text="CoE 10.3%", annotation_font_color="#94a3b8")
 
 # C/I
 fig.add_trace(go.Scatter(x=YEARS, y=[bkpis.loc[y, "cost_to_income"] for y in YEARS],

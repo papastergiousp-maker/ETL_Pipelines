@@ -36,7 +36,7 @@ k24  = kpis[kpis.year == 2024].set_index("bank")
 st.title("Forecast & Stress Testing")
 st.divider()
 
-tab1, tab2 = st.tabs(["📉 NII Forecast 2025–2026", "⚠️ EBA-Style Stress Test"])
+tab1, tab2, tab3 = st.tabs(["📉 NII Forecast 2025–2026", "⚠️ EBA-Style Stress Test", "🔢 Sensitivity Analysis"])
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 1 — NII FORECAST
@@ -280,3 +280,141 @@ SREP Floor: **{SREP_FLOOR}% CET1**
         "Tax rate implied from each bank's FY2024 actuals (15%–35% cap). "
         "This is a simplified single-period shock, not a multi-year dynamic model."
     )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 3 — SENSITIVITY ANALYSIS
+# ══════════════════════════════════════════════════════════════════════════════
+with tab3:
+    st.subheader("Sensitivity Analysis")
+    st.markdown(
+        "Two grids: **(1)** how the Gordon Growth justified P/B changes across CoE and g assumptions, "
+        "and **(2)** how stressed CET1 changes across cost-of-risk and loan-growth shocks. "
+        "All figures use FY2024 actuals as the base."
+    )
+
+    sens_tab_a, sens_tab_b = st.tabs(["Justified P/B vs CoE & g", "CET1 vs CoR & Loan Growth"])
+
+    # ── Grid A: Justified P/B sensitivity ─────────────────────────────────────
+    with sens_tab_a:
+        st.markdown("**Justified P/B = (ROE − g) / (CoE − g)**  \n"
+                    "Grid shows justified P/B for a selected bank across CoE and g ranges. "
+                    "Green = above 1.0× (book-accretive), red = below 1.0×.")
+
+        pb_bank = st.selectbox("Bank", BANKS, key="pb_bank")
+        roe_for_pb = k24.loc[pb_bank, "roe"]
+        st.caption(f"{pb_bank} FY2024 ROE (year-end equity): **{roe_for_pb:.1f}%**  "
+                   f"| Use avg-equity ROE for a more conservative estimate.")
+
+        coe_vals = [8.5, 9.0, 9.5, 10.0, 10.3, 11.0, 11.5, 12.0]
+        g_vals   = [1.0, 1.5, 2.0, 2.5, 3.0]
+
+        pb_grid = np.array([
+            [(roe_for_pb - g) / (coe - g) if (coe - g) > 0 else np.nan
+             for coe in coe_vals]
+            for g in g_vals
+        ])
+
+        fig_pb = go.Figure(go.Heatmap(
+            z=pb_grid,
+            x=[f"{c:.1f}%" for c in coe_vals],
+            y=[f"{g:.1f}%" for g in g_vals],
+            colorscale=[[0, "#450a0a"], [0.45, "#7f1d1d"], [0.5, "#1e293b"],
+                        [0.55, "#14532d"], [1.0, "#052e16"]],
+            zmid=1.0,
+            text=[[f"{v:.2f}×" if not np.isnan(v) else "—" for v in row] for row in pb_grid],
+            texttemplate="%{text}",
+            textfont=dict(size=11, color="#f1f5f9"),
+            hovertemplate="CoE: %{x}<br>g: %{y}<br>P/B: %{z:.2f}×<extra></extra>",
+            showscale=True,
+            colorbar=dict(title="P/B", tickfont=dict(color="#94a3b8"),
+                          titlefont=dict(color="#94a3b8")),
+        ))
+        # Mark the base-case cell (CoE = 10.3%, g = 2.0%)
+        base_coe_idx = coe_vals.index(10.3)
+        base_g_idx   = g_vals.index(2.0)
+        fig_pb.add_shape(type="rect",
+                         x0=base_coe_idx - 0.5, x1=base_coe_idx + 0.5,
+                         y0=base_g_idx - 0.5,   y1=base_g_idx + 0.5,
+                         line=dict(color="#f59e0b", width=2))
+        fig_pb.update_layout(
+            **{k: v for k, v in LAYOUT.items() if k not in ("xaxis", "yaxis")},
+            title=f"{pb_bank} — Justified P/B Sensitivity (amber box = base case: CoE 10.3%, g 2.0%)",
+            height=340,
+            xaxis=dict(title="Cost of Equity (CoE)", tickfont=dict(color="#94a3b8"),
+                       gridcolor="#1e293b"),
+            yaxis=dict(title="Long-run Growth (g)", tickfont=dict(color="#94a3b8"),
+                       gridcolor="#1e293b"),
+        )
+        st.plotly_chart(fig_pb, use_container_width=True)
+        st.caption(
+            "Formula: (ROE − g) / (CoE − g). ROE = FY2024 reported (year-end equity). "
+            "CoE = 10.3% base case: Rf 3.5% + β×ERP 5.5% + CRP 1.3% (post-Greek IG upgrade). "
+            "g = 2.0% base case (nominal GDP growth proxy). "
+            "Values > 1.0× imply the bank earns above its cost of equity and should trade above book."
+        )
+
+    # ── Grid B: CET1 sensitivity to CoR × Loan Growth ─────────────────────────
+    with sens_tab_b:
+        st.markdown("**Stressed CET1 = Baseline CET1 + Δ Net Profit / (Loans × 0.50)**  \n"
+                    "Grid shows stressed CET1 ratio for each bank. "
+                    "Red cells breach the 10.5% SREP floor.")
+
+        cet1_bank = st.selectbox("Bank", BANKS, key="cet1_bank")
+        brow = k24.loc[cet1_bank]
+
+        cor_bps_grid  = [0, 50, 100, 150, 200, 250, 300, 400, 500]
+        loan_gr_grid  = [0, -5, -10, -15, -20, -25, -30, -40]
+
+        cet1_grid = np.array([
+            [stress_bank(brow, cor_b, lg, 50)["stressed_cet1"]
+             for cor_b in cor_bps_grid]
+            for lg in loan_gr_grid
+        ])
+
+        colorscale_cet1 = [
+            [0.0,  "#450a0a"],   # deep red — far below SREP
+            [0.3,  "#7f1d1d"],
+            [0.45, "#ef4444"],   # red — below SREP
+            [0.55, "#14532d"],   # green — above SREP
+            [0.7,  "#16a34a"],
+            [1.0,  "#052e16"],   # deep green
+        ]
+
+        fig_cet1 = go.Figure(go.Heatmap(
+            z=cet1_grid,
+            x=[f"+{c}bp" for c in cor_bps_grid],
+            y=[f"{lg}%" for lg in loan_gr_grid],
+            colorscale=colorscale_cet1,
+            zmid=SREP_FLOOR,
+            text=[[f"{v:.1f}%" for v in row] for row in cet1_grid],
+            texttemplate="%{text}",
+            textfont=dict(size=11, color="#f1f5f9"),
+            hovertemplate="CoR shock: %{x}<br>Loan Δ: %{y}<br>Stressed CET1: %{z:.1f}%<extra></extra>",
+            showscale=True,
+            colorbar=dict(title="CET1 (%)", ticksuffix="%",
+                          tickfont=dict(color="#94a3b8"),
+                          titlefont=dict(color="#94a3b8")),
+        ))
+        # Mark EBA 2023 adverse defaults (+200bp CoR, −15% loans)
+        eba_cor_idx  = cor_bps_grid.index(200)
+        eba_loan_idx = loan_gr_grid.index(-15)
+        fig_cet1.add_shape(type="rect",
+                           x0=eba_cor_idx - 0.5, x1=eba_cor_idx + 0.5,
+                           y0=eba_loan_idx - 0.5, y1=eba_loan_idx + 0.5,
+                           line=dict(color="#f59e0b", width=2))
+        fig_cet1.update_layout(
+            **{k: v for k, v in LAYOUT.items() if k not in ("xaxis", "yaxis")},
+            title=f"{cet1_bank} — Stressed CET1 Sensitivity (amber = EBA 2023 adverse: +200bp CoR, −15% loans)",
+            height=380,
+            xaxis=dict(title="Additional Cost of Risk", tickfont=dict(color="#94a3b8"),
+                       gridcolor="#1e293b"),
+            yaxis=dict(title="Loan Volume Change", tickfont=dict(color="#94a3b8"),
+                       gridcolor="#1e293b"),
+        )
+        st.plotly_chart(fig_cet1, use_container_width=True)
+        st.caption(
+            f"NIM compression fixed at 50bp (EBA 2023 adverse). SREP floor = {SREP_FLOOR}% (red = breach). "
+            "RWA proxy = loans × 50% risk weight. "
+            "Tax rate implied from FY2024 actuals (clamped 15%–35%)."
+        )
