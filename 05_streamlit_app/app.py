@@ -70,9 +70,9 @@ st.divider()
 # ── FY2024 Peer Scorecard ───────────────────────────────────────────────────────
 st.subheader("FY2024 Peer Scorecard")
 
-scorecard_cols = ["roe", "roa", "nim", "cost_to_income", "cet1",
+scorecard_cols = ["rote", "roe", "roa", "nim", "cost_to_income", "cet1",
                   "loan_to_deposit", "npe_ratio", "net_profit"]
-labels         = ["ROE (%)", "ROA (%)", "NIM (%)", "C/I (%)",
+labels         = ["RoTE (%)", "ROE (%)", "ROA (%)", "NIM (%)", "C/I (%)",
                   "CET1 (%)", "L/D (%)", "NPE (%)", "Net Profit (€m)"]
 lower_better   = {"cost_to_income", "loan_to_deposit", "npe_ratio"}
 
@@ -147,8 +147,8 @@ with col_r:
             marker=dict(size=7),
             hovertemplate=f"<b>{bank}</b><br>ROE: %{{y:.1f}}%<extra></extra>",
         ))
-    fig_roe.add_hline(y=11, line_dash="dot", line_color="#475569",
-                      annotation_text="CoE ~11%",
+    fig_roe.add_hline(y=10.3, line_dash="dot", line_color="#475569",
+                      annotation_text="CoE 10.3%",
                       annotation_font_color="#94a3b8")
     fig_roe.update_layout(**LAYOUT, title="Return on Equity (%)")
     fig_roe.update_yaxes(ticksuffix="%")

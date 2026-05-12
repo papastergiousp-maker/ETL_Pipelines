@@ -13,6 +13,8 @@
 ![Power BI](https://img.shields.io/badge/Power_BI-DAX-F2C811?logo=powerbi&logoColor=black)
 ![pytest](https://img.shields.io/badge/pytest-26_passing-2ECC40?logo=pytest&logoColor=white)
 [![codecov](https://codecov.io/gh/papastergiousp-maker/greek-banking-sector-analysis/branch/main/graph/badge.svg)](https://codecov.io/gh/papastergiousp-maker/greek-banking-sector-analysis)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
+![pre-commit](https://img.shields.io/badge/pre--commit-enabled-FAB040?logo=pre-commit&logoColor=black)
 ![pandas](https://img.shields.io/badge/pandas-3.0-150458?logo=pandas&logoColor=white)
 
 ---
@@ -83,6 +85,12 @@ Or run locally:
 ```bash
 pip install -r requirements.txt
 streamlit run 05_streamlit_app/app.py
+```
+
+Or with Docker (one command, no Python setup):
+```bash
+docker compose up --build
+# → open http://localhost:8501
 ```
 
 Pages: **Overview** · **Bank Deep-Dive** · **Peer Comparison** · **Forecast & Stress** · **Methodology** · **Investment Thesis** · **DTC Analysis** · **Macro & Funding**

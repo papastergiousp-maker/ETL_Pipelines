@@ -38,3 +38,6 @@ anthropic>=0.25.0
 # Utilities
 openpyxl>=3.1.0  # Excel support
 sqlalchemy>=2.0.0  # SQL toolkit
+
+# Dev tooling (optional — for contributors)
+pre-commit>=3.7.0
