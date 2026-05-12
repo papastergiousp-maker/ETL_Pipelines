@@ -49,6 +49,8 @@ defs = [
     ("NII", "Net Interest Income", "Interest income minus interest expense. Primary revenue line for Greek banks."),
     ("NIM", "Net Interest Margin", "NII / Total Assets. Proxy — uses year-end assets, not average earning assets."),
     ("ROE", "Return on Equity", "Net Profit / Total Equity (year-end). Uses period-end equity; average equity would give marginally higher ROE in growth years."),
+    ("ROE (avg eq.)", "Average-Equity ROE", "Net Profit / [(Equity_t + Equity_{t-1}) / 2]. Industry standard. Not available for 2022 (no 2021 equity data)."),
+    ("RoTE", "Return on Tangible Equity", "Net Profit / (Total Equity − Goodwill − Other Intangibles). Industry standard for European banks. Goodwill + intangibles sourced from investing.com consolidated balance sheets."),
     ("ROA", "Return on Assets", "Net Profit / Total Assets."),
     ("C/I", "Cost-to-Income Ratio", "Operating Expenses (absolute) / Operating Income. Lower = more efficient."),
     ("L/D", "Loan-to-Deposit Ratio", "Gross Loans / Customer Deposits. Liquidity proxy; lower = more liquid."),
@@ -57,12 +59,14 @@ defs = [
     ("NPE Ratio", "Non-Performing Exposure Ratio", "NPEs / Gross Loans. Extracted from annual reports with pdfplumber; all figures verified to source PDF page."),
     ("PPOP", "Pre-Provision Operating Profit", "Operating Income minus Operating Expenses (before impairment)."),
     ("CoR", "Cost of Risk", "Impairment Losses / Gross Loans. Measures credit loss rate on the loan book."),
+    ("DTC", "Deferred Tax Credit", "PSI-era deferred tax assets converted to state-guaranteed credits under Greek Law 4172/2013. Counts toward CET1 but is qualitatively inferior capital. Eurobank 2023/2024 figures confirmed from annual report; other banks estimated from Bloomberg sector total (~€12.5bn mid-2024)."),
     ("Justified P/B", "Gordon Growth P/B", "(ROE − g) / (CoE − g). CoE = 10.3% (Rf 3.5% + β×ERP 5.5% + CRP 1.3% post-Greek IG upgrade), g = 2%."),
+    ("Justified P/TBV", "Gordon Growth P/TBV", "(RoTE − g) / (CoE − g). Primary institutional metric for European bank valuation. Uses tangible equity denominator."),
     ("RWA Proxy", "Stress-Test RWA", "Loan book × 0.50 risk weight, consistent with `04_forecasting/02_stress_test.ipynb`. Used to translate Δ profit into Δ CET1 ratio."),
 ]
 
 def_df = pd.DataFrame(defs, columns=["Abbreviation", "Full Name", "Definition"])
-st.dataframe(def_df.set_index("Abbreviation"), use_container_width=True, height=500)
+st.dataframe(def_df.set_index("Abbreviation"), use_container_width=True, height=580)
 
 st.divider()
 
@@ -109,6 +113,8 @@ st.markdown("""
 | NIM uses year-end assets (not average earning assets) | NIM slightly overstated in growth years | Consistent methodology applied to all banks |
 | Static P/B estimates (~end-2024 prices) | Market prices have moved; justified P/B is directional only | Clearly flagged as approximate in dashboard |
 | RWA proxy (50% loan book risk weight) | Stressed CET1 impact is directional, not precise | Methodology note on every stress output |
+| DTC per-bank estimates (except Eurobank) | ±€200–300m accuracy; impacts DTC/equity ratios | Clearly labelled as estimated; sector total confirmed from Bloomberg |
+| Goodwill + intangibles from investing.com | May differ slightly from annual report notes | Sourced consistently for all 4 banks; used only for RoTE computation |
 | No live ECB rate feed | Forecast scenarios are pre-defined, not live | Three scenarios cover realistic range |
 | Minority interests and one-off items | Tax rate implied from actuals; one-offs partially stripped in `05_earnings_quality.ipynb` | Noted in earnings quality notebook |
 

@@ -43,7 +43,7 @@ st.caption("FY2022–2024  |  Source: Audited Annual Reports")
 st.divider()
 
 # ── KPI delta cards ────────────────────────────────────────────────────────────
-c1, c2, c3, c4, c5, c6 = st.columns(6)
+c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
 
 def delta_fmt(curr, prev, suffix="", invert=False):
     if pd.isna(prev) or prev == 0:
@@ -54,21 +54,29 @@ def delta_fmt(curr, prev, suffix="", invert=False):
 
 c1.metric("ROE 2024",    pct(k24["roe"]),
           *delta_fmt(k24["roe"], k23["roe"], "%"))
-_roe_avg = k24.get("roe_avg_eq") if hasattr(k24, "get") else (k24["roe_avg_eq"] if "roe_avg_eq" in k24.index else None)
-if _roe_avg and not pd.isna(_roe_avg):
+_roe_avg = k24["roe_avg_eq"] if "roe_avg_eq" in k24.index else None
+if _roe_avg is not None and not pd.isna(_roe_avg):
     c1.caption(f"Avg-eq: {_roe_avg:.1f}%")
-c2.metric("NIM 2024",    pct(k24["nim"]),
+
+_rote_val  = k24["rote"]  if "rote"  in k24.index else None
+_rote_prev = k23["rote"]  if "rote"  in k23.index else None
+c2.metric("RoTE 2024",
+          pct(_rote_val) if (_rote_val is not None and not pd.isna(_rote_val)) else "—",
+          *delta_fmt(_rote_val, _rote_prev, "%") if (_rote_val is not None and _rote_prev is not None) else (None, "off"))
+c2.caption("Return on Tangible Eq.")
+
+c3.metric("NIM 2024",    pct(k24["nim"]),
           *delta_fmt(k24["nim"], k23["nim"], "%"))
-c3.metric("C/I 2024",    pct(k24["cost_to_income"]),
+c4.metric("C/I 2024",    pct(k24["cost_to_income"]),
           *delta_fmt(k24["cost_to_income"], k23["cost_to_income"], "%", invert=True))
-c4.metric("CET1 2024",   pct(k24["cet1"]),
+c5.metric("CET1 2024",   pct(k24["cet1"]),
           *delta_fmt(k24["cet1"], k23["cet1"], "%"))
-c5.metric("Net Profit",  fmt_eur(k24["net_profit"]),
+c6.metric("Net Profit",  fmt_eur(k24["net_profit"]),
           *delta_fmt(k24["net_profit"], k23["net_profit"], "m"))
-npe_val = k24.get("npe_ratio", None) if hasattr(k24, "get") else k24["npe_ratio"] if "npe_ratio" in k24.index else None
-npe_prev = k23.get("npe_ratio", None) if hasattr(k23, "get") else k23["npe_ratio"] if "npe_ratio" in k23.index else None
-c6.metric("NPE Ratio",   pct(npe_val) if npe_val else "—",
-          *delta_fmt(npe_val, npe_prev, "%", invert=True) if (npe_val and npe_prev) else (None, "off"))
+npe_val  = k24["npe_ratio"] if "npe_ratio" in k24.index else None
+npe_prev = k23["npe_ratio"] if "npe_ratio" in k23.index else None
+c7.metric("NPE Ratio",   pct(npe_val) if (npe_val is not None and not pd.isna(npe_val)) else "—",
+          *delta_fmt(npe_val, npe_prev, "%", invert=True) if (npe_val is not None and npe_prev is not None and not pd.isna(npe_val) and not pd.isna(npe_prev)) else (None, "off"))
 
 st.divider()
 
@@ -108,6 +116,15 @@ if _roe_avg_yrs:
                              marker=dict(color=color, size=6, symbol="circle-open"),
                              hovertemplate="ROE (avg eq): %{y:.1f}%<extra></extra>"),
                   row=1, col=2)
+# RoTE (tangible equity) — industry standard for European banks
+_rote_vals = [bkpis.loc[y, "rote"] if "rote" in bkpis.columns else None for y in YEARS]
+if any(v is not None and not pd.isna(v) for v in _rote_vals):
+    fig.add_trace(go.Scatter(x=YEARS, y=_rote_vals,
+                             mode="lines+markers", name="RoTE",
+                             line=dict(color="#f59e0b", width=2, dash="dash"),
+                             marker=dict(color="#f59e0b", size=6, symbol="diamond"),
+                             hovertemplate="RoTE: %{y:.1f}%<extra></extra>"),
+                  row=1, col=2)
 fig.add_hline(y=10.3, line_dash="dot", line_color="#475569", row=1, col=2,
               annotation_text="CoE 10.3%", annotation_font_color="#94a3b8")
 
@@ -135,9 +152,11 @@ fig.add_trace(go.Scatter(x=YEARS, y=[bkpis.loc[y, "cet1"] for y in YEARS],
 
 fig.update_layout(
     **LAYOUT,
-    height=540,
-    showlegend=False,
+    height=560,
+    showlegend=True,
     title=f"{bank} — Key Performance Indicators",
+    legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="#94a3b8"),
+                orientation="h", y=-0.05),
 )
 # Suffix axes
 for r, c, sfx in [(1,2,"%"), (2,1,"%"), (2,2,"%")]:

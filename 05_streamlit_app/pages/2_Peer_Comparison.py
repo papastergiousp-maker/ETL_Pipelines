@@ -38,6 +38,7 @@ st.divider()
 
 # ── Normalise for radar ────────────────────────────────────────────────────────
 RADAR_METRICS = {
+    "RoTE": ("rote",            True),    # tangible equity return — industry standard
     "ROE":  ("roe",             True),
     "ROA":  ("roa",             True),
     "NIM":  ("nim",             True),
@@ -100,6 +101,7 @@ st.divider()
 st.subheader("Percentile Ranks (FY" + str(year) + ")")
 
 ALL_METRICS = {
+    "RoTE (%)":     ("rote",            True),
     "ROE (%)":      ("roe",             True),
     "ROA (%)":      ("roa",             True),
     "NIM (%)":      ("nim",             True),
@@ -148,6 +150,7 @@ st.divider()
 st.subheader("Ranked Bar Charts — FY" + str(year))
 
 BAR_METRICS = [
+    ("rote",            "RoTE (%)",          True,  "%"),
     ("roe",             "ROE (%)",           True,  "%"),
     ("nim",             "NIM (%)",           True,  "%"),
     ("cost_to_income",  "Cost-to-Income (%)",False, "%"),
