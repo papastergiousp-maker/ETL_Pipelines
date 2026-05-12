@@ -19,13 +19,23 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pandas numpy pdfplumber pytest pytest-cov
+        run: pip install -r requirements.txt nbconvert
 
       - name: Rebuild SQLite database
         run: python 02_Banking_Sector_Dashboard/rebuild_db.py
 
       - name: Run tests with coverage
         run: pytest tests/ -v --tb=short --cov=. --cov-report=term-missing --cov-report=xml
+
+      - name: Smoke-test analysis notebooks
+        run: |
+          jupyter nbconvert --to notebook --execute --inplace \
+            --ExecutePreprocessor.timeout=120 \
+            03_analysis/01_dupont_decomposition.ipynb \
+            03_analysis/02_camels_scorecard.ipynb \
+            03_analysis/03_peer_benchmarking.ipynb \
+            03_analysis/05_earnings_quality.ipynb \
+            04_forecasting/02_stress_test.ipynb
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
