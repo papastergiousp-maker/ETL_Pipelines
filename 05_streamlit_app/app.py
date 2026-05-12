@@ -206,9 +206,9 @@ cols[0].info(
 )
 cols[1].success(
     "**Quality compounder: Eurobank**\n\n"
-    "ROE of 16.9% — the only bank trading below its justified P/B (~1.5x) "
-    "at an estimated market ~1.3x. Hellenic Bank consolidation adds Cypriot "
-    "diversification. Best earnings quality in the sector."
+    "ROE 16.9% / RoTE 17.9% — highest in peer group. Justified P/TBV ~1.9× "
+    "(CoE 10.3%, g 2%) vs market ~1.2×: widest upside gap in the sector. "
+    "Hellenic Bank consolidation adds Cypriot franchise and €27bn asset base."
 )
 cols[2].warning(
     "**Watch: Piraeus CoR risk**\n\n"

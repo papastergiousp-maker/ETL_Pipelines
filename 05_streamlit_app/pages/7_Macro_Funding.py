@@ -144,7 +144,7 @@ fig_beta = go.Figure(go.Bar(
 fig_beta.add_hline(y=0, line_color="#475569")
 fig_beta.update_layout(
     **LAYOUT,
-    title="NIM Sensitivity to ECB Rate Hike 2022→2023  (NIM Δbp / ECB Δ283bp × 100%)",
+    title=f"NIM Sensitivity to ECB Rate Hike 2022→2023  (NIM Δbp / ECB Δ{ecb_delta_22_23:.0f}bp × 100%)",
     height=320,
     showlegend=False,
 )

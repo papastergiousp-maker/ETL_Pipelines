@@ -23,8 +23,12 @@ COLORS = {
     "NBG":          "#003087",
 }
 
-# Historical ECB Deposit Facility Rate (approximate annual average, %)
-ECB_HIST = {2022: 0.56, 2023: 3.39, 2024: 3.28}
+# Historical ECB Deposit Facility Rate — period-end monthly average (%)
+# Source: ECB key interest rates page; average of 12 month-end values.
+# 2022: avg of [-0.5×6, 0×2, 0.75×2, 1.5, 2.0] = 0.17%
+# 2023: avg of [2.0, 2.5, 3.0, 3.0, 3.25, 3.5, 3.75×2, 4.0×4] = 3.39%
+# 2024: avg of [4.0×5, 3.75×3, 3.5, 3.25×2, 3.0] = 3.69%
+ECB_HIST = {2022: 0.17, 2023: 3.39, 2024: 3.69}
 
 # Forward ECB rate scenarios (end-year levels, %)
 ECB_SCENARIOS = {
