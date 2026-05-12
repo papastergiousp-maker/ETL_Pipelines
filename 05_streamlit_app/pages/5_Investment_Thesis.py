@@ -292,13 +292,13 @@ for bank in BANKS:
     rating_color = {"BUY": "#86efac", "HOLD": "#4ade80", "SELL": "#fca5a5"}.get(rating_label, "#94a3b8")
 
     with st.expander(
-        f"**{bank}** — {rating_label}  |  Justified P/B {row['Justified P/B']}  "
-        f"vs Market {row['Market P/B']}  |  Upside {row['Upside/Downside']}",
+        f"**{bank}** — {rating_label}  |  Justified P/TBV {row['Just. P/TBV']}  "
+        f"vs Market {row['Mkt P/TBV']}  |  Upside {row['P/TBV Upside']}",
         expanded=True,
     ):
         tc, rc = st.columns(2)
         with tc:
-            st.markdown(f"**Bull Case** (ROE {row['ROE 2024A (YE)']})")
+            st.markdown(f"**Bull Case** (ROE {row['ROE (YE)']}  |  RoTE {row['RoTE']})")
             for bullet in THESIS[bank]["thesis"]:
                 st.markdown(f"✅ {bullet}")
         with rc:

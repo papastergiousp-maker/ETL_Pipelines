@@ -12,6 +12,7 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?logo=streamlit&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power_BI-DAX-F2C811?logo=powerbi&logoColor=black)
 ![pytest](https://img.shields.io/badge/pytest-26_passing-2ECC40?logo=pytest&logoColor=white)
+[![codecov](https://codecov.io/gh/papastergiousp-maker/greek-banking-sector-analysis/branch/main/graph/badge.svg)](https://codecov.io/gh/papastergiousp-maker/greek-banking-sector-analysis)
 ![pandas](https://img.shields.io/badge/pandas-3.0-150458?logo=pandas&logoColor=white)
 
 ---
@@ -40,10 +41,11 @@ The specific question I was trying to answer: *"Which Greek bank is best positio
 | **Python / pandas** — ETL, tidy-data transforms, financial modelling | All notebooks |
 | **PDF data extraction** — pdfplumber, table parsing from 12 annual reports | `02_Banking_Sector_Dashboard/notebooks/01_extract.ipynb` |
 | **Financial modelling** — 5-step DuPont, CAMELS, NIM decomposition, OLS forecasting | `03_analysis/` |
-| **Equity valuation** — P/B vs justified P/B (Gordon Growth), CoE estimation, investment signals | `02_Banking_Sector_Dashboard/index.html` |
-| **Credit quality analysis** — NPE ratio extraction from 12 PDFs, 3-year cleanup trend | `02_Banking_Sector_Dashboard/data/processed/kpis_final.csv` |
+| **Equity valuation** — P/B & P/TBV vs justified multiples (Gordon Growth), RoTE, CoE, BUY/HOLD/SELL signals | `05_streamlit_app/pages/5_Investment_Thesis.py` |
+| **Credit quality analysis** — NPE ratio, DTC overhang, capital quality discount, derecognition roadmap | `05_streamlit_app/pages/6_DTC_Analysis.py` |
 | **Capital return analysis** — dividend restart, payout ratios, SREP buffer headroom | `02_Banking_Sector_Dashboard/index.html` |
-| **Scenario analysis & stress testing** — EBA-style adverse scenario, CET1 impact | `04_forecasting/02_stress_test.ipynb` |
+| **Scenario analysis & stress testing** — EBA-style adverse scenario, CET1 impact, sensitivity heatmaps | `04_forecasting/02_stress_test.ipynb` · `05_streamlit_app/pages/3_Forecast_Stress.py` |
+| **Macro & funding analysis** — ECB rate pass-through, deposit beta proxy, TLTRO repayment, deposit growth | `05_streamlit_app/pages/7_Macro_Funding.py` |
 | **Data quality engineering** — pytest suite (26 tests), balance sheet identity checks | `tests/test_kpis.py` |
 | **Statistical analysis** — z-scores, percentile ranking, regression | `03_analysis/03_peer_benchmarking.ipynb` |
 | **BI & dashboards** — Power BI with DAX measures + browser-native Plotly/sql.js app | `01_eurobank_pipeline/powerbi/`, `02_Banking_Sector_Dashboard/index.html` |
@@ -66,7 +68,7 @@ flowchart LR
     SQLite --> forecast["04_forecasting/\nNII forecast 2025–26\nEBA stress test"]
     SQLite --> html["Plotly / sql.js\nbrowser dashboard"]
     SQLite --> powerbi["Power BI\nDAX dashboard"]
-    SQLite --> streamlit["Streamlit app\n5 pages · live sliders"]
+    SQLite --> streamlit["Streamlit app\n8 pages · live sliders"]
     SQLite --> excel["Excel model\n7 tabs · conditional formatting"]
     SQLite --> llm["Text-to-SQL\nClaude API · 5 Q&A pairs"]
 ```
@@ -83,9 +85,9 @@ pip install -r requirements.txt
 streamlit run 05_streamlit_app/app.py
 ```
 
-Pages: **Overview** · **Bank Deep-Dive** · **Peer Comparison** · **Forecast & Stress** · **Methodology**
+Pages: **Overview** · **Bank Deep-Dive** · **Peer Comparison** · **Forecast & Stress** · **Methodology** · **Investment Thesis** · **DTC Analysis** · **Macro & Funding**
 
-The Forecast & Stress page lets you dial ECB rate scenarios and adjust CoR / loan growth / NIM compression sliders to see real-time CET1 impact — including Piraeus breaching the 10.5% SREP floor under EBA adverse parameters.
+The Forecast & Stress page lets you dial ECB rate scenarios and adjust CoR / loan growth / NIM compression sliders to see real-time CET1 impact — including Piraeus breaching the 10.5% SREP floor under EBA adverse parameters. The Investment Thesis page renders a Gordon Growth P/B and P/TBV model with adjustable CoE/g sliders, BUY/HOLD/SELL ratings, and per-bank thesis/risk cards. The Macro & Funding page covers ECB rate pass-through, deposit beta proxy, TLTRO-III repayment, and deposit growth 2022–2024.
 
 ---
 
