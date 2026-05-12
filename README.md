@@ -4,6 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Streamlit_App-Live-FF4B4B?logo=streamlit&logoColor=white)](https://greek-banking-sector-analysis.streamlit.app/)
 [![Dashboard](https://img.shields.io/badge/Static_Dashboard-Live-3F4F75?logo=plotly&logoColor=white)](https://phytai.com/dashboard/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Dashboard-222?logo=github&logoColor=white)](https://papastergiousp-maker.github.io/greek-banking-sector-analysis/)
 [![CI](https://github.com/papastergiousp-maker/greek-banking-sector-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/papastergiousp-maker/greek-banking-sector-analysis/actions/workflows/ci.yml)
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
@@ -96,6 +97,15 @@ docker compose up --build
 Pages: **Overview** · **Bank Deep-Dive** · **Peer Comparison** · **Forecast & Stress** · **Methodology** · **Investment Thesis** · **DTC Analysis** · **Macro & Funding**
 
 The Forecast & Stress page lets you dial ECB rate scenarios and adjust CoR / loan growth / NIM compression sliders to see real-time CET1 impact — including Piraeus breaching the 10.5% SREP floor under EBA adverse parameters. The Investment Thesis page renders a Gordon Growth P/B and P/TBV model with adjustable CoE/g sliders, BUY/HOLD/SELL ratings, and per-bank thesis/risk cards. The Macro & Funding page covers ECB rate pass-through, deposit beta proxy, TLTRO-III repayment, and deposit growth 2022–2024.
+
+---
+
+### GitHub Pages (static Plotly/sql.js dashboard)
+
+Enable once in repo Settings → Pages → Source: **Deploy from a branch** → Branch: `main`, folder: `/docs`.
+
+The dashboard will be live at `https://papastergiousp-maker.github.io/greek-banking-sector-analysis/`.
+No server needed — the entire app runs in the browser via sql.js (SQLite compiled to WebAssembly).
 
 ---
 

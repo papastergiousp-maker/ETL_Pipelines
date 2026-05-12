@@ -20,6 +20,11 @@ Thumbs.db
 # Internal planning docs
 CLAUDE_UPGRADE_PROMPT.md
 
+# Coverage artifacts
+.coverage
+coverage.xml
+htmlcov/
+
 # Secrets
 .env
 *.env
