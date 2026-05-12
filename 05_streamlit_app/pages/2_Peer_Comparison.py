@@ -66,14 +66,17 @@ st.subheader(f"Spider Chart — FY{year} (normalised 0–1, 1 = best in peer gro
 
 theta = list(radar_df.columns) + [radar_df.columns[0]]   # close the polygon
 
+def _hex_rgba(hex_color: str, alpha: float) -> str:
+    r, g, b = int(hex_color[1:3], 16), int(hex_color[3:5], 16), int(hex_color[5:7], 16)
+    return f"rgba({r},{g},{b},{alpha})"
+
 fig_radar = go.Figure()
 for bank in BANKS:
     r_vals = list(radar_df.loc[bank]) + [radar_df.loc[bank].iloc[0]]
     fig_radar.add_trace(go.Scatterpolar(
         r=r_vals, theta=theta, name=bank, fill="toself",
-        line=dict(color=COLORS[bank], width=2),
-        fillcolor=COLORS[bank].replace(")", ", 0.07)").replace("rgb", "rgba") if "rgb" in COLORS[bank] else COLORS[bank] + "12",
-        opacity=0.85,
+        line=dict(color=COLORS[bank], width=2.5),
+        fillcolor=_hex_rgba(COLORS[bank], 0.15),
         hovertemplate=f"<b>{bank}</b><br>%{{theta}}: %{{r:.2f}}<extra></extra>",
     ))
 

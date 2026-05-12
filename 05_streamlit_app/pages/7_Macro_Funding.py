@@ -180,7 +180,7 @@ fig_tltro = go.Figure()
 for bank in BANKS:
     t_vals = [TLTRO[bank][y] for y in YEARS]
     fig_tltro.add_trace(go.Bar(
-        x=[f"{bank}\n{y}" for y in YEARS],
+        x=[f"{bank}<br>{y}" for y in YEARS],
         y=t_vals,
         name=bank,
         marker_color=COLORS[bank],
@@ -261,6 +261,18 @@ for bank in BANKS:
     ), row=1, col=2)
 
 fig_dep.add_hline(y=0, line_color="#475569", row=1, col=2)
+
+# Annotate Eurobank 2024 spike — Hellenic Bank consolidation
+euro_dep_2024 = kpis[(kpis.bank == "Eurobank") & (kpis.year == 2024)]["deposits"].values[0] / 1000
+fig_dep.add_annotation(
+    x=2024, y=euro_dep_2024,
+    text="Hellenic Bank<br>consolidated",
+    showarrow=True, arrowhead=2, arrowcolor="#94a3b8",
+    ax=40, ay=-40,
+    font=dict(color="#94a3b8", size=10),
+    row=1, col=1,
+)
+
 fig_dep.update_layout(
     **{k: v for k, v in LAYOUT.items() if k not in ("xaxis", "yaxis")},
     title="Customer Deposit Base and Growth",

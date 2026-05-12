@@ -42,41 +42,46 @@ st.title(f"{bank} — Financial Overview")
 st.caption("FY2022–2024  |  Source: Audited Annual Reports")
 st.divider()
 
-# ── KPI delta cards ────────────────────────────────────────────────────────────
-c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
-
+# ── KPI delta cards — row 1: returns & margin; row 2: capital, profit, credit ──
 def delta_fmt(curr, prev, suffix="", invert=False):
     if pd.isna(prev) or prev == 0:
         return None, "off"
     d = curr - prev
-    color_logic = "inverse" if invert else "normal"
-    return f"{d:+.1f}{suffix}", color_logic
+    return f"{d:+.1f}{suffix}", "inverse" if invert else "normal"
 
-c1.metric("ROE 2024",    pct(k24["roe"]),
-          *delta_fmt(k24["roe"], k23["roe"], "%"))
-_roe_avg = k24["roe_avg_eq"] if "roe_avg_eq" in k24.index else None
+r1c1, r1c2, r1c3, r1c4 = st.columns(4)
+r2c1, r2c2, r2c3, r2c4 = st.columns(4)
+
+r1c1.metric("ROE 2024", pct(k24["roe"]), *delta_fmt(k24["roe"], k23["roe"], "%"))
+_roe_avg = k24.get("roe_avg_eq") if hasattr(k24, "get") else (k24["roe_avg_eq"] if "roe_avg_eq" in k24.index else None)
 if _roe_avg is not None and not pd.isna(_roe_avg):
-    c1.caption(f"Avg-eq: {_roe_avg:.1f}%")
+    r1c1.caption(f"Avg-eq: {_roe_avg:.1f}%")
 
 _rote_val  = k24["rote"]  if "rote"  in k24.index else None
 _rote_prev = k23["rote"]  if "rote"  in k23.index else None
-c2.metric("RoTE 2024",
-          pct(_rote_val) if (_rote_val is not None and not pd.isna(_rote_val)) else "—",
-          *delta_fmt(_rote_val, _rote_prev, "%") if (_rote_val is not None and _rote_prev is not None) else (None, "off"))
-c2.caption("Return on Tangible Eq.")
+r1c2.metric("RoTE 2024",
+            pct(_rote_val) if (_rote_val is not None and not pd.isna(_rote_val)) else "—",
+            *delta_fmt(_rote_val, _rote_prev, "%") if (_rote_val is not None and _rote_prev is not None) else (None, "off"))
+r1c2.caption("Return on Tangible Eq.")
 
-c3.metric("NIM 2024",    pct(k24["nim"]),
-          *delta_fmt(k24["nim"], k23["nim"], "%"))
-c4.metric("C/I 2024",    pct(k24["cost_to_income"]),
-          *delta_fmt(k24["cost_to_income"], k23["cost_to_income"], "%", invert=True))
-c5.metric("CET1 2024",   pct(k24["cet1"]),
-          *delta_fmt(k24["cet1"], k23["cet1"], "%"))
-c6.metric("Net Profit",  fmt_eur(k24["net_profit"]),
-          *delta_fmt(k24["net_profit"], k23["net_profit"], "m"))
+r1c3.metric("NIM 2024", pct(k24["nim"]), *delta_fmt(k24["nim"], k23["nim"], "%"))
+r1c4.metric("C/I 2024", pct(k24["cost_to_income"]),
+            *delta_fmt(k24["cost_to_income"], k23["cost_to_income"], "%", invert=True))
+
+r2c1.metric("CET1 2024", pct(k24["cet1"]), *delta_fmt(k24["cet1"], k23["cet1"], "%"))
+r2c2.metric("Net Profit", fmt_eur(k24["net_profit"]),
+            *delta_fmt(k24["net_profit"], k23["net_profit"], "m"))
 npe_val  = k24["npe_ratio"] if "npe_ratio" in k24.index else None
 npe_prev = k23["npe_ratio"] if "npe_ratio" in k23.index else None
-c7.metric("NPE Ratio",   pct(npe_val) if (npe_val is not None and not pd.isna(npe_val)) else "—",
-          *delta_fmt(npe_val, npe_prev, "%", invert=True) if (npe_val is not None and npe_prev is not None and not pd.isna(npe_val) and not pd.isna(npe_prev)) else (None, "off"))
+r2c3.metric("NPE Ratio", pct(npe_val) if (npe_val is not None and not pd.isna(npe_val)) else "—",
+            *delta_fmt(npe_val, npe_prev, "%", invert=True) if (npe_val is not None and npe_prev is not None and not pd.isna(npe_val) and not pd.isna(npe_prev)) else (None, "off"))
+_dtc = k24["dtc"] if "dtc" in k24.index else None
+_dtc_pct = k24["dtc_pct_equity"] if "dtc_pct_equity" in k24.index else None
+_dtc_prev_pct = k23["dtc_pct_equity"] if "dtc_pct_equity" in k23.index else None
+if _dtc is not None and not pd.isna(_dtc):
+    r2c4.metric("DTC / Equity", f"{_dtc_pct:.0f}%" if _dtc_pct is not None else "—",
+                *delta_fmt(_dtc_pct, _dtc_prev_pct, "%", invert=True) if (_dtc_pct is not None and _dtc_prev_pct is not None) else (None, "off"))
+    r2c4.caption(f"€{_dtc:,.0f}m outstanding")
 
 st.divider()
 
